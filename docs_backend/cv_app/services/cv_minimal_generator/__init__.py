@@ -1,1 +1,0 @@
-from .minimalist_cv_generator import generate_minimalist_cv

@@ -1,1 +1,0 @@
-from .cv_generator import generate_cv

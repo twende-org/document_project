@@ -1,1 +1,0 @@
-from .modern_cv_generator import generate_modern_sidebar_cv
