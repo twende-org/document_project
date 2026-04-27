@@ -1,335 +1,259 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUser, FaCalendarAlt, FaFileAlt, FaEye, FaDownload, FaArrowRight, FaArrowLeft, FaCheck } from 'react-icons/fa';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { FaUser, FaCalendarAlt, FaFileAlt, FaEye, FaDownload, FaArrowRight, FaArrowLeft, FaCheck, FaMagic, FaSave } from 'react-icons/fa';
+import { useDocumentEngine } from '../documents/hooks/useDocumentEngine';
+import { SmartEditorLayout } from '../components/editor/SmartEditorLayout';
+import { notify } from '../utils/notificationService';
+import Button from '../components/formElements/Button';
 
 const OfficialLetter = () => {
-  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const letterType = queryParams.get('type');
 
-  // State for form data
-  const [formData, setFormData] = useState({
-    recipient: '',
-    recipientTitle: '',
-    recipientAddress: '',
-    sender: '',
-    senderTitle: '',
-    senderAddress: '',
-    date: new Date().toISOString().split('T')[0],
-    subject: '',
-    content: '',
-    closing: 'Sincerely,'
+  const getInitialData = () => {
+    return {
+      senderName: '',
+      senderTitle: '',
+      senderAddress: '',
+      recipientName: '',
+      recipientAddress: '',
+      date: new Date().toISOString().split('T')[0],
+      subject: '',
+      body: '',
+    };
+  };
+
+  const {
+    formData,
+    setFormData,
+    handleSave,
+    handlePolish,
+    isSaving,
+    isPolishing,
+    isValidated
+  } = useDocumentEngine(getInitialData(), 'LETTER', {
+    sender_name: 'senderName',
+    sender_title: 'senderTitle',
+    sender_address: 'senderAddress',
+    recipient_name: 'recipientName',
+    recipient_address: 'recipientAddress',
+    subject: 'subject',
+    body: 'body'
   });
 
-  // State for current step in the journey
-  const [currentStep, setCurrentStep] = useState(1);
+  const onSave = async () => {
+    // Frontend Pre-validation to avoid 400 errors
+    if (!formData.recipientName || !formData.subject || !formData.body) {
+      notify.error("Please fill in the Recipient, Subject, and Body before finalizing.");
+      return;
+    }
 
-  // State for preview mode
-  const [previewMode, setPreviewMode] = useState(false);
-
-  // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // Navigate to next step
-  const nextStep = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // If on last step, generate the letter
-      setPreviewMode(true);
+    try {
+      await handleSave(`Letter: ${formData.subject}`, 'FINAL');
+      notify.success("Letter Finalized & Exported.");
+    } catch (err: any) {
+      notify.error(err.response?.data?.message || err.message || "Failed to finalize letter.");
     }
   };
-
-  // Navigate to previous step
-  const prevStep = () => {
-    if (previewMode) {
-      setPreviewMode(false);
-    } else if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
+  const onPolish = async () => {
+      if (!formData.body) return;
+      const polished = await handlePolish(formData.body);
+      setFormData({...formData, body: polished});
   };
 
-  // Submit the form
-  const handleSubmit = () => {
-    // Here you would typically generate the document
-    alert('Official letter created successfully!');
-    // Navigate to the official letter page
-    navigate('/official-letter');
+  const onStartTemplate = () => {
+    if (letterType === 'internship-letter') {
+      setFormData({
+        senderName: 'Your Name',
+        senderTitle: 'Student',
+        senderAddress: 'University Name\nDepartment of [Your Major]\n[Your Contact Info]',
+        recipientName: 'The Human Resource Manager',
+        recipientAddress: '[Company Name]\n[Company Address]\n[City, Country]',
+        date: new Date().toISOString().split('T')[0],
+        subject: 'APPLICATION FOR INTERNSHIP PLACEMENT IN [DEPARTMENT NAME]',
+        body: 'Dear Sir/Madam,\n\nI am a [Year of Study] student at [University Name] pursuing a [Degree Name]. I am writing to formally request an internship placement at your esteemed organization for the period of [Start Date] to [End Date].\n\nDuring my studies, I have gained foundational knowledge in [Skill 1] and [Skill 2], and I am eager to apply these skills in a professional environment...\n\nThank you for your time and consideration.\n\nSincerely,\n\n[Your Name]'
+      });
+      notify.info("Internship Letter template loaded.");
+      return;
+    }
+
+    if (letterType === 'cover-letter') {
+      setFormData({
+        senderName: 'Your Name',
+        senderTitle: 'Applicant',
+        senderAddress: 'Your Address\nCity, Country',
+        recipientName: 'The Hiring Manager',
+        recipientAddress: '[Company Name]\n[Location]',
+        date: new Date().toISOString().split('T')[0],
+        subject: 'APPLICATION FOR THE POSITION OF [POSITION NAME]',
+        body: 'Dear Sir/Madam,\n\nI am writing to express my interest in the [Position Name] role at [Company Name] as advertised. I have a strong background in [Your Field] and believe I would be a great fit for your team...\n\nSincerely,\n[Your Name]'
+      });
+      notify.info("Cover Letter template loaded.");
+      return;
+    }
+
+    // Default Standard Template
+    setFormData({
+      senderName: 'Your Name',
+      senderTitle: 'Your Position',
+      senderAddress: 'Your Address\nCity, Country',
+      recipientName: 'The Regional Manager',
+      recipientAddress: 'Organization Name\nP.O. Box 456\nCity, Country',
+      date: new Date().toISOString().split('T')[0],
+      subject: 'FORMAL REQUEST FOR PARTNERSHIP ENGAGEMENT',
+      body: 'Dear Sir/Madam,\n\nI am writing to formally propose a partnership between our organizations. Having observed your recent achievements in the sector, I believe there is a strong synergy...\n\nI look forward to discussing this proposal further.\n\nYours faithfully,\n\n[Your Name]'
+    });
+    notify.info("Standard Letter template loaded.");
   };
 
-  // Render the current step content
-  const renderStepContent = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-red-900 flex items-center">
-              <FaUser className="mr-2" /> Recipient Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-red-800 mb-2">Recipient Name</label>
-                <input
-                  type="text"
-                  name="recipient"
-                  value={formData.recipient}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  placeholder="John Smith"
-                />
-              </div>
-              <div>
-                <label className="block text-red-800 mb-2">Recipient Title</label>
-                <input
-                  type="text"
-                  name="recipientTitle"
-                  value={formData.recipientTitle}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  placeholder="Director, HR Department"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-red-800 mb-2">Recipient Address</label>
-              <input
-                type="text"
-                name="recipientAddress"
-                value={formData.recipientAddress}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Example:
-John Mdoe
-Mlimani St, Kijitonyama
-Kinondoni District
-DAR ES SALAAM
-11104
-TANZANIA"
-              />
-            </div>
-
-            <h3 className="text-xl font-semibold text-red-900 mt-8 flex items-center">
-              <FaUser className="mr-2" /> Sender Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-red-800 mb-2">Your Name</label>
-                <input
-                  type="text"
-                  name="sender"
-                  value={formData.sender}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  placeholder="Jane Doe"
-                />
-              </div>
-              <div>
-                <label className="block text-red-800 mb-2">Your Title</label>
-                <input
-                  type="text"
-                  name="senderTitle"
-                  value={formData.senderTitle}
-                  onChange={handleInputChange}
-                  className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  placeholder="Marketing Manager"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-red-800 mb-2">Your Address</label>
-              <input
-                type="text"
-                name="senderAddress"
-                value={formData.senderAddress}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="456 Career St, Apt 2B, City, Country"
-              />
-            </div>
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-red-900 flex items-center">
-              <FaCalendarAlt className="mr-2" /> Letter Details
-            </h3>
-            <div>
-              <label className="block text-red-800 mb-2">Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-red-800 mb-2">Subject</label>
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Regarding: Job Application for Marketing Manager Position"
-              />
-            </div>
-
-            <h3 className="text-xl font-semibold text-red-900 mt-8 flex items-center">
-              <FaFileAlt className="mr-2" /> Letter Content
-            </h3>
-            <div>
-              <label className="block text-red-800 mb-2">Letter Body</label>
-              <textarea
-                name="content"
-                value={formData.content}
-                onChange={handleInputChange}
-                rows={10}
-                className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Dear [Recipient Name],&#10;&#10;I am writing to express my interest in...&#10;&#10;Sincerely,"
-              />
-            </div>
-            <div>
-              <label className="block text-red-800 mb-2">Closing</label>
-              <input
-                type="text"
-                name="closing"
-                value={formData.closing}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Sincerely,"
-              />
-            </div>
-          </div>
-        );
-
-      case 3:
-        return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-red-900 flex items-center">
-              <FaEye className="mr-2" /> Preview Your Letter
-            </h3>
-            <div className="bg-whiteBg p-8 border border-red-200 rounded-lg shadow-md">
-              <div className="mb-6">
-                <p className="text-right text-red-700">{formData.senderAddress}</p>
-                <p className="text-right text-red-700">{new Date(formData.date).toLocaleDateString()}</p>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-red-700">{formData.recipientTitle}</p>
-                <p className="text-red-700">{formData.recipient}</p>
-                <p className="text-red-700">{formData.recipientAddress}</p>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-red-700 font-semibold">Subject: {formData.subject}</p>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-red-700 whitespace-pre-line">{formData.content}</p>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-red-700">{formData.closing}</p>
-                <p className="text-red-700 mt-4">{formData.sender}</p>
-                <p className="text-red-700">{formData.senderTitle}</p>
-              </div>
-            </div>
-
-            <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-              <h4 className="font-semibold text-red-800 mb-2">Ready to generate your official letter?</h4>
-              <p className="text-red-700">Click "Generate Letter" to create a professional PDF document that you can download and share.</p>
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
+  const onStartBlank = () => {
+    setFormData({
+      senderName: '',
+      senderTitle: '',
+      senderAddress: '',
+      recipientName: '',
+      recipientAddress: '',
+      date: new Date().toISOString().split('T')[0],
+      subject: '',
+      body: '',
+    });
+    notify.info("Editor cleared for a fresh start.");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-red-900 mb-2">Create Official Letter</h1>
-          <p className="text-red-700">Follow the steps below to create your professional official letter</p>
-        </div>
+    <SmartEditorLayout
+      title="Letter Architect"
+      subtitle="Official Correspondence"
+      onSave={onSave}
+      isSaving={isSaving}
+      isValidated={isValidated}
+      isPolishing={isPolishing}
+      onStartTemplate={onStartTemplate}
+      onStartBlank={onStartBlank}
+      preview={
+        <div className="bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-sans relative text-left text-[11px] leading-relaxed text-gray-800">
+            <div className="flex justify-between items-start mb-12 border-b pb-8">
+               <div>
+                  <h2 className="text-2xl font-black text-redMain tracking-tighter">TWENDE</h2>
+                  <p className="text-[7px] text-gray-400 uppercase tracking-widest">Official Document</p>
+               </div>
+               <div className="text-right">
+                  <p className="font-black text-charcoal">{formData.senderName || 'SENDER NAME'}</p>
+                  <p className="text-gray-400 text-[9px]">{formData.senderAddress || 'SENDER ADDRESS'}</p>
+               </div>
+            </div>
 
-        {/* Progress Bar */}
-        <div className="mb-10">
-          <div className="flex items-center justify-between mb-2">
-            {[1, 2, 3].map((step) => (
-              <div key={step} className="flex flex-col items-center">
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep === step
-                    ? 'bg-red-600 text-white'
-                    : currentStep > step
-                      ? 'bg-red-100 text-red-600 border-2 border-red-600'
-                      : 'bg-whiteBg text-red-600 border-2 border-red-200'
-                    }`}
-                >
-                  {currentStep > step ? <FaCheck /> : step}
+            <p className="font-black mb-8">{formData.date}</p>
+
+            <div className="mb-8">
+               <p className="font-black text-charcoal text-sm">{formData.recipientName || 'RECIPIENT NAME'}</p>
+               <p className="text-gray-500 max-w-[200px]">{formData.recipientAddress || 'RECIPIENT ADDRESS'}</p>
+            </div>
+
+            <div className="mb-8 py-2 border-b border-redMain/20 inline-block">
+               <p className="font-black text-charcoal uppercase tracking-tight">RE: {formData.subject || 'SUBJECT OF CORRESPONDENCE'}</p>
+            </div>
+
+            <p className="font-bold mb-4">Dear Sir/Madam,</p>
+            
+            <div className="flex-1 text-justify">
+               <p>{formData.body || 'This is where your official correspondence content will appear. Use the AI Polish button to refine your drafting into professional language.'}</p>
+            </div>
+
+            <div className="mt-12">
+               <p>Yours Sincerely,</p>
+               <div className="h-12" />
+               <p className="font-black text-charcoal text-sm uppercase">{formData.senderName || 'SENDER NAME'}</p>
+               <p className="text-gray-400 text-[9px]">{formData.senderTitle || 'SENDER TITLE'}</p>
+            </div>
+        </div>
+      }
+    >
+      <section className="card-premium p-8 md:p-12 shadow-2xl relative overflow-hidden">
+         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-redMain to-charcoal" />
+         
+         <div className="space-y-8 text-left">
+           <div>
+             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">Personnel Details</h3>
+             <div className="grid grid-cols-2 gap-6">
+                <div className="col-span-2">
+                  <label className="label-premium">Sender Name</label>
+                  <input 
+                    type="text" 
+                    value={formData.senderName} 
+                    onChange={(e) => setFormData({...formData, senderName: e.target.value})} 
+                    className="input-premium" 
+                    placeholder="Your Full Name"
+                  />
                 </div>
-                <span className={`mt-2 text-sm font-medium ${currentStep === step ? 'text-red-800' : 'text-red-600'
-                  }`}>
-                  {step === 1 ? 'Details' : step === 2 ? 'Content' : 'Preview'}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="h-2 bg-red-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-red-600 rounded-full transition-all duration-500"
-              style={{ width: `${(currentStep / 3) * 100}%` }}
-            ></div>
-          </div>
-        </div>
+                <div>
+                  <label className="label-premium">Sender Title</label>
+                  <input type="text" value={formData.senderTitle} onChange={(e) => setFormData({...formData, senderTitle: e.target.value})} className="input-premium" placeholder="e.g. Manager" />
+                </div>
+                <div>
+                  <label className="label-premium">Date</label>
+                  <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} className="input-premium" />
+                </div>
+             </div>
+           </div>
 
-        {/* Main Content */}
-        <div className="bg-whiteBg rounded-xl shadow-lg overflow-hidden">
-          <div className="p-6 md:p-8">
-            {renderStepContent()}
-          </div>
+           <div>
+             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">Recipient & Subject</h3>
+             <div className="space-y-6">
+               <input 
+                 type="text" 
+                 value={formData.recipientName} 
+                 onChange={(e) => setFormData({...formData, recipientName: e.target.value})} 
+                 className="input-premium" 
+                 placeholder="Recipient Name"
+               />
+               <textarea 
+                 value={formData.recipientAddress} 
+                 onChange={(e) => setFormData({...formData, recipientAddress: e.target.value})} 
+                 className="input-premium h-20" 
+                 placeholder="Recipient Address"
+               />
+               <input 
+                 type="text" 
+                 value={formData.subject} 
+                 onChange={(e) => setFormData({...formData, subject: e.target.value})} 
+                 className="input-premium font-black" 
+                 placeholder="Letter Subject (e.g. APPLICATION FOR JOB)"
+               />
+             </div>
+           </div>
 
-          {/* Navigation Buttons */}
-          <div className="bg-red-50 px-6 py-4 flex justify-between">
-            <button
-              onClick={prevStep}
-              disabled={currentStep === 1 && !previewMode}
-              className={`flex items-center px-4 py-2 rounded-lg ${currentStep === 1 && !previewMode
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : 'bg-red-100 text-red-700 hover:bg-red-200'
-                }`}
-            >
-              <FaArrowLeft className="mr-2" /> Back
-            </button>
+           <div>
+             <div className="flex justify-between items-center mb-8 border-b pb-4">
+               <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">Letter Content</h3>
+               <button 
+                  onClick={onPolish}
+                  disabled={isPolishing || !formData.body}
+                  className="text-redMain font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-70"
+               >
+                  <FaMagic /> AI Polish Body
+               </button>
+             </div>
+             <textarea 
+               value={formData.body} 
+               onChange={(e) => setFormData({...formData, body: e.target.value})} 
+               className="input-premium h-64 text-justify" 
+               placeholder="Write your letter here..."
+             />
+           </div>
 
-            <button
-              onClick={currentStep === 3 && !previewMode ? handleSubmit : nextStep}
-              className="flex items-center px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              {currentStep === 3 && !previewMode ? (
-                <>
-                  <FaDownload className="mr-2" /> Generate Letter
-                </>
-              ) : (
-                <>
-                  Continue <FaArrowRight className="ml-2" />
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+           <Button 
+               label="Finalize & Generate Letter" 
+               variant="primary"
+               icon={<FaSave />}
+               onClick={onSave}
+               disabled={isSaving}
+               className="w-full"
+            />
+         </div>
+      </section>
+    </SmartEditorLayout>
   );
 };
 

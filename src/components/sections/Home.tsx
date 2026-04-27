@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaArrowRight, FaFileAlt, FaFileInvoice, FaEnvelope, FaUser, FaStore } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useTranslation, Trans } from "react-i18next";
 
 export const Home = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col w-full bg-white font-sans selection:bg-primary/10 selection:text-primary">
       {/* 1. HERO SECTION */}
@@ -17,28 +17,30 @@ export const Home = () => {
           >
             <div className="flex items-center gap-4">
               <span className="h-px w-12 bg-primary"></span>
-              <span className="text-primary font-black uppercase tracking-[0.4em] text-action">Professional Excellence</span>
+              <span className="text-primary font-black uppercase tracking-[0.4em] text-action">{t('common.professional_excellence')}</span>
             </div>
             <h1 className="text-display">
-              Create Professional <br />
-              Documents in Minutes <br />
-              — <span className="text-primary">Not Hours</span>
+              <Trans i18nKey="home.hero_title">
+                Create Professional <br />
+                Documents in Minutes <br />
+                — <span className="text-primary">Not Hours</span>
+              </Trans>
             </h1>
             <p className="text-lg text-secondary/60 font-medium max-w-xl leading-relaxed">
-              Twende Documents provides high-fidelity document generation for individuals and professional agents. Precision-engineered templates optimized for international standards.
+              {t('home.hero_subtitle')}
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
               <Link
                 to="/documents"
                 className="btn-primary flex items-center gap-3 group"
               >
-                Start Creating <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                {t('common.start_creating')} <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/documents?mode=showcase"
                 className="btn-ghost flex items-center gap-3"
               >
-                Try a Sample
+                {t('home.try_sample')}
               </Link>
             </div>
           </motion.div>
@@ -70,14 +72,14 @@ export const Home = () => {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <header className="mb-16">
-            <h2 className="label-premium">Quick Access</h2>
-            <h3 className="text-heading text-secondary">Modular Document Entry</h3>
+            <h2 className="label-premium">{t('home.quick_access')}</h2>
+            <h3 className="text-heading text-secondary">{t('home.modular_entry')}</h3>
           </header>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Create CV", icon: <FaFileAlt />, path: "/create/cv", desc: "Standardized professional resumes." },
-              { title: "Create Invoice", icon: <FaFileInvoice />, path: "/create/invoice", desc: "Precision billing for business." },
-              { title: "Create Letter", icon: <FaEnvelope />, path: "/create/letter", desc: "High-impact official letters." }
+              { title: t('common.create') + " CV", icon: <FaFileAlt />, path: "/create/cv", desc: t('home.for_individuals_desc').split('.')[0] + "." },
+              { title: t('common.create') + " Invoice", icon: <FaFileInvoice />, path: "/create/invoice", desc: t('home.step_2_desc') },
+              { title: t('common.create') + " Letter", icon: <FaEnvelope />, path: "/create/letter", desc: t('home.for_individuals_desc').split('.')[0] + "." }
             ].map((action, i) => (
               <Link to={action.path} key={i} className="card-premium group">
                 <div className="w-16 h-16 bg-neutral-light rounded-button flex items-center justify-center text-2xl text-secondary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
@@ -96,14 +98,14 @@ export const Home = () => {
       <section className="py-24 bg-secondary text-white">
         <div className="container mx-auto px-6">
           <header className="text-center mb-20">
-            <h2 className="label-premium text-primary">Process Flow</h2>
-            <h3 className="text-heading text-white">How It Works</h3>
+            <h2 className="label-premium text-primary">{t('home.process_flow')}</h2>
+            <h3 className="text-heading text-white">{t('home.how_it_works')}</h3>
           </header>
           <div className="grid md:grid-cols-3 gap-16">
             {[
-              { step: "01", title: "Select Template", desc: "Choose from our high-fidelity library of professional templates." },
-              { step: "02", title: "Input Content", desc: "Fill in your details using our precision-engineered forms." },
-              { step: "03", title: "Finalize & Export", desc: "Polish with AI and export to a production-ready PDF." }
+              { step: "01", title: t('home.step_1_title'), desc: t('home.step_1_desc') },
+              { step: "02", title: t('home.step_2_title'), desc: t('home.step_2_desc') },
+              { step: "03", title: t('home.step_3_title'), desc: t('home.step_3_desc') }
             ].map((step, i) => (
               <div key={i} className="space-y-6">
                 <span className="text-display text-primary/20 block">{step.step}</span>
@@ -122,15 +124,15 @@ export const Home = () => {
             <div className="card-premium flex items-start gap-8">
               <FaUser className="text-primary text-4xl mt-2" />
               <div>
-                <h3 className="text-2xl font-black uppercase mb-4">For Individuals</h3>
-                <p className="text-secondary/60 leading-relaxed font-medium">Create world-class CVs and letters for your career journey. Simple, fast, and professional.</p>
+                <h3 className="text-2xl font-black uppercase mb-4">{t('home.for_individuals')}</h3>
+                <p className="text-secondary/60 leading-relaxed font-medium">{t('home.for_individuals_desc')}</p>
               </div>
             </div>
             <div className="card-premium flex items-start gap-8">
               <FaStore className="text-secondary text-4xl mt-2" />
               <div>
-                <h3 className="text-2xl font-black uppercase mb-4">For Agents</h3>
-                <p className="text-secondary/60 leading-relaxed font-medium">Stationery shop owners and professional agents can manage multiple clients and credits efficiently.</p>
+                <h3 className="text-2xl font-black uppercase mb-4">{t('home.for_agents')}</h3>
+                <p className="text-secondary/60 leading-relaxed font-medium">{t('home.for_agents_desc')}</p>
               </div>
             </div>
           </div>
@@ -140,12 +142,12 @@ export const Home = () => {
       {/* FINAL CTA */}
       <section className="py-24 bg-white text-center">
         <div className="container mx-auto px-6">
-          <h2 className="text-display text-secondary mb-12"> Ready to begin?</h2>
+          <h2 className="text-display text-secondary mb-12">{t('home.ready_to_begin')}</h2>
           <Link
             to="/create"
             className="btn-primary py-6 px-12 text-lg"
           >
-            Create Your First Document
+            {t('home.create_first')}
           </Link>
         </div>
       </section>

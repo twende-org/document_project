@@ -36,9 +36,15 @@ const Head = ({ title, description }: { title: string; description?: string }) =
   return null;
 };
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import FactoryLoader from "./components/documents/FactoryLoader";
+
 function App() {
+
   const allRoutes: pageRouteConfig[] = [...routes, ...documentRoutes, ...myDocumentsRoutes];
   const theme = useSelector((state: RootState) => state.ui.theme);
+  const factoryLoading = useSelector((state: RootState) => state.ui.factoryLoading);
   const [initialLoad, setInitialLoad] = useState(true);
 
   const location = useLocation();
@@ -152,7 +158,13 @@ useEffect(() => {
 
       {/* SignIn Modal */}
       <SignInModal />
+      {/* Factory Loader Overlay */}
+      <FactoryLoader isLoading={factoryLoading.isLoading} message={factoryLoading.message} />
+      
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
+
+
   );
 }
 

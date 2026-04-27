@@ -8,6 +8,8 @@ import { UserMenu } from "./UserMenu";
 import { routes } from "../../routes/pageRouteConfig";
 import type { RootState } from "../../store/store";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const NavBar = () => {
   const location = useLocation();
@@ -21,6 +23,7 @@ export const NavBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const { t } = useTranslation();
   const user = useSelector((state: RootState) => state.auth.user);
   const isAdminOrAgent = user?.role === "admin" || user?.role === "agent";
   const navLinks = ["Home", "Documents", "Agent Station", "Pricing", "Help"];
@@ -52,17 +55,21 @@ export const NavBar = () => {
                     }`
                   }
                 >
-                  {link.name}
+                  {t(`common.${link.name.toLowerCase().replace(' ', '_')}`)}
                 </NavLink>
               </li>
             ))}
+          
+          <li className="ml-4">
+            <LanguageSwitcher />
+          </li>
 
           <li>
             <NavLink
               to="/create"
               className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-900/20 active:scale-95"
             >
-              Create
+              {t('common.create')}
             </NavLink>
           </li>
           <li>
@@ -94,12 +101,15 @@ export const MobileNavBar = () => {
         <Logo />
       </Link>
       
-      <button
-        onClick={handleToggle}
-        className="relative z-[10000] text-white text-2xl focus:outline-none w-10 h-10 flex items-center justify-center bg-white/5 rounded-xl border border-white/10 active:scale-90 transition-all"
-      >
-        {isOpen ? <TfiClose /> : <RiMenuLine />}
-      </button>
+      <div className="flex items-center gap-4 relative z-[10000]">
+        <LanguageSwitcher />
+        <button
+          onClick={handleToggle}
+          className="text-white text-2xl focus:outline-none w-10 h-10 flex items-center justify-center bg-white/5 rounded-xl border border-white/10 active:scale-90 transition-all"
+        >
+          {isOpen ? <TfiClose /> : <RiMenuLine />}
+        </button>
+      </div>
 
       <AnimatePresence>
         {isOpen && (
@@ -129,7 +139,7 @@ export const MobileNavBar = () => {
                         }`
                       }
                     >
-                      {link.name}
+                      {t(`common.${link.name.toLowerCase().replace(' ', '_')}`)}
                     </NavLink>
                   </motion.div>
                 ))}
@@ -147,7 +157,7 @@ export const MobileNavBar = () => {
                 onClick={closeMenu}
                 className="w-full h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-sm font-black uppercase tracking-widest shadow-2xl shadow-red-900/40"
               >
-                Create New Document
+                {t('common.create')}
               </Link>
             </motion.div>
           </motion.div>

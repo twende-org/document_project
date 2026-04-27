@@ -1,137 +1,111 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import type { LetterContent } from "../types";
+import React from 'react';
+import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
 
+// Standard PDF Styles
 const styles = StyleSheet.create({
   page: {
     padding: 60,
     fontSize: 11,
-    color: "#1F2937",
-    fontFamily: "Helvetica",
     lineHeight: 1.6,
+    fontFamily: 'Helvetica',
+    color: '#1a1a1a',
   },
   header: {
     marginBottom: 40,
-    borderBottom: 1,
-    borderColor: "#E5E7EB",
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#eeeeee',
     paddingBottom: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
   },
-  logo: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#B91C1C",
-    letterSpacing: 2
+  senderName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
-  senderInfo: {
-    textAlign: "right",
+  recipientSection: {
+    marginBottom: 30,
+  },
+  label: {
     fontSize: 9,
-    color: "#4B5563"
-  },
-  date: {
-    marginBottom: 30,
-    fontWeight: "bold"
-  },
-  recipientInfo: {
-    marginBottom: 30,
+    color: '#666666',
+    textTransform: 'uppercase',
+    marginBottom: 4,
   },
   recipientName: {
-    fontWeight: "bold",
     fontSize: 12,
-    marginBottom: 2
+    fontWeight: 'bold',
+  },
+  date: {
+    marginTop: 10,
+    fontSize: 10,
+    color: '#444444',
   },
   subject: {
     fontSize: 12,
-    fontWeight: "bold",
-    color: "#B91C1C",
-    textTransform: "uppercase",
-    marginBottom: 25,
-    borderBottom: 1,
-    borderColor: "#B91C1C",
-    paddingBottom: 5,
-    width: "100%"
-  },
-  salutation: {
-    marginBottom: 15,
-    fontWeight: "bold"
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    marginVertical: 20,
+    textDecoration: 'underline',
   },
   body: {
-    marginBottom: 40,
-    textAlign: "justify"
+    textAlign: 'justify',
   },
   closing: {
-    marginTop: 40,
+    marginTop: 50,
   },
   signature: {
-    marginTop: 10,
-    fontWeight: "bold",
-    fontSize: 12
-  },
-  footer: {
-    position: "absolute",
-    bottom: 40,
-    left: 60,
-    right: 60,
-    textAlign: "center",
-    color: "#9CA3AF",
-    fontSize: 8,
-    textTransform: "uppercase",
-    letterSpacing: 2,
-    borderTop: 1,
-    borderColor: "#F3F4F6",
-    paddingTop: 10
+    marginTop: 40,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: '#000000',
+    width: 200,
+    paddingTop: 5,
   }
 });
 
-const PDFTemplate = ({ data }: { data: LetterContent }) => {
-  const { 
-    senderName,
-    recipientName, recipientAddress,
-    date = new Date().toLocaleDateString(),
-    subject,
-    body,
-  } = data;
+interface LetterData {
+  sender_name: string;
+  recipient_name: string;
+  recipient_address: string;
+  date: string;
+  subject: string;
+  body: string;
+}
 
-  return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-           <View>
-              <Text style={styles.logo}>TWENDE</Text>
-              <Text style={{ fontSize: 7, color: "#9CA3AF", letterSpacing: 2 }}>OFFICIAL CORRESPONDENCE</Text>
-           </View>
-           <View style={styles.senderInfo}>
-              <Text style={{ fontWeight: "bold", color: "#1F2937" }}>{senderName || "Sender Name"}</Text>
-           </View>
+const LetterPDFTemplate = ({ data }: { data: LetterData }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      {/* Header / Sender */}
+      <View style={styles.header}>
+        <Text style={styles.senderName}>{data.sender_name || 'Sender Name'}</Text>
+        <Text style={styles.date}>{data.date || new Date().toLocaleDateString()}</Text>
+      </View>
+
+      {/* Recipient */}
+      <View style={styles.recipientSection}>
+        <Text style={styles.label}>To:</Text>
+        <Text style={styles.recipientName}>{data.recipient_name || 'Recipient Name'}</Text>
+        <Text style={{ fontSize: 10 }}>{data.recipient_address || 'Recipient Address'}</Text>
+      </View>
+
+      {/* Subject */}
+      <Text style={styles.subject}>RE: {data.subject || 'Official Correspondence'}</Text>
+
+      {/* Body */}
+      <Text style={styles.body}>
+        {data.body || 'Letter content goes here...'}
+      </Text>
+
+      {/* Closing */}
+      <View style={styles.closing}>
+        <Text>Sincerely,</Text>
+        <View style={styles.signature}>
+          <Text style={{ fontWeight: 'bold' }}>{data.sender_name}</Text>
         </View>
+      </View>
+    </Page>
+  </Document>
+);
 
-        <Text style={styles.date}>{date}</Text>
-
-        <View style={styles.recipientInfo}>
-           <Text style={styles.recipientName}>{recipientName || "Recipient Name"}</Text>
-           <Text style={{ color: "#4B5563", marginTop: 2 }}>{recipientAddress || "Recipient Address"}</Text>
-        </View>
-
-        <View style={{ flexDirection: "row" }}>
-           <Text style={styles.subject}>RE: {subject || "OFFICIAL DOCUMENT SUBJECT"}</Text>
-        </View>
-
-        <Text style={styles.salutation}>Dear Sir/Madam,</Text>
-        <Text style={styles.body}>
-          {body || "This is where your official correspondence content will appear."}
-        </Text>
-
-        <View style={styles.closing}>
-           <Text>Yours Sincerely,</Text>
-           <View style={{ height: 40 }} />
-           <Text style={styles.signature}>{senderName || "Sender Name"}</Text>
-        </View>
-
-        <Text style={styles.footer}>Generated via Twende Documents Official Correspondence Module</Text>
-      </Page>
-    </Document>
-  );
-};
-
-export default PDFTemplate;
+export default LetterPDFTemplate;

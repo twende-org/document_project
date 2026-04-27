@@ -5,15 +5,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#B91C1C',    // Deep Red
-        secondary: '#1F2937',  // Charcoal
+        primary: '#FF3B30',    // Vibrant Twende Red
+        secondary: '#2D3436',  // Deep Charcoal
         neutral: {
-          light: '#F9FAFB',
-          border: '#E5E7EB',
+          light: '#F8F9FA',
+          border: '#E9ECEF',
         },
-        redMain: '#B91C1C', // Backwards compatibility
-        charcoal: '#1F2937', // Backwards compatibility
-        neutralLight: '#F9FAFB', // Backwards compatibility
+        redMain: '#FF3B30', 
+        charcoal: '#2D3436',
+        subHeadingGray: '#636E72',
+        background: '#FFFFFF',
       },
       borderRadius: {
         'button': '1.5rem',
@@ -24,7 +25,7 @@ export default {
         'red-glow': '0 10px 15px -3px rgba(185, 28, 28, 0.15)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display': ['2.5rem', { lineHeight: '1.1', fontWeight: '900', letterSpacing: '-0.05em' }],

@@ -6,6 +6,7 @@ import Preview from "./Preview";
 import type { InvoiceContent, InvoiceItem } from "../types";
 import { INVOICE_TEMPLATE } from "../templates";
 import { toast } from "react-toastify";
+import { notify } from "../../utils/notificationService";
 
 const Editor = () => {
   const initialData: InvoiceContent = {
@@ -64,7 +65,7 @@ const Editor = () => {
   const onSave = async () => {
     try {
       await handleSave(docTitle, 'FINAL');
-      alert("Invoice Finalized & Securely Saved.");
+      notify.success("Invoice Finalized & Securely Saved.");
     } catch (err) {}
   };
 

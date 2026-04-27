@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   AiOutlineClose,
   AiOutlineEye,
@@ -8,30 +8,22 @@ import {
   AiOutlineFilePdf
 } from "react-icons/ai";
 import { useCurrentUserCV } from "../hooks/useCurrentUserCV";
+import type { RootState } from "../store/store";
+
 // Templates
 import TraditionalTemplate from "../components/templates/cv-templates/TraditionalTemplate";
 import AdvancedTemplate from "../components/templates/cv-templates/AdvancedTemplate";
 import IntermediateTemplate from "../components/templates/cv-templates/IntermediateTemplate";
-import ModernSidebarTemplate from "../components/templates/cv-templates/ModernSidebarTemplate"; // Import the new template
+import ModernSidebarTemplate from "../components/templates/cv-templates/ModernSidebarTemplate";
 import MinimalistTemplate from "../components/templates/cv-templates/MinimalistTemplate";
 import CreativeHeaderTemplate from "../components/templates/cv-templates/CreativeHeaderTemplate";
-import CVAdvancedPDF from "../components/templates/cv-templates/cv-methods/CVAdvancedPDF";
-import CVIntermediatePDF from "../components/templates/cv-templates/cv-methods/CVIntermediatePDF";
-import CVMinimalPDF from "../components/templates/cv-templates/cv-methods/CVMinimalPDF";
-import CVModernPDF from "../components/templates/cv-templates/cv-methods/CVModernPDF";
-import CVTraditionalPDF from "../components/templates/cv-templates/cv-methods/CVTraditionalPDF";
-import CVCreativePDF from "../components/templates/cv-templates/cv-methods/CVCreativePDF";
-// Components & Constants
+
+import { PDFDownloadLink, pdf, type DocumentProps } from "@react-pdf/renderer";
+import { DOCUMENT_REGISTRY, CV_STYLES_REGISTRY } from "../documents/registry";
 import { CV_TEMPLATE_CATEGORIES } from "../constant/cvTemplateCategories";
 import Button from "../components/formElements/Button";
 import PaymentComponent from "../components/sections/PaymentComponent";
 
-// Redux
-// Note: You might need to create a 'getModernPDF' action in your slice if the backend endpoint differs
-// import { getBasicPDF, getIntermediatePDF, getAdvancedPDF } from "../features/downloads/downloadsSlice";
-import { PDFDownloadLink, pdf,type DocumentProps } from "@react-pdf/renderer";
-import type { RootState } from "../store/store";
-import { useSelector } from "react-redux";
 
 // --- CONFIGURATION ---
 const PAYMENT_ENABLED = false;
@@ -45,17 +37,9 @@ interface CVPDFProps {
   user?: any; // or whatever data your PDF needs
 }
 
-const pdfTemplateMap: Record<string, React.ComponentType<CVPDFProps & DocumentProps>> = {
-  Basic: CVTraditionalPDF,
-  Modern: CVModernPDF,
-  Intermediate: CVIntermediatePDF,
-  Advanced: CVAdvancedPDF,
-  Minimalist: CVMinimalPDF,
-  Creative: CVCreativePDF,
-};
-
-
 const CVTemplates = () => {
+
+
 
   // --- State ---
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -110,8 +94,9 @@ const CVTemplates = () => {
   const handleDownload = async (templateName: string) => {
     setDownloading(true);
     try {
-      const PDFComponent = pdfTemplateMap[templateName] || CVTraditionalPDF;
+      const PDFComponent = CV_STYLES_REGISTRY[templateName];
       const blob = await pdf(<PDFComponent />).toBlob();
+
 
       const downloadUrl = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -282,9 +267,10 @@ const CVTemplates = () => {
 
                     {selectedTemplateName && (
                       <PDFDownloadLink
-                        document={React.createElement(pdfTemplateMap[selectedTemplateName], {   user: cvData })}
+                        document={React.createElement(CV_STYLES_REGISTRY[selectedTemplateName], {   user: cvData })}
                         fileName={`My_CV_${selectedTemplateName}.pdf`}
                       >
+
                         {({ loading }) => (
                           <button className="w-full py-3 md:py-4 text-base md:text-lg shadow-lg hover:shadow-xl transition-all rounded-xl active:scale-95 bg-green-600 hover:bg-green-700 text-white">
                             {loading ? "Generating PDF..." : "Download PDF"}

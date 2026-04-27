@@ -5,7 +5,6 @@ import Documents from "../pages/Documents";
 import CVTemplates from "../pages/CVTemplates";
 import CVArchitect from "../documents/cv/Editor";
 import InvoiceEditor from "../documents/invoice/Editor";
-import LetterEditor from "../documents/letter/Editor";
 import Dashboard from "../pages/Dashboard";
 import AgentDashboard from "../pages/AgentDashboard";
 import { Verification } from "../components/sections/Verification";
@@ -14,16 +13,16 @@ import CreateDocument from "../pages/CreateDocument";
 import AllDocuments from "../pages/AllDocuments";
 import PDFReports from "../pages/PDFReports";
 import Affidavit from "../pages/Affidavit";
-import AcademicDocs from "../pages/AcademicDocs";
-import CommunityDocs from "../pages/CommunityDocs";
 import SignUpPage from "../components/auth/SignUp";
 import { SignInPage } from "../components/auth/SignIn";
 import PaymentComponent from "../components/sections/PaymentComponent";
 import RisalaForm from "../components/forms/RisalaForm";
 import RisalaTemplate from "../pages/RisalaTemplate";
 import CreateDocs from "../pages/CreateDocs";
-import CvDocument from "../pages/CvDocument";
 import OfficialLetter from "../pages/OfficialLetter";
+import EventProgram from "../pages/EventProgram";
+import ProformaInvoice from "../pages/ProformaInvoice";
+import Quotation from "../pages/Quotation";
 export interface pageRouteConfig<P = any> {
   forNav?: boolean;
   path: string;
@@ -204,8 +203,29 @@ export const routes: pageRouteConfig[] = [
   {
     forNav: false,
     path: "/create/letter",
-    element: LetterEditor,
+    element: OfficialLetter,
     name: "Letter Architect",
+    layout: true,
+  },
+  {
+    forNav: false,
+    path: "/create/event-program",
+    element: EventProgram,
+    name: "Event Architect",
+    layout: true,
+  },
+  {
+    forNav: false,
+    path: "/create/proforma",
+    element: ProformaInvoice,
+    name: "Proforma Architect",
+    layout: true,
+  },
+  {
+    forNav: false,
+    path: "/create/quotation",
+    element: Quotation,
+    name: "Quotation Architect",
     layout: true,
   },
   {
@@ -315,20 +335,6 @@ export const myDocumentsRoutes: pageRouteConfig[] = [
     path: "/create/affidavit",
     element: Affidavit,
     name: "Affidavit Architect",
-    layout: true
-  },
-  {
-    forNav: false,
-    path: "/create/academic",
-    element: AcademicDocs,
-    name: "Academic Documents",
-    layout: true
-  },
-  {
-    forNav: false,
-    path: "/create/community",
-    element: CommunityDocs,
-    name: "Community Documents",
     layout: true
   },
   {

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaMagic, FaDownload, FaRocket, FaFileAlt, FaPenNib } from "react-icons/fa";
+import { FaMagic, FaDownload, FaRocket, FaFileAlt, FaPenNib, FaCloudDownloadAlt } from "react-icons/fa";
 
 interface SmartEditorProps {
   title: string;
@@ -15,7 +15,9 @@ interface SmartEditorProps {
   onStartBlank?: () => void;
   onStartAI?: () => void;
   onStartTemplate?: () => void;
+  onImportProfile?: () => void;
 }
+
 
 export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
   title,
@@ -28,8 +30,10 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
   preview,
   onStartBlank,
   onStartAI,
-  onStartTemplate
+  onStartTemplate,
+  onImportProfile
 }) => {
+
   return (
     <div className="min-h-screen bg-neutral-light overflow-x-hidden">
       {/* 1. Header & Smart Start */}
@@ -62,6 +66,20 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                 </div>
                 <span className="text-[8px] text-white/70 font-medium uppercase tracking-tighter">Magic Generation</span>
               </button>
+
+              {onImportProfile && (
+                <button 
+                  onClick={onImportProfile} 
+                  className="group flex flex-col items-center gap-2 p-4 rounded-2xl border border-primary/20 hover:bg-primary/5 transition-all"
+                >
+                  <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[10px] text-primary">
+                    <FaCloudDownloadAlt className="group-hover:translate-y-1 transition-transform" /> 
+                    Import Profile
+                  </div>
+                  <span className="text-[8px] text-primary/60 font-medium uppercase tracking-tighter">Sync your data</span>
+                </button>
+              )}
+
 
               <button 
                 onClick={onStartBlank} 

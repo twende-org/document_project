@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTrash, FaUserAlt, FaBriefcase, FaGraduationCap, FaMagic, FaCog } from "react-icons/fa";
 import { useDocumentEngine } from "../hooks/useDocumentEngine";
 import { SmartEditorLayout } from "../../components/editor/SmartEditorLayout";
@@ -6,6 +7,8 @@ import Preview from "./Preview";
 import type { CVContent } from "../types";
 import { CV_TEMPLATE } from "../templates";
 import { toast } from "react-toastify";
+import { notify } from "../../utils/notificationService";
+import axios from "axios";
 
 const Editor = () => {
   const initialData: CVContent = {
@@ -50,7 +53,7 @@ const Editor = () => {
   const onSave = async () => {
     try {
       await handleSave(docTitle, 'FINAL');
-      alert("Success! Your document is finalized and ready for download.");
+      notify.success("Success! Your document is finalized and ready for download.");
     } catch (err) {}
   };
 
@@ -59,6 +62,19 @@ const Editor = () => {
     const polished = await handlePolish(formData.summary);
     updateField('summary', polished);
   };
+
+  const handleImportProfile = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_BASE_URL}/api/cv/factory-profile/`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` }
+      });
+      setFormData(response.data);
+      notify.success("Legacy profile imported successfully!");
+    } catch (err) {
+      notify.error("Failed to import profile data.");
+    }
+  };
+
 
   return (
     <SmartEditorLayout
@@ -69,7 +85,9 @@ const Editor = () => {
       isPolishing={isPolishing}
       isValidated={isValidated}
       preview={<Preview data={formData} />}
+      onImportProfile={handleImportProfile}
       onStartBlank={() => {
+
         setFormData(initialData);
         toast.info("Started with a blank canvas.");
       }}
@@ -163,58 +181,67 @@ const Editor = () => {
             <button onClick={handleAddExperience} className="text-primary text-action hover:scale-105 transition-transform">+ Add Role</button>
           </div>
           <div className="space-y-12">
-            {formData.experience.map((exp, i) => (
-              <div key={exp.id} className="bg-neutral-light p-8 rounded-button relative border border-secondary/5 group">
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <AnimatePresence mode="popLayout">
+              {formData.experience.map((exp, i) => (
+                <motion.div 
+                  key={exp.id} 
+                  layout
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                  className="bg-neutral-light p-8 rounded-button relative border border-secondary/5 group"
+                >
+                  <div className="grid md:grid-cols-2 gap-6 mb-6">
+                    <input 
+                      type="text" 
+                      placeholder="Role Title"
+                      value={exp.title}
+                      onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, title: e.target.value} : x)})}
+                      className="input-premium p-4 bg-white"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Duration (e.g. 2020 - Present)"
+                      value={exp.duration}
+                      onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, duration: e.target.value} : x)})}
+                      className="input-premium p-4 bg-white"
+                    />
+                  </div>
                   <input 
                     type="text" 
-                    placeholder="Role Title"
-                    value={exp.title}
-                    onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, title: e.target.value} : x)})}
-                    className="input-premium p-4 bg-white"
+                    placeholder="Company"
+                    value={exp.company}
+                    onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, company: e.target.value} : x)})}
+                    className="input-premium p-4 bg-white mb-6"
                   />
-                  <input 
-                    type="text" 
-                    placeholder="Duration (e.g. 2020 - Present)"
-                    value={exp.duration}
-                    onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, duration: e.target.value} : x)})}
-                    className="input-premium p-4 bg-white"
+                  <textarea 
+                    placeholder="Key accomplishments..."
+                    value={exp.description}
+                    onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, description: e.target.value} : x)})}
+                    className="input-premium p-4 bg-white h-32"
                   />
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="Company"
-                  value={exp.company}
-                  onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, company: e.target.value} : x)})}
-                  className="input-premium p-4 bg-white mb-6"
-                />
-                <textarea 
-                  placeholder="Key accomplishments..."
-                  value={exp.description}
-                  onChange={(e) => setFormData({...formData, experience: formData.experience.map(x => x.id === exp.id ? {...x, description: e.target.value} : x)})}
-                  className="input-premium p-4 bg-white h-32"
-                />
-                
-                <div className="absolute -top-4 -right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button 
-                    onClick={async () => {
-                      const polished = await handlePolish(exp.description);
-                      const newExp = formData.experience.map(x => x.id === exp.id ? {...x, description: polished} : x);
-                      setFormData({...formData, experience: newExp});
-                    }}
-                    className="bg-primary text-white p-3 rounded-full shadow-lg"
-                  >
-                    <FaMagic />
-                  </button>
-                  <button 
-                    onClick={() => setFormData({...formData, experience: formData.experience.filter(x => x.id !== exp.id)})}
-                    className="bg-secondary text-white p-3 rounded-full shadow-lg"
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
-              </div>
-            ))}
+                  
+                  <div className="absolute -top-4 -right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      onClick={async () => {
+                        const polished = await handlePolish(exp.description);
+                        const newExp = formData.experience.map(x => x.id === exp.id ? {...x, description: polished} : x);
+                        setFormData({...formData, experience: newExp});
+                      }}
+                      className="bg-primary text-white p-3 rounded-full shadow-lg"
+                    >
+                      <FaMagic />
+                    </button>
+                    <button 
+                      onClick={() => setFormData({...formData, experience: formData.experience.filter(x => x.id !== exp.id)})}
+                      className="bg-secondary text-white p-3 rounded-full shadow-lg"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
         <div className="card-premium">
@@ -230,37 +257,46 @@ const Editor = () => {
             </button>
           </div>
           <div className="space-y-8">
-            {formData.education.map((edu, i) => (
-              <div key={edu.id} className="grid md:grid-cols-3 gap-6 relative group bg-neutral-light p-6 rounded-button border border-secondary/5">
-                <input 
-                  type="text" 
-                  placeholder="Degree"
-                  value={edu.degree}
-                  onChange={(e) => setFormData({...formData, education: formData.education.map(x => x.id === edu.id ? {...x, degree: e.target.value} : x)})}
-                  className="input-premium p-4 bg-white md:col-span-1"
-                />
-                <input 
-                  type="text" 
-                  placeholder="School/University"
-                  value={edu.school}
-                  onChange={(e) => setFormData({...formData, education: formData.education.map(x => x.id === edu.id ? {...x, school: e.target.value} : x)})}
-                  className="input-premium p-4 bg-white md:col-span-1"
-                />
-                <input 
-                  type="text" 
-                  placeholder="Year"
-                  value={edu.year}
-                  onChange={(e) => setFormData({...formData, education: formData.education.map(x => x.id === edu.id ? {...x, year: e.target.value} : x)})}
-                  className="input-premium p-4 bg-white md:col-span-1"
-                />
-                <button 
-                  onClick={() => setFormData({...formData, education: formData.education.filter(x => x.id !== edu.id)})}
-                  className="absolute -top-3 -right-3 bg-secondary text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+            <AnimatePresence mode="popLayout">
+              {formData.education.map((edu, i) => (
+                <motion.div 
+                  key={edu.id} 
+                  layout
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="grid md:grid-cols-3 gap-6 relative group bg-neutral-light p-6 rounded-button border border-secondary/5"
                 >
-                  <FaTrash size={12} />
-                </button>
-              </div>
-            ))}
+                  <input 
+                    type="text" 
+                    placeholder="Degree"
+                    value={edu.degree}
+                    onChange={(e) => setFormData({...formData, education: formData.education.map(x => x.id === edu.id ? {...x, degree: e.target.value} : x)})}
+                    className="input-premium p-4 bg-white md:col-span-1"
+                  />
+                  <input 
+                    type="text" 
+                    placeholder="School/University"
+                    value={edu.school}
+                    onChange={(e) => setFormData({...formData, education: formData.education.map(x => x.id === edu.id ? {...x, school: e.target.value} : x)})}
+                    className="input-premium p-4 bg-white md:col-span-1"
+                  />
+                  <input 
+                    type="text" 
+                    placeholder="Year"
+                    value={edu.year}
+                    onChange={(e) => setFormData({...formData, education: formData.education.map(x => x.id === edu.id ? {...x, year: e.target.value} : x)})}
+                    className="input-premium p-4 bg-white md:col-span-1"
+                  />
+                  <button 
+                    onClick={() => setFormData({...formData, education: formData.education.filter(x => x.id !== edu.id)})}
+                    className="absolute -top-3 -right-3 bg-secondary text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <FaTrash size={12} />
+                  </button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
 

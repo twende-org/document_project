@@ -1,13 +1,47 @@
 import { useState, useCallback } from 'react';
 import { DocumentService } from '../DocumentService';
 import type { DocumentType, DocumentBase } from '../types';
+import { generateClientPDF } from '../../utils/pdfGenerator';
 
-export function useDocumentEngine<T>(initialData: T, docType: DocumentType) {
+import { useDispatch } from 'react-redux';
+import { startFactory, stopFactory } from '../../store/uiSlice';
+
+export function useDocumentEngine<T>(
+  initialData: T, 
+  docType: DocumentType, 
+  mapping?: Record<string, string>,
+  computedFields?: (data: T) => any
+) {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState<T>(initialData);
+
   const [isSaving, setIsSaving] = useState(false);
   const [isPolishing, setIsPolishing] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const getPayload = () => {
+    let payload: any = { ...formData };
+    
+    // Apply computed fields first (e.g. totals)
+    if (computedFields) {
+      payload = { ...payload, ...computedFields(formData) };
+    }
+
+    // Apply mapping transformations
+    if (mapping) {
+      Object.entries(mapping).forEach(([backendKey, frontendKey]) => {
+        if (frontendKey in payload) {
+          payload[backendKey] = payload[frontendKey];
+          // Delete the original camelCase key if it differs from the backend key
+          if (backendKey !== frontendKey) {
+            delete payload[frontendKey];
+          }
+        }
+      });
+    }
+    return payload;
+  };
 
   const updateField = useCallback((field: keyof T, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -17,19 +51,25 @@ export function useDocumentEngine<T>(initialData: T, docType: DocumentType) {
   const handleSave = async (title: string, status: 'DRAFT' | 'FINAL' = 'DRAFT') => {
     setIsSaving(true);
     setError(null);
+    const payload = getPayload();
     try {
-      await DocumentService.validate(docType as any, formData);
+      await DocumentService.validate(docType as any, payload);
       const doc: DocumentBase = {
         title,
         doc_type: docType as any,
         status,
-        content: formData
+        content: payload
       };
       const savedDoc = await DocumentService.save(doc);
       setIsValidated(true);
       
-      if (status === 'FINAL' && savedDoc.id) {
-          await DocumentService.downloadPDF(savedDoc.id);
+      if (status === 'FINAL') {
+          dispatch(startFactory("Finalizing and generating PDF..."));
+          try {
+            await generateClientPDF(docType, formData, title);
+          } finally {
+            dispatch(stopFactory());
+          }
       }
       
       return savedDoc;
@@ -61,8 +101,13 @@ export function useDocumentEngine<T>(initialData: T, docType: DocumentType) {
     updateField,
     handleSave,
     handlePolish,
-    handleDownload: async (id: number) => {
-        await DocumentService.downloadPDF(id);
+    handleDownload: async (title: string) => {
+        dispatch(startFactory("Manufacturing your PDF..."));
+        try {
+          await generateClientPDF(docType, formData, title);
+        } finally {
+          dispatch(stopFactory());
+        }
     },
     isSaving,
     isPolishing,
@@ -70,3 +115,4 @@ export function useDocumentEngine<T>(initialData: T, docType: DocumentType) {
     error
   };
 }
+

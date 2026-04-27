@@ -16,12 +16,14 @@ import {
   FaEye
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation, Trans } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDocuments } from '../features/documents/documentsSlice';
 import type { RootState, AppDispatch } from '../store/store';
 import DocumentPreviewModal from '../components/documents/DocumentPreviewModal';
 
 const Documents = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -48,22 +50,22 @@ const Documents = () => {
   }, [dispatch, location, access, isShowcaseMode]);
 
   const categories = [
-    { id: 'ALL', name: 'All Docs', icon: <FaThLarge /> },
-    { id: 'CAREER', name: 'Career', icon: <FaBriefcase /> },
-    { id: 'BUSINESS', name: 'Business', icon: <FaFileInvoice /> },
-    { id: 'LEGAL', name: 'Legal', icon: <FaGavel /> },
-    { id: 'ACADEMIC', name: 'Academic', icon: <FaGraduationCap /> },
-    { id: 'SHOWCASE', name: 'Showcase', icon: <FaEye /> },
-    { id: 'ARCHIVE', name: 'Archive', icon: <FaHistory /> },
+    { id: 'ALL', name: t('common.all_docs', 'All Docs'), icon: <FaThLarge /> },
+    { id: 'CAREER', name: t('common.career', 'Career'), icon: <FaBriefcase /> },
+    { id: 'BUSINESS', name: t('common.business', 'Business'), icon: <FaFileInvoice /> },
+    { id: 'LEGAL', name: t('common.legal', 'Legal'), icon: <FaGavel /> },
+    { id: 'ACADEMIC', name: t('common.academic', 'Academic'), icon: <FaGraduationCap /> },
+    { id: 'SHOWCASE', name: t('common.showcase', 'Showcase'), icon: <FaEye /> },
+    { id: 'ARCHIVE', name: t('common.archive', 'Archive'), icon: <FaHistory /> },
   ];
 
   const allSupportedDocs = [
     {
       id: 'cv',
       category: 'CAREER',
-      title: 'CV Architect',
-      subtitle: 'Professional CV',
-      description: 'Create industry-standard resumes that get you hired.',
+      title: t('catalog.cv_title'),
+      subtitle: t('catalog.cv_subtitle'),
+      description: t('catalog.cv_desc'),
       icon: <FaBriefcase />,
       path: '/create/cv',
       color: 'bg-red-600',
@@ -72,20 +74,31 @@ const Documents = () => {
     {
       id: 'cover-letter',
       category: 'CAREER',
-      title: 'Cover Letter',
-      subtitle: 'Job Application',
-      description: 'Craft compelling letters to accompany your job applications.',
+      title: t('catalog.cover_letter_title'),
+      subtitle: t('catalog.cover_letter_subtitle'),
+      description: t('catalog.cover_letter_desc'),
       icon: <FaFileAlt />,
       path: '/create/letter?type=cover-letter',
       color: 'bg-slate-700',
       tag: 'Essential'
     },
     {
+      id: 'internship-letter',
+      category: 'CAREER',
+      title: t('catalog.internship_letter_title'),
+      subtitle: t('catalog.internship_letter_subtitle'),
+      description: t('catalog.internship_letter_desc'),
+      icon: <FaGraduationCap />,
+      path: '/create/letter?type=internship-letter',
+      color: 'bg-red-600',
+      tag: 'Academic'
+    },
+    {
       id: 'invoice',
       category: 'BUSINESS',
-      title: 'Smart Invoice',
-      subtitle: 'Billing Suite',
-      description: 'Professional billing and financial tracking for your business.',
+      title: t('catalog.invoice_title'),
+      subtitle: t('catalog.invoice_subtitle'),
+      description: t('catalog.invoice_desc'),
       icon: <FaFileInvoice />,
       path: '/create/invoice',
       color: 'bg-red-600',
@@ -94,20 +107,31 @@ const Documents = () => {
     {
       id: 'proforma',
       category: 'BUSINESS',
-      title: 'Proforma Invoice',
-      subtitle: 'Quotations',
-      description: 'Detailed documents for business quotes and estimates.',
+      title: t('catalog.proforma_title'),
+      subtitle: t('catalog.proforma_subtitle'),
+      description: t('catalog.proforma_desc'),
       icon: <FaFileSignature />,
-      path: '/create/invoice?type=proforma',
+      path: '/create/proforma',
       color: 'bg-slate-700',
       tag: 'Estimates'
     },
     {
+      id: 'quotation',
+      category: 'BUSINESS',
+      title: t('catalog.quotation_title'),
+      subtitle: t('catalog.quotation_subtitle'),
+      description: t('catalog.quotation_desc'),
+      icon: <FaFileAlt />,
+      path: '/create/quotation',
+      color: 'bg-slate-800',
+      tag: 'Proposal'
+    },
+    {
       id: 'official-letter',
       category: 'LEGAL',
-      title: 'Official Letter',
-      subtitle: 'Corporate Tool',
-      description: 'Generate polished formal letters and correspondence.',
+      title: t('catalog.official_letter_title'),
+      subtitle: t('catalog.official_letter_subtitle'),
+      description: t('catalog.official_letter_desc'),
       icon: <FaEnvelope />,
       path: '/create/letter',
       color: 'bg-red-600',
@@ -116,34 +140,23 @@ const Documents = () => {
     {
       id: 'affidavits',
       category: 'LEGAL',
-      title: 'Affidavits',
-      subtitle: 'Legal Docs',
-      description: 'Create legally binding affidavits and declarations.',
+      title: t('catalog.affidavits_title'),
+      subtitle: t('catalog.affidavits_subtitle'),
+      description: t('catalog.affidavits_desc'),
       icon: <FaGavel />,
       path: '/create/affidavit',
       color: 'bg-slate-700',
       tag: 'Legal'
     },
     {
-      id: 'academic',
+      id: 'event-program',
       category: 'ACADEMIC',
-      title: 'Academic Docs',
-      subtitle: 'School Suite',
-      description: 'Manage your academic records and school correspondence.',
-      icon: <FaGraduationCap />,
-      path: '/create/academic',
-      color: 'bg-red-600',
-      tag: 'New'
-    },
-    {
-      id: 'invitations',
-      category: 'ACADEMIC',
-      title: 'Invitations',
-      subtitle: 'Event Suite',
-      description: 'Design beautiful invitations and programs for your events.',
+      title: t('catalog.event_program_title'),
+      subtitle: t('catalog.event_program_subtitle'),
+      description: t('catalog.event_program_desc'),
       icon: <FaUsers />,
-      path: '/create/community',
-      color: 'bg-slate-700',
+      path: '/create/event-program',
+      color: 'bg-red-600',
       tag: 'Event'
     }
   ];
@@ -229,14 +242,16 @@ const Documents = () => {
               className="flex items-center gap-2 text-[#B91C1C] text-[10px] font-black uppercase tracking-[0.4em]"
             >
               <span className="w-1.5 h-1.5 bg-[#B91C1C] rounded-full" />
-              Document Studio
+              {t('documents.studio_title')}
             </motion.div>
             <motion.h1 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               className="text-6xl font-black text-[#1F2937] tracking-tighter"
             >
-              Select <span className="text-[#B91C1C]">Expertise</span>
+              <Trans i18nKey="documents.select_expertise">
+                Select <span className="text-[#B91C1C]">Expertise</span>
+              </Trans>
             </motion.h1>
           </div>
 
@@ -249,7 +264,7 @@ const Documents = () => {
             <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#B91C1C] transition-colors" />
             <input 
               type="text" 
-              placeholder="Search templates..."
+              placeholder={t('common.search_templates')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-100 font-bold text-sm text-[#111827] outline-none transition-all"
@@ -330,7 +345,7 @@ const Documents = () => {
                         {isArchive ? item.doc_type : item.tag}
                       </span>
                       <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#1F2937] group-hover:text-[#B91C1C] transition-colors">
-                        {isArchive ? 'Details' : (isShowcase ? 'Create Sample' : 'Start Creating')}
+                        {isArchive ? t('common.details', 'Details') : (isShowcase ? t('common.create_sample', 'Create Sample') : t('common.start_creating'))}
                         <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-[#B91C1C] group-hover:text-white transition-all">
                           <FaArrowRight size={10} />
                         </div>
@@ -343,8 +358,8 @@ const Documents = () => {
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto text-gray-200 mb-6">
                     <FaSearch size={30} />
                   </div>
-                  <h3 className="text-xl font-black text-[#1F2937]">No Matches Found</h3>
-                  <p className="text-gray-400 font-medium text-sm">We couldn't find any templates for "{searchQuery}"</p>
+                  <h3 className="text-xl font-black text-[#1F2937]">{t('documents.no_matches')}</h3>
+                  <p className="text-gray-400 font-medium text-sm">{t('documents.no_matches_desc', "We couldn't find any templates for") + ` "${searchQuery}"`}</p>
                 </div>
               )}
             </motion.div>
@@ -362,15 +377,22 @@ const Documents = () => {
               <FaHistory />
             </div>
             <div>
-              <p className="text-[10px] font-black text-[#1F2937] uppercase tracking-[0.2em] mb-1">Historical Archive</p>
-              <p className="text-xs text-gray-400 font-medium tracking-tight">Access your saved collection of <span className="text-[#B91C1C] font-bold">{documents?.length || 0}</span> documents.</p>
+              <p className="text-[10px] font-black text-[#1F2937] uppercase tracking-[0.2em] mb-1">{t('documents.historical_archive')}</p>
+              <p className="text-xs text-gray-400 font-medium tracking-tight">
+                <Trans 
+                  i18nKey="documents.archive_desc" 
+                  values={{ count: documents?.length || 0 }}
+                >
+                  Access your saved collection of <span className="text-[#B91C1C] font-bold">0</span> documents.
+                </Trans>
+              </p>
             </div>
           </div>
           <button 
             onClick={() => navigate('/documents/archive')}
             className="px-8 py-4 bg-[#1F2937] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#B91C1C] transition-all shadow-xl hover:shadow-red-900/20 active:scale-95"
           >
-            Manage My Archive
+            {t('documents.my_archive')}
           </button>
         </motion.div>
 

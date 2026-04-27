@@ -15,13 +15,16 @@ import { useNavigate } from 'react-router-dom';
 import { removeDocument } from '../../features/documents/documentsSlice';
 import type { AppDispatch } from '../../store/store';
 
+import { generateClientPDF } from '../../utils/pdfGenerator';
+import { startFactory, stopFactory } from '../../store/uiSlice';
+
 interface DocumentPreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   document: any;
 }
 
-const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOpen, onClose, document }) => {
+export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOpen, onClose, document }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -47,11 +50,19 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOpen, onC
     onClose();
   };
 
-  const handleDownload = () => {
-    // Trigger download logic (to be audited in backend)
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-    window.open(`${baseUrl}/api/documents/${document.id}/download/`, '_blank');
+  const handleDownload = async () => {
+    try {
+      dispatch(startFactory("Retrieving and assembling archived document..."));
+      await generateClientPDF(document.doc_type, document.content, document.title || 'document');
+    } catch (err) {
+      console.error('Failed to generate PDF:', err);
+      alert('Failed to generate PDF on the client side.');
+    } finally {
+      dispatch(stopFactory());
+    }
   };
+
+
 
   return (
     <AnimatePresence>
