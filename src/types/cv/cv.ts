@@ -9,7 +9,7 @@ export interface User {
   is_staff?: boolean;
   is_active?:boolean;
   is_superuser?: boolean;
-  role?: "admin" | "user";
+  role?: "admin" | "agent" | "customer";
   career_objectives: CareerObjective[];
   personal_details: PersonalDetails;
   profile: Profile;                // singular now
@@ -20,6 +20,10 @@ export interface User {
   work_experiences: WorkExperience[];
   references: Reference[];
   achievement_profile: AchievementProfile;
+  credit?: {
+    downloads_remaining: number;
+    total_credits: number;
+  };
   enhanced_data?: User; 
 }
 

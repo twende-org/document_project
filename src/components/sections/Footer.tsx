@@ -1,45 +1,50 @@
-import image from "../../assets/image2.jpg";
+import { Link } from "react-router-dom";
 import { PiInstagramLogoThin } from "react-icons/pi";
 import { FaXTwitter } from "react-icons/fa6";
 import { SlSocialFacebook } from "react-icons/sl";
+
 const Footer = () => {
   return (
-    <section className="relative h-96 w-screen mt-auto text-white">
-      <img
-        src={image}
-        alt="Footer background"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-
-      <div className="absolute inset-0 bg-black/50" />
-
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
-        <h2 className="text-3xl font-bold mb-4">Stay Connected</h2>
-        <p className="mb-4 max-w-xl">
-          Follow us on social media and subscribe to our newsletter for updates.
-        </p>
-        <div className="flex space-x-6">
-          <a href="#" className="hover:underline text-white">
-            <span>
-              <SlSocialFacebook className="text-red-500 text-4xl inline" />
-            </span>
-            Facebook
-          </a>
-          <a href="#" className="hover:underline text-white inline">
-            <span>
-              <FaXTwitter className="text-red-500 text-4xl inline" />
-            </span>{" "}
-            Twitter
-          </a>
-          <a href="#" className="hover:underline text-white inline">
-            <span>
-              <PiInstagramLogoThin className="text-red-500 text-4xl inline" />
-            </span>{" "}
-            Instagram
-          </a>
+    <footer className="bg-charcoal text-white py-24 border-t border-white/5">
+      <div className="container mx-auto px-6">
+        <div className="grid md:grid-cols-4 gap-12 mb-16">
+          <div className="col-span-2">
+            <h2 className="text-2xl font-black tracking-tighter uppercase mb-6">
+              Twende <span className="text-redMain border-l-2 border-redMain/20 pl-2 ml-2">Documents</span>
+            </h2>
+            <p className="text-white/40 text-sm font-medium max-w-sm leading-loose">
+              The precision document architecture platform for individuals and agents. Engineered for clarity, reliability, and professional impact.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-redMain mb-8">Navigation</h4>
+            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-white/60">
+              <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
+              <li><Link to="/documents" className="hover:text-white transition-colors">Documents</Link></li>
+              <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
+              <li><Link to="/help" className="hover:text-white transition-colors">Help Center</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-redMain mb-8">Connect</h4>
+            <div className="flex gap-6">
+              {[<SlSocialFacebook />, <FaXTwitter />, <PiInstagramLogoThin />].map((icon, i) => (
+                <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xl hover:bg-redMain transition-all">
+                  {icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">© 2026 Twende Documents. All Rights Reserved.</p>
+           <div className="flex gap-8 text-[8px] font-black uppercase tracking-widest text-white/20">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+           </div>
         </div>
       </div>
-    </section>
+    </footer>
   );
 };
 

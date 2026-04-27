@@ -6,13 +6,17 @@ import Loader from "./components/Loader";
 import "./index.css";
 
 import { routes, documentRoutes, myDocumentsRoutes, type pageRouteConfig } from "./routes/pageRouteConfig";
-import { useSelector } from "react-redux";
-import type { RootState } from "./store/store";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState, AppDispatch } from "./store/store";
 import OfflineWrapper from "./components/Offline/OfflineWrapper";
 import { refreshAccessToken } from "./api/refreshToken";
+import { fetchUserProfile, restoreSession } from "./features/auth/authSlice";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import { RiArrowDropDownFill } from "react-icons/ri";
 import TopNav from "./components/navigation/TopNav";
+import { SignInModal } from "./components/auth/SignInModal";
+import { openSignInModal } from "./store/uiSlice";
 
 
 const Head = ({ title, description }: { title: string; description?: string }) => {
@@ -38,6 +42,7 @@ function App() {
   const [initialLoad, setInitialLoad] = useState(true);
 
   const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
 
   const user = useSelector((state: RootState) => state.auth.user);
   const isAdmin = user?.is_staff || user?.is_superuser;
@@ -54,24 +59,31 @@ function App() {
     root.classList.add(theme);
   }, [theme]);
 
-  const [signInOpen, setSignInOpen] = useState(false);
-  const closeSignIn = () => setSignInOpen(false);
-
   const [topNavOpen, setTopNavOpen] = useState(false);
 
 useEffect(() => {
   (async () => {
     try {
+      // 1. Restore local session to Redux
+      dispatch(restoreSession());
+
+      const isAuthPage = location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/verify-email";
+
       const newToken = await refreshAccessToken();
-      if (!newToken) setSignInOpen(true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (!newToken && !isAuthPage) {
+        dispatch(openSignInModal());
+      } else if (newToken) {
+        // 2. Refresh tokens & restore profile
+        dispatch(restoreSession()); // Re-sync after refresh
+        dispatch(fetchUserProfile());
+      }
     } catch (err) {
       console.error("Token refresh failed", err);
     } finally {
-      setInitialLoad(false); // ✅ Stop loader
+      setInitialLoad(false);
     }
   })();
-}, []);
+}, [dispatch]);
 
 
   if (initialLoad) return <Loader message="Loading SmartDocs..." />;
@@ -105,8 +117,7 @@ useEffect(() => {
           <TopNav />
         </div>
 
-        <div className="bg-redBg/30 dark:bg-grayBg/30 backdrop-blur-md">
-          <MobileNavBar />
+        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
           <NavBar />
         </div>
       </div>
@@ -122,10 +133,12 @@ useEffect(() => {
                   key={route.path}
                   path={route.path}
                   element={
-                    <>
-                      {route.seo && <Head title={route.seo.title} description={route.seo.description} />}
-                      <Element />
-                    </>
+                    <ProtectedRoute signedIn={route.signedIn}>
+                      <>
+                        {route.seo && <Head title={route.seo.title} description={route.seo.description} />}
+                        <Element />
+                      </>
+                    </ProtectedRoute>
                   }
                 />
               );
@@ -138,6 +151,7 @@ useEffect(() => {
       {location.pathname !== "/create/cv" && <Footer />}
 
       {/* SignIn Modal */}
+      <SignInModal />
     </div>
   );
 }

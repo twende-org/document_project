@@ -15,6 +15,7 @@ import {
   previousStep as previousStepAction,
   submitRisala
 } from "../../features/risala/risalaSlice";
+import { DocumentService } from "../../documents/DocumentService";
 
 type RisalaFormData = z.infer<typeof risalaSchema>;
 type FieldName = keyof RisalaFormData;
@@ -157,7 +158,15 @@ const onSubmit = async (data: RisalaFormData) => {
     console.log("Submitting backend payload:", backendPayload);
 
     // 2. Dispatch submit action
-    await dispatch(submitRisala(backendPayload));
+    const action = await dispatch(submitRisala(backendPayload));
+    
+    if (submitRisala.fulfilled.match(action)) {
+        const id = action.payload.raw_data?.id;
+        if (id) {
+            await DocumentService.downloadPDF(id);
+            alert("Risala created and download started!");
+        }
+    }
 
     // 3. Clear the form after successful submit
     reset({

@@ -2,75 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base Global Styles */
-html, body {
-  @apply font-sans min-h-screen transition-colors duration-300;
-  background-color: var(--bg);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
-}
-
-/* =============================
-   THEME DEFINITIONS
-============================= */
-
-/* Default (Light) Theme */
-:root,
-html.light {
-  --bg: #ffffff;
-  --text: #4B5563;
-  --red-main: #DC2626;
-  --subheading-gray: #374151;
-}
-
-
-
-/* Dark Theme */
-html.dark {
-  --bg: #1F2937; /* deep dark gray */
-  --text: #F3F4F6; /* soft white */
-  --red-main: #F87171; /* brighter red */
-  --subheading-gray: #D1D5DB;
-}
-
-/* Professional Theme */
-html.professional {
-  --bg: #FEE2E2;
-  --text: #374151;
-  --red-main: #DC2626;
-  --subheading-gray: #374151;
-}
-
-/* =============================
-   Utility Mappings
-============================= */
-@layer utilities {
-  .bg-background {
-    background-color: var(--bg);
+@layer base {
+  :root {
+    --primary: #B91C1C;
+    --secondary: #1F2937;
+    --neutral-light: #F9FAFB;
   }
-  .text-text {
-    color: var(--text);
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  .text-primary {
-    color: var(--red-main);
+
+  body {
+    @apply bg-neutral-light text-secondary font-sans;
+    line-height: 1.6;
   }
-  .text-subheading {
-    color: var(--subheading-gray);
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-secondary font-black tracking-tighter;
+  }
+
+  /* Standard transitions for premium feel */
+  * {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-primary/10 text-primary;
   }
 }
 
-.light-theme {
-  --bg: #ffffff;
-  --text: #374151;
-  --red-main: #dc2626;
-  --subheading-gray: #374151;
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-8 py-4 rounded-button font-bold uppercase tracking-widest text-action shadow-red-glow hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
 
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
+  .btn-secondary {
+    @apply bg-secondary text-white px-8 py-4 rounded-button font-bold uppercase tracking-widest text-action shadow-premium hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-secondary border-2 border-secondary/10 px-8 py-4 rounded-button font-bold uppercase tracking-widest text-action hover:bg-secondary/5;
+  }
+
+  .card-premium {
+    @apply bg-white p-8 rounded-card shadow-premium border border-neutral-border hover:border-primary/20 hover:scale-[1.02];
+  }
+  
+  .input-premium {
+    @apply w-full bg-white border-2 border-neutral-border focus:border-primary focus:ring-4 focus:ring-primary/10 p-6 rounded-button font-bold text-secondary outline-none placeholder:opacity-50;
+  }
+
+  .label-premium {
+    @apply text-action text-secondary/60 mb-2 block uppercase;
+  }
 }
 
-.light-theme * {
-  color: inherit !important;
-  background-color: inherit !important;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-light;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary/10 rounded-full hover:bg-primary/20;
 }

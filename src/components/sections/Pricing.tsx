@@ -1,56 +1,67 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { FaCheck, FaCrown } from "react-icons/fa";
 
 interface PricingCardProps {
   name: string;
   price: string;
-  downloads: number;
+  credits: number;
+  isPopular?: boolean;
   onBuy?: () => void;
+  description: string;
 }
 
-const PricingCard: React.FC<PricingCardProps> = ({ name, price, downloads, onBuy }) => {
-  const navigate = useNavigate();
-
-  const handleBuy = () => {
-    if (onBuy) {
-      return onBuy(); // use parent handler if provided
-    }
-
-    navigate("/payment", {
-      state: { planName: name, price, downloads },
-    });
-  }; // ← FIXED: this closing brace was missing!!
-
+const PricingCard: React.FC<PricingCardProps> = ({ name, price, credits, isPopular, onBuy, description }) => {
   return (
-    <div className="max-w-sm mx-auto border rounded-lg p-8 shadow-md bg-background border-redMain">
-      <h2 className="text-2xl font-semibold mb-4 text-center text-primary">{name}</h2>
+    <div className={`card-premium group relative flex flex-col h-full bg-white transition-all duration-500 hover:-translate-y-4 ${isPopular ? 'border-2 border-primary shadow-2xl' : 'border border-secondary/5'}`}>
+      {isPopular && (
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-[0.4em] px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
+          <FaCrown /> Agent Choice
+        </div>
+      )}
+      
+      <div className="p-8 pb-0">
+        <h3 className="text-xs font-black text-secondary/40 uppercase tracking-[0.4em] mb-4">{name}</h3>
+        <div className="flex items-baseline gap-2 mb-4">
+          <span className="text-5xl font-black text-secondary tracking-tighter tabular-nums group-hover:text-primary transition-colors">
+            {parseInt(price).toLocaleString()}
+          </span>
+          <span className="text-xs font-bold text-secondary/40 uppercase">TZS</span>
+        </div>
+        <p className="text-xs font-bold text-secondary/60 leading-relaxed uppercase tracking-tight mb-8">
+          {description}
+        </p>
+      </div>
 
-      <p className="text-center text-4xl font-extrabold mb-6 text-primary">
-        {price} TZS
-        <span className="text-lg font-normal text-subheading"> / pack</span>
-      </p>
+      <div className="px-8 flex-1">
+         <div className="bg-neutral-light p-6 rounded-card border border-secondary/5 mb-8">
+            <div className="flex items-center justify-between">
+               <span className="text-[10px] font-black text-secondary uppercase tracking-widest">Included Credits</span>
+               <span className="text-xl font-black text-primary group-hover:scale-110 transition-transform">{credits}</span>
+            </div>
+         </div>
+         
+         <ul className="space-y-4 mb-12">
+            {[
+              'Instant PDF Generation',
+              'Cloud Auto-Save',
+              'AI Search Optimization',
+              'Priority Support'
+            ].map((feature, i) => (
+              <li key={i} className="flex items-center gap-3 text-[10px] font-black text-secondary/60 uppercase tracking-widest leading-none">
+                <FaCheck className="text-primary" /> {feature}
+              </li>
+            ))}
+         </ul>
+      </div>
 
-      <ul className="mb-8 space-y-3 text-subheading">
-        <li className="flex items-center">
-          <svg
-            className="w-6 h-6 mr-2 text-primary flex-shrink-0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          {downloads} CV downloads included
-        </li>
-      </ul>
-
-      <button
-        onClick={handleBuy}
-        className="w-full py-3 rounded-lg font-semibold bg-redMain text-white hover:bg-red-600 transition-colors duration-300"
-      >
-        Buy Now
-      </button>
+      <div className="p-8 pt-0 mt-auto">
+        <button
+          onClick={onBuy}
+          className={`w-full py-6 rounded-button font-black uppercase tracking-[0.4em] text-xs transition-all duration-300 flex items-center justify-center gap-3 ${isPopular ? 'bg-secondary text-white hover:bg-charcoal' : 'bg-primary text-white hover:bg-red-700'}`}
+        >
+          Buy Credits
+        </button>
+      </div>
     </div>
   );
 };

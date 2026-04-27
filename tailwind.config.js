@@ -5,35 +5,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        redMain: 'var(--red-main)', // use CSS variables directly
-        subHeadingGray: 'var(--subheading-gray)',
-        text: 'var(--text)',
-        background: 'var(--bg)',
+        primary: '#B91C1C',    // Deep Red
+        secondary: '#1F2937',  // Charcoal
+        neutral: {
+          light: '#F9FAFB',
+          border: '#E5E7EB',
+        },
+        redMain: '#B91C1C', // Backwards compatibility
+        charcoal: '#1F2937', // Backwards compatibility
+        neutralLight: '#F9FAFB', // Backwards compatibility
       },
-      container: {
-        center: true,
-        padding: {
-          DEFAULT: '1rem',
-          sm: '2rem',
-          lg: '4rem',
-          xl: '5rem',
-        },
-        screens: {
-          sm: '640px',
-          md: '768px',
-          lg: '1024px',
-          xl: '1280px',
-          '2xl': '1536px',
-        },
+      borderRadius: {
+        'button': '1.5rem',
+        'card': '2.5rem',
+      },
+      boxShadow: {
+        'premium': '0 25px 50px -12px rgba(31, 41, 55, 0.08)',
+        'red-glow': '0 10px 15px -3px rgba(185, 28, 28, 0.15)',
       },
       fontFamily: {
-        sans: ['"Times New Roman"', 'serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontSize: {
+        'display': ['2.5rem', { lineHeight: '1.1', fontWeight: '900', letterSpacing: '-0.05em' }],
+        'heading': ['1.875rem', { lineHeight: '1.2', fontWeight: '700', letterSpacing: '-0.02em' }],
+        'base': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'action': ['0.75rem', { lineHeight: '1', fontWeight: '700', letterSpacing: '0.1em' }],
         h1: ['2rem', { lineHeight: '2.5rem', fontWeight: '700' }],
         h2: ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],
-        base: ['1rem', { lineHeight: '1.75rem', fontWeight: '400' }],
-        button: ['1rem', { lineHeight: '1.5rem', fontWeight: '600' }],
       },
       spacing: {
         '1': '0.25rem',
@@ -59,11 +58,11 @@ export default {
       typography: {
         DEFAULT: {
           css: {
-            color: 'var(--text)',
-            a: { color: 'var(--red-main)' },
-            h1: { color: 'var(--red-main)' },
-            h2: { color: 'var(--subheading-gray)' },
-            p: { color: 'var(--text)' },
+            color: '#1F2937',
+            a: { color: '#B91C1C' },
+            h1: { color: '#1F2937' },
+            h2: { color: '#1F2937' },
+            p: { color: '#1F2937' },
           },
         },
       },

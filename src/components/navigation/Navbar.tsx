@@ -1,158 +1,158 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RiMenuLine } from "react-icons/ri";
 import { TfiClose } from "react-icons/tfi";
-import { DropdownMenu } from "./DropdownMenu";
 import { Logo } from "./Logo";
+import { UserMenu } from "./UserMenu";
 import { routes } from "../../routes/pageRouteConfig";
 import type { RootState } from "../../store/store";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const NavBar = () => {
+  const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const user = useSelector((state: RootState) => state.auth.user);
-  const isAdmin = user?.is_staff || user?.is_superuser;
+  const isAdminOrAgent = user?.role === "admin" || user?.role === "agent";
+  const navLinks = ["Home", "Documents", "Agent Station", "Pricing", "Help"];
+  if (isAdminOrAgent) {
+    navLinks.push("Panel");
+  }
 
   return (
-    <div className="w-full">
-      <nav className="hidden md:flex container mx-auto px-6 py-3 justify-between items-center">
-        <div className="text-2xl text-text bg-redBg/30 dark:bg-grayBg/30 backdrop-blur-md">
+    <div className={`w-full sticky top-0 z-50 transition-all duration-300 ${
+      isScrolled ? "bg-secondary/95 backdrop-blur-md shadow-xl py-2" : "bg-secondary py-4"
+    }`}>
+      <nav className="hidden md:flex container mx-auto px-6 justify-between items-center">
+        <Link to="/" className="transition-transform hover:scale-105 active:scale-95">
           <Logo />
-        </div>
-        <ul className="flex gap-8 items-center">
+        </Link>
+        
+        <ul className="flex gap-10 items-center">
           {routes
-            .filter((link) => link.forNav)
-            .filter((link) => !(user && (link.path === "/signin" || link.path === "/signup")))
-            .filter((link) => !link.signedIn || user)
-            .map((link) => {
-              if (link.path === "/panel" && !isAdmin) return null;
-
-              const activeDropdownItems = link.dropdown?.filter((item) => item.active) || [];
-              if (activeDropdownItems.length > 0) {
-                return <DropdownMenu key={link.name} title={link.name} items={activeDropdownItems} />;
-              }
-
-              if (!link.dropdown) {
-                return (
-                  <li key={link.name}>
-                    <NavLink
-                      to={link.path}
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-text dark:text-text text-lg transition"
-                          : "text-primary text-lg hover:text-redMain transition"
-                      }
-                    >
-                      {link.name}
-                    </NavLink>
-                  </li>
-                );
-              }
-              return null;
-            })}
-
-          {routes
-            .filter((r) => r.showAsButton)
-            .filter((r) => !(user && (r.path === "/signin" || r.path === "/signup")))
-            .filter((r) => !r.signedIn || user)
-            .map((r) => (
-              <li key={r.name}>
-                <Link
-                  to={r.path}
-                  className="bg-redMain text-white font-semibold px-6 py-2 rounded-full hover:bg-redMain hover:border-redMain/50 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+            .filter((link) => navLinks.includes(link.name))
+            .map((link) => (
+              <li key={link.name}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
+                      isActive
+                        ? "text-primary border-b-2 border-primary pb-1"
+                        : "text-white/70 hover:text-white"
+                    }`
+                  }
                 >
-                  {r.name}
-                </Link>
+                  {link.name}
+                </NavLink>
               </li>
             ))}
+
+          <li>
+            <NavLink
+              to="/create"
+              className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-900/20 active:scale-95"
+            >
+              Create
+            </NavLink>
+          </li>
+          <li>
+            <UserMenu />
+          </li>
         </ul>
       </nav>
+      <MobileNavBar />
     </div>
   );
 };
 
 export const MobileNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state: RootState) => state.auth.user);
-  const isAdmin = user?.is_staff || user?.is_superuser;
-
   const handleToggle = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+  const location = useLocation();
+
+  const user = useSelector((state: RootState) => state.auth.user);
+  const isAdminOrAgent = user?.role === "admin" || user?.role === "agent";
+  const navLinks = ["Home", "Documents", "Pricing", "Agent Station", "Help"];
+  if (isAdminOrAgent) {
+    navLinks.push("Panel");
+  }
 
   return (
-    <nav className="md:hidden px-4 py-3 bg-background text-text">
-      <div className="flex justify-between items-center">
-        <div className="text-xl font-bold text-primary">
-          <Logo />
-        </div>
-        <button
-          onClick={handleToggle}
-          className="text-primary text-3xl focus:outline-none p-2 rounded-full transition-colors"
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <TfiClose /> : <RiMenuLine />}
-        </button>
-      </div>
+    <nav className="md:hidden px-6 h-16 flex items-center justify-between">
+      <Link to="/" onClick={closeMenu} className="relative z-[10000]">
+        <Logo />
+      </Link>
+      
+      <button
+        onClick={handleToggle}
+        className="relative z-[10000] text-white text-2xl focus:outline-none w-10 h-10 flex items-center justify-center bg-white/5 rounded-xl border border-white/10 active:scale-90 transition-all"
+      >
+        {isOpen ? <TfiClose /> : <RiMenuLine />}
+      </button>
 
-      {isOpen && (
-        <ul className="flex flex-col items-start gap-4 mt-4 pb-4">
-          {routes
-            .filter((link) => link.forNav)
-            // hide Sign In / Sign Up if user is logged in
-            .filter((link) => !(user && (link.path === "/signin" || link.path === "/signup")))
-            .filter((link) => !link.signedIn || user)
-            .map((link) => {
-              if (link.path === "/panel" && !isAdmin) return null;
-
-              const activeDropdownItems = link.dropdown?.filter((item) => item.active) || [];
-              if (activeDropdownItems.length > 0) {
-                return (
-                  <DropdownMenu
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "100vh", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="fixed inset-0 bg-secondary z-[9999] overflow-hidden pt-24 pb-12 px-8 flex flex-col"
+          >
+            <div className="flex flex-col gap-6 py-12">
+              {routes
+                .filter((link) => navLinks.includes(link.name))
+                .sort((a, b) => navLinks.indexOf(a.name) - navLinks.indexOf(b.name))
+                .map((link, idx) => (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 + idx * 0.05 }}
                     key={link.name}
-                    title={link.name}
-                    items={activeDropdownItems}
-                    onItemClick={closeMenu}
-                  />
-                );
-              }
-
-              if (!link.dropdown) {
-                return (
-                  <li key={link.name} className="w-full">
+                  >
                     <NavLink
                       to={link.path}
                       onClick={closeMenu}
                       className={({ isActive }) =>
-                        isActive
-                          ? "text-text dark:text-text text-lg transition"
-                          : "text-primary text-lg hover:text-redMain transition"
+                        `text-4xl font-black uppercase tracking-tighter ${
+                          isActive ? "text-primary" : "text-white"
+                        }`
                       }
                     >
                       {link.name}
                     </NavLink>
-                  </li>
-                );
-              }
-              return null;
-            })}
+                  </motion.div>
+                ))}
+            </div>
 
-          {routes
-            .filter((r) => r.showAsButton)
-            // hide Sign In / Sign Up buttons if user is logged in
-            .filter((r) => !(user && (r.path === "/signin" || r.path === "/signup")))
-            .filter((r) => !r.signedIn || user)
-            .map((r) => (
-              <li key={r.name} className="w-full mt-2">
-                <Link
-                  to={r.path}
-                  onClick={closeMenu}
-                  className="bg-redMain text-white font-semibold px-6 py-3 rounded-full hover:bg-redMain hover:border-redMain/50 hover:shadow-lg transition duration-300 ease-in-out block w-full text-center"
-                >
-                  {r.name}
-                </Link>
-              </li>
-            ))}
-        </ul>
-      )}
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mt-auto flex flex-col gap-4"
+            >
+              <UserMenu />
+              <Link
+                to="/create"
+                onClick={closeMenu}
+                className="w-full h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-sm font-black uppercase tracking-widest shadow-2xl shadow-red-900/40"
+              >
+                Create New Document
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

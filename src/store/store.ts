@@ -9,7 +9,6 @@ import skillsReducer from "../features/skills/skillsSlice";
 import languagesReducer from "../features/languages/languagesSlice";
 import authentReducer from "../features/auth/authSlice";
 import jobReducer from "../features/jobs/jobsSlice";
-import languageReducer from "../features/languages/languagesSlice";
 import letterReducer from "../features/letters/lettersSlice";
 import personalReducer from "../features/personalDetails/personalDetailsSlice";
 import projectsReducer from "../features/projects/projectsSlice";
@@ -19,6 +18,7 @@ import civReducer from "../features/cv/cvSlice";
 import paymentReducer from "../features/payments/paymentsSlice";
 import referenceReducer from "../features/references/referencesSlice";
 import downloadsReducer from "../features/downloads/downloadsSlice"
+import documentsReducer from "../features/documents/documentsSlice";
 import uiReducer from "../store/uiSlice"
 import risalaReducer from "../features/risala/risalaSlice";
 // import profileReducer from "../features/certificates/profileSlice";
@@ -55,17 +55,12 @@ export const store = configureStore({
     certificates: certificatesReducer,
     experiences: experienceReducer,
     skills: skillsReducer,
-    languages: languageReducer,
-    letters: letterReducer,
-    personalDetails: personalReducer,
-    projects: projectsReducer,
-    carerObjectives: carerObjectiveReducer,
-    educations: educationReducer, 
-    language: languagesReducer,
+    languages: languagesReducer,
     cv: civReducer,
     risala: risalaReducer,
     payments: paymentReducer,
      downloads: downloadsReducer,
+     documents: documentsReducer,
      ui: uiReducer,
     references: referenceReducer,
     // profile: profileReducer,

@@ -41,36 +41,36 @@ export const DropdownMenu = ({ title, items, onItemClick }: DropdownMenuProps) =
       onMouseLeave={handleMouseLeave}
     >
       <button
-        className="text-primary hover:text-redMain text-lg transition flex items-center gap-1"
+        className="text-charcoal hover:text-redMain text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-1 group"
         onClick={toggleDropdown}
       >
         {title}
-        <span className="text-subheading text-sm">
-          <RiArrowDropDownLine />
-        </span>
+        <RiArrowDropDownLine className="text-xl group-hover:rotate-180 transition-transform" />
       </button>
 
       <div
-        className={`absolute left-0 mt-1 bg-background shadow-lg rounded-lg z-[9999] w-48 transition-all duration-200 border border-gray-200 dark:border-gray-700 ${
+        className={`absolute left-0 mt-4 bg-white shadow-2xl rounded-[1.5rem] z-[9999] w-56 transition-all duration-300 border border-slate-50 overflow-hidden ${
           open ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-2"
         }`}
       >
-        {items.map((item) => (
-          <NavLink
-            key={item.name}
-            to={item.path}
-            onClick={closeDropdown}
-            className={({ isActive }) =>
-              `block px-4 py-2 text-sm transition-colors rounded-lg ${
-                isActive
-                  ? "bg-gray-600 dark:bg-gray-800 text-white text-text"
-                  : "text-text dark:text-text hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-subheading dark:hover:text-text"
-              }`
-            }
-          >
-            {item.name}
-          </NavLink>
-        ))}
+        <div className="p-2 space-y-1">
+          {items.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              onClick={closeDropdown}
+              className={({ isActive }) =>
+                `block px-6 py-4 text-[10px] font-black uppercase tracking-widest transition-all rounded-xl ${
+                  isActive
+                    ? "bg-redMain text-white shadow-lg shadow-redMain/20"
+                    : "text-charcoal hover:bg-slate-50 hover:text-redMain"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
+        </div>
       </div>
     </div>
   );

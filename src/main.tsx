@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import "./i18n"; // ✅ Initialize i18n
 import { store, persistor } from "./store/store"; // ✅ import persistor
 import { PersistGate } from "redux-persist/integration/react"; // ✅ import PersistGate
 import App from "./App";

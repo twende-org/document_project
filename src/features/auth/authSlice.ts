@@ -99,12 +99,28 @@ export const fetchCVWithAI = createAsyncThunk(
   }
 );
 
-export const registerUser = createAsyncThunk<User, { name: string; email: string; password: string }>(
+export const registerUser = createAsyncThunk<any, { 
+    first_name: string; 
+    middle_name?: string; 
+    last_name: string; 
+    email: string; 
+    password: string;
+    confirm_password: string;
+    role?: "customer" | "agent";
+}>(
     "auth/register",
     async (userData, { rejectWithValue }) => {
         try {
             const response = await register(userData);
-            return response.data;
+            const data = response.data;
+
+            // If tokens are returned (e.g. in dev mode), save them
+            if (data.access && data.refresh) {
+                localStorage.setItem('token', data.access);
+                localStorage.setItem('refreshToken', data.refresh);
+            }
+
+            return data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Failed to register');
         }
@@ -143,7 +159,6 @@ export const logoutUser = createAsyncThunk<void>(
         await logout({ refresh }); // pass refresh token to API
       }
     } catch (error: any) {
-      console.error(error.response?.data?.detail || error.message);
       return rejectWithValue(error.response?.data?.detail || "Logout failed");
     } finally {
       // Always clear local tokens
@@ -219,7 +234,12 @@ export const authSlice = createSlice({
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.status = 'succeeded';
-                state.user = action.payload;
+                // Only set user if we actually have user data (e.g. auto-activation)
+                if (action.payload.user && action.payload.access) {
+                    state.user = action.payload.user;
+                    state.access = action.payload.access;
+                    state.refresh = action.payload.refresh;
+                }
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
@@ -258,7 +278,18 @@ export const authSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.user = null;
-                state.selectedUser = null; // <-- important!
+                state.selectedUser = null; 
+                state.access = null;
+                state.refresh = null;
+                state.status = 'idle';
+                state.error = null;
+                localStorage.removeItem('token');
+                localStorage.removeItem('refreshToken');
+            })
+            .addCase(logoutUser.rejected, (state) => {
+                // Even if backend fails, we logout locally for better UX
+                state.user = null;
+                state.selectedUser = null;
                 state.access = null;
                 state.refresh = null;
                 state.status = 'idle';
@@ -333,6 +364,6 @@ export const authSlice = createSlice({
     }
 })
 
-export const { clearSelected } = authSlice.actions;
+export const { clearSelected, restoreSession } = authSlice.actions;
 
 export default authSlice.reducer;

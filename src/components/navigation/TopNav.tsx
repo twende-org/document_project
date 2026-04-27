@@ -1,39 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { clearSelected } from "../../features/auth/authSlice";
 import { type RootState } from "../../store/store";
-import ThemeToggle from "../common/ThemeToggle";
-
 
 const TopNav = () => {
   const dispatch = useAppDispatch();
   const { user, selectedUser } = useSelector((state: RootState) => state.auth);
-  const [signInIsOpen, setSignIn] = useState(false);
-  const [signUpIsOpen, setSignUp] = useState(false);
 
   const token = localStorage.getItem("token");
   const isSignedIn = !!user && !!token;
 
   useEffect(() => {
     if (selectedUser) {
-      setSignUp(true);
       dispatch(clearSelected());
     }
   }, [selectedUser, dispatch]);
 
-
-
   return (
-    <div className="w-full">
-      <div className="container mx-auto bg-background/50 dark:bg-bg backdrop-blur-md">
-        <div className="flex justify-end items-center h-12 px-4">
-       
-          <ThemeToggle />
+    <div className="w-full bg-slate-50/50 backdrop-blur-sm border-b border-slate-100/50">
+      <div className="container mx-auto">
+        <div className="flex justify-end items-center h-8 px-6 text-[8px] font-black uppercase tracking-[0.4em] text-charcoal/30">
+          Twende Precision Architecture v1.0 {isSignedIn ? `| Authenticated Session` : ""}
         </div>
       </div>
-
-      
     </div>
   );
 };

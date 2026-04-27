@@ -1,0 +1,12 @@
+
+> my_platform@0.0.0 build
+> tsc -b && vite build
+
+src/api/services/documentsApi.ts(2,10): error TS2724: '"../endpoints"' has no exported member named 'DOCUMENTS_ENDPOINTS'. Did you mean 'PAYMENTS_ENDPOINTS'?
+src/documents/invoice/InvoiceManager.tsx(3,10): error TS2614: Module '"./PDFTemplate"' has no exported member 'InvoicePDF'. Did you mean to use 'import InvoicePDF from "./PDFTemplate"' instead?
+src/documents/invoice/InvoiceManager.tsx(6,10): error TS1484: 'InvoiceContent' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/documents/invoice/InvoiceManager.tsx(16,13): error TS2741: Property 'id' is missing in type '{ description: string; quantity: number; unitPrice: number; }' but required in type 'InvoiceItem'.
+src/documents/invoice/InvoiceManager.tsx(45,11): error TS2322: Type '{ initialContent: InvoiceContent; onSave: (newContent: InvoiceContent) => Promise<void>; isLoading: boolean; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'initialContent' does not exist on type 'IntrinsicAttributes'.
+src/documents/invoice/InvoiceManager.tsx(72,25): error TS2322: Type '{ content: InvoiceContent; }' is not assignable to type 'IntrinsicAttributes & InvoicePreviewProps'.
+  Property 'content' does not exist on type 'IntrinsicAttributes & InvoicePreviewProps'.

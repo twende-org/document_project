@@ -40,7 +40,9 @@ const getPersistedAuth = () => {
       refresh: sanitizeToken(refresh),
     };
   } catch (e) {
-    console.warn("getPersistedAuth parse error:", e);
+    if (import.meta.env.DEV) {
+      console.warn("getPersistedAuth parse error:", e);
+    }
     return null;
   }
 };
@@ -112,16 +114,19 @@ axiosClient.interceptors.response.use(
 
       const refreshToken = getRefreshToken();
 
-      // 🧩 Log the refresh token for debugging
-      console.groupCollapsed("🔁 Token Refresh Debug");
-      console.log("BASE_URL:", BASE_URL);
-      console.log("Raw refresh token:", localStorage.getItem("refreshToken"));
-      console.log("Parsed persisted refresh token:", getPersistedAuth()?.refresh);
-      console.log("Final sanitized refresh token being sent:", refreshToken);
-      console.groupEnd();
+      if (import.meta.env.DEV) {
+        console.groupCollapsed("🔁 Token Refresh Debug");
+        console.log("BASE_URL:", BASE_URL);
+        console.log("Raw refresh token:", localStorage.getItem("refreshToken"));
+        console.log("Parsed persisted refresh token:", getPersistedAuth()?.refresh);
+        console.log("Final sanitized refresh token being sent:", refreshToken);
+        console.groupEnd();
+      }
 
       if (!refreshToken) {
-        console.warn("🚫 No refresh token found, clearing auth and redirecting.");
+        if (import.meta.env.DEV) {
+          console.warn("🚫 No refresh token found, clearing auth and redirecting.");
+        }
         clearAuth();
         window.location.href = "/";
         return Promise.reject(error);
@@ -130,8 +135,9 @@ axiosClient.interceptors.response.use(
       try {
         const res = await axios.post(`${BASE_URL}/auth/token/refresh/`, { refresh: refreshToken });
 
-        // 🧩 Log the backend response
-        console.log("✅ Token refresh response:", res.data);
+        if (import.meta.env.DEV) {
+          console.log("✅ Token refresh response:", res.data);
+        }
 
         const newAccessToken = sanitizeToken(res.data.access) || "";
         const newRefreshToken = sanitizeToken(res.data.refresh) || refreshToken;
@@ -158,7 +164,9 @@ axiosClient.interceptors.response.use(
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
         return axiosClient(originalRequest);
       } catch (err) {
-        console.error("❌ Token refresh failed:", err);
+        if (import.meta.env.DEV) {
+          console.error("❌ Token refresh failed:", err);
+        }
         processQueue(err, null);
         isRefreshing = false;
         clearAuth();

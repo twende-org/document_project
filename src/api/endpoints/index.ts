@@ -115,3 +115,9 @@ export const RISALA_ENDPOINTS = {
   aiGenerate: "/api/risala/ai/generate/", // AI generation
 };
 
+export const DOCUMENTS_ENDPOINTS = {
+  list: "api/documents/",
+  detail: (id: number) => `api/documents/${id}/`,
+  polish: (id: number) => `api/documents/${id}/polish/`,
+  download: (id: number) => `api/documents/${id}/download_pdf/`,
+};

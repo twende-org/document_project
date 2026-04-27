@@ -3,23 +3,27 @@ import Help from "../pages/Help";
 import Pricing from "../pages/Pricing";
 import Documents from "../pages/Documents";
 import CVTemplates from "../pages/CVTemplates";
-import CreateDocs from "../pages/CreateDocs";
-import CvDocument from "../pages/CvDocument";
-import CVPage from "../pages/ProfileCVDetails";
+import CVArchitect from "../documents/cv/Editor";
+import InvoiceEditor from "../documents/invoice/Editor";
+import LetterEditor from "../documents/letter/Editor";
 import Dashboard from "../pages/Dashboard";
-import CreateOfficialLetter from "../pages/CreateOfficialLetter";
-import OfficialLetter from "../pages/OfficialLetter";
+import AgentDashboard from "../pages/AgentDashboard";
 import { Verification } from "../components/sections/Verification";
-import AllDocuments from "../pages/AllDocuments";
 import MyCv from "../pages/MyCv";
 import CreateDocument from "../pages/CreateDocument";
-import CVEditor from "../pages/CVEditor";
+import AllDocuments from "../pages/AllDocuments";
 import PDFReports from "../pages/PDFReports";
+import Affidavit from "../pages/Affidavit";
+import AcademicDocs from "../pages/AcademicDocs";
+import CommunityDocs from "../pages/CommunityDocs";
 import SignUpPage from "../components/auth/SignUp";
 import { SignInPage } from "../components/auth/SignIn";
 import PaymentComponent from "../components/sections/PaymentComponent";
 import RisalaForm from "../components/forms/RisalaForm";
-import  RisalaTemplate  from "../pages/RisalaTemplate";
+import RisalaTemplate from "../pages/RisalaTemplate";
+import CreateDocs from "../pages/CreateDocs";
+import CvDocument from "../pages/CvDocument";
+import OfficialLetter from "../pages/OfficialLetter";
 export interface pageRouteConfig<P = any> {
   forNav?: boolean;
   path: string;
@@ -60,6 +64,18 @@ export const routes: pageRouteConfig[] = [
     seo: {
       title: "Smart Docs - Dashboard",
       description: "Dashboard overview for Smart Docs users. Manage your documents and activities."
+    }
+  },
+  {
+    forNav: true,
+    path: "/agent/dashboard",
+    element: AgentDashboard,
+    name: "Agent Station",
+    layout: true,
+    signedIn: true,
+    seo: {
+      title: "Twende Docs - Agent Station",
+      description: "High-speed document command center for stationery shop agents."
     }
   },
   {
@@ -151,12 +167,9 @@ export const routes: pageRouteConfig[] = [
     layout: true,
     signedIn:true,
     dropdown: [
-      { name: "CV", path: "/create/cv", active: true },
-      { name: "Official Letter", path: "/create/official-letter", active: false },
-      { name: "PDF Reports", path: "/create/pdf-reports", active: false },
-      { name: "New Portfolio", path: "/create/portfolio", active: false },
-      { name: "New Certificate", path: "/create/certificate", active: false },
-      { name: "Risala", path: "/create/risala", active: true },
+      { name: "CV Architect", path: "/create/cv", active: true },
+      { name: "Invoice Architect", path: "/create/invoice", active: true },
+      { name: "Letter Architect", path: "/create/letter", active: true },
     ],
     seo: {
       title: "Smart Docs - Create Documents",
@@ -176,36 +189,24 @@ export const routes: pageRouteConfig[] = [
   },
   {
     forNav: false,
-    path: "/create/official-letter",
-    element: CreateOfficialLetter,
-    name: "Create Official Letter",
+    path: "/create/cv",
+    element: CVArchitect,
+    name: "CV Architect",
     layout: true,
-    seo: {
-      title: "Smart Docs - Create Official Letter",
-      description: "Create professional official letters for work or personal use."
-    }
   },
-    {
+  {
     forNav: false,
-    path: "/create/risala",
-    element: RisalaForm,
-    name: "Create Risala",
+    path: "/create/invoice",
+    element: InvoiceEditor,
+    name: "Invoice Architect",
     layout: true,
-    seo: {
-      title: "Smart Docs - Create Risala",
-      description: "Create professional Risala for work or personal use."
-    }
   },
-      {
+  {
     forNav: false,
-    path: "/documents/templates/risala",
-    element: RisalaTemplate,
-    name: "Risala Template",
+    path: "/create/letter",
+    element: LetterEditor,
+    name: "Letter Architect",
     layout: true,
-    seo: {
-      title: "Smart Docs - Template Risala",
-      description: "Create professional Risala for work or personal use."
-    }
   },
   {
     forNav: false,
@@ -227,19 +228,6 @@ export const routes: pageRouteConfig[] = [
     seo: {
       title: "Smart Docs - Official Letter",
       description: "View or download official letters created on Smart Docs."
-    }
-  },
-  {
-    forNav: false,
-    path: "/profile",
-    element: CVPage,
-    name: "Profile",
-    signedIn:true,
-    layout: true,
-    showAsButton: true,
-    seo: {
-      title: "Smart Docs - Profile",
-      description: "Manage your profile and access your created documents easily."
     }
   },
   {
@@ -275,25 +263,32 @@ export const routes: pageRouteConfig[] = [
     description: "Create a Smart Docs account to manage your documents."
   }
 },
-
+{
+    forNav: false,
+    path: "/create/risala",
+    element: RisalaForm,
+    name: "Risala Architect",
+    layout: true,
+    signedIn: true,
+    seo: {
+      title: "Smart Docs - Risala Architect",
+      description: "Create professional Risala documents with our automated architect."
+    }
+  },
+  {
+    forNav: false,
+    path: "/risala/preview",
+    element: RisalaTemplate,
+    name: "Risala Preview",
+    layout: false,
+  },
 ];
 
 export const documentRoutes: pageRouteConfig[] = [
   {
     forNav: false,
-    path: "/create/cv",
-    element: CvDocument,
-    name: "Create CV",
-    layout: true,
-    seo: {
-      title: "Smart Docs - Create CV",
-      description: "Create professional CVs with customizable templates."
-    }
-  },
-  {
-    forNav: false,
     path: "/editor/:templateId",
-    element: CVEditor,
+    element: CVArchitect,
     name: "CV Editor",
     layout: true,
     seo: {
@@ -307,12 +302,44 @@ export const myDocumentsRoutes: pageRouteConfig[] = [
   {
     forNav: false,
     path: "/documents",
-    element: AllDocuments,
-    name: "All Documents",
+    element: Documents,
+    name: "Documents Dashboard",
     layout: true,
     seo: {
-      title: "Smart Docs - All Documents",
-      description: "View all documents you have created or stored in Smart Docs."
+      title: "Smart Docs - My Documents",
+      description: "View and manage all your created documents in the Smart Docs dashboard."
+    }
+  },
+  {
+    forNav: false,
+    path: "/create/affidavit",
+    element: Affidavit,
+    name: "Affidavit Architect",
+    layout: true
+  },
+  {
+    forNav: false,
+    path: "/create/academic",
+    element: AcademicDocs,
+    name: "Academic Documents",
+    layout: true
+  },
+  {
+    forNav: false,
+    path: "/create/community",
+    element: CommunityDocs,
+    name: "Community Documents",
+    layout: true
+  },
+  {
+    forNav: false,
+    path: "/documents/archive",
+    element: AllDocuments,
+    name: "Documents Archive",
+    layout: true,
+    seo: {
+      title: "Smart Docs - Archive",
+      description: "View and manage all your historical documents."
     }
   },
   {
