@@ -9,7 +9,7 @@ export const cvData: User = {
   is_staff: false,
   is_active: true,
   is_superuser: false,
-  role: "user",
+  role: "customer",
   soft_skills: ["problem solving", "critical thinking", "team collaboration"],
   technical_skills: ["JavaScript", "React", "Node.js", "Python", "AWS"],
   career_objectives: [

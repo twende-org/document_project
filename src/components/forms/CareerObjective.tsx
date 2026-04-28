@@ -26,7 +26,7 @@ interface Props {
 
 const CareerObjectiveFormDetails = ({ editingObjective, editingIndex, onDone }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading: reduxLoading, error } = useSelector((state: RootState) => state.carerObjectives);
+  const { loading: reduxLoading, error } = useSelector((state: RootState) => state.careerObjectives);
   const { loading: timedLoading, withLoader } = useTimedLoader(1500);
 
   const [elapsedTime, setElapsedTime] = useState(0);

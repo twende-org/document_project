@@ -10,10 +10,10 @@ import languagesReducer from "../features/languages/languagesSlice";
 import authentReducer from "../features/auth/authSlice";
 import jobReducer from "../features/jobs/jobsSlice";
 import letterReducer from "../features/letters/lettersSlice";
-import personalReducer from "../features/personalDetails/personalDetailsSlice";
+import personalDetailsReducer from "../features/personalDetails/personalDetailsSlice";
 import projectsReducer from "../features/projects/projectsSlice";
-import carerObjectiveReducer from "../features/carerobjectives/carerObjectivesSlice";
-import educationReducer from "../features/educations/educationsSlice";
+import careerObjectiveReducer from "../features/carerobjectives/carerObjectivesSlice";
+import educationsReducer from "../features/educations/educationsSlice";
 import civReducer from "../features/cv/cvSlice";
 import paymentReducer from "../features/payments/paymentsSlice";
 import referenceReducer from "../features/references/referencesSlice";
@@ -60,11 +60,14 @@ export const store = configureStore({
     cv: civReducer,
     risala: risalaReducer,
     payments: paymentReducer,
-     downloads: downloadsReducer,
-     documents: documentsReducer,
-     ui: uiReducer,
-     references: referenceReducer,
-     docRequests: docRequestsReducer,
+    downloads: downloadsReducer,
+    documents: documentsReducer,
+    ui: uiReducer,
+    references: referenceReducer,
+    docRequests: docRequestsReducer,
+    careerObjectives: careerObjectiveReducer,
+    personalDetails: personalDetailsReducer,
+    educations: educationsReducer,
     // profile: profileReducer,
   },
   middleware: (getDefaultMiddleware) =>

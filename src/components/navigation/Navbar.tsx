@@ -83,6 +83,7 @@ export const NavBar = () => {
 };
 
 export const MobileNavBar = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);

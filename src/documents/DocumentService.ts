@@ -24,6 +24,19 @@ export const DocumentService = {
     return response.data;
   },
 
+  async downloadPDF(id: number | string) {
+    const response = await axiosClient.get('/api/documents/' + id + '/download_pdf/', {
+      responseType: 'blob'
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'document_' + id + '.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  },
+
   async polish(content: string, docType: string) {
     const response = await axiosClient.post(`/api/ai/polish/`, {
       data: content,
@@ -32,5 +45,3 @@ export const DocumentService = {
     return response.data;
   }
 };
-
-
