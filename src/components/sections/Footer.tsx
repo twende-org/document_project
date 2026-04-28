@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { PiInstagramLogoThin } from "react-icons/pi";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaTiktok, FaWhatsapp } from "react-icons/fa6";
 import { SlSocialFacebook } from "react-icons/sl";
 import { useTranslation } from "react-i18next";
 
@@ -31,9 +31,14 @@ const Footer = () => {
           <div>
             <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-redMain mb-8">{t('footer.connect')}</h4>
             <div className="flex gap-6">
-              {[<SlSocialFacebook />, <FaXTwitter />, <PiInstagramLogoThin />].map((icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xl hover:bg-redMain transition-all">
-                  {icon}
+              {[
+                { icon: <SlSocialFacebook />, url: 'https://www.facebook.com/profile.php?id=61584451314320' },
+                { icon: <FaTiktok />, url: 'https://tiktok.com/@mlekwahub' },
+                { icon: <PiInstagramLogoThin />, url: 'https://www.instagram.com/twend.edigital/' },
+                { icon: <FaWhatsapp />, url: 'https://wa.me/255692671206' }
+              ].map((social, i) => (
+                <a key={i} href={social.url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xl hover:bg-redMain transition-all">
+                  {social.icon}
                 </a>
               ))}
             </div>

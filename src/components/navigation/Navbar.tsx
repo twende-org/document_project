@@ -40,7 +40,7 @@ export const NavBar = () => {
           <Logo />
         </Link>
         
-        <ul className="flex gap-10 items-center">
+        <ul className="flex gap-6 items-center">
           {routes
             .filter((link) => navLinks.includes(link.name))
             .map((link) => (
@@ -48,7 +48,7 @@ export const NavBar = () => {
                 <NavLink
                   to={link.path}
                   className={({ isActive }) =>
-                    `text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
+                    `text-[13px] font-black uppercase tracking-[0.2em] transition-all ${
                       isActive
                         ? "text-primary border-b-2 border-primary pb-1"
                         : "text-white/70 hover:text-white"
@@ -67,7 +67,7 @@ export const NavBar = () => {
           <li>
             <NavLink
               to="/create"
-              className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-900/20 active:scale-95"
+              className="px-6 py-2.5 bg-primary text-white rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-900/20 active:scale-95"
             >
               {t('common.create')}
             </NavLink>

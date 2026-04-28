@@ -185,7 +185,7 @@ export const Home = () => {
               <div key={i} className="space-y-6">
                 <span className="text-display text-primary/20 block">{step.step}</span>
                 <h4 className="text-xl font-black uppercase">{step.title}</h4>
-                <p className="text-white/50 leading-relaxed font-medium">{step.desc}</p>
+                <p className="text-white leading-relaxed font-bold">{step.desc}</p>
               </div>
             ))}
           </div>
