@@ -35,7 +35,7 @@ export const NavBar = () => {
     <div className={`w-full sticky top-0 z-50 transition-all duration-300 ${
       isScrolled ? "bg-secondary/95 backdrop-blur-md shadow-xl py-2" : "bg-secondary py-4"
     }`}>
-      <nav className="hidden md:flex container mx-auto px-6 justify-between items-center">
+      <nav className="hidden lg:flex container mx-auto px-6 justify-between items-center">
         <Link to="/" className="transition-transform hover:scale-105 active:scale-95">
           <Logo />
         </Link>
@@ -97,7 +97,7 @@ export const MobileNavBar = () => {
   }
 
   return (
-    <nav className="md:hidden px-6 h-16 flex items-center justify-between">
+    <nav className="lg:hidden px-6 h-16 flex items-center justify-between">
       <Link to="/" onClick={closeMenu} className="relative z-[10000]">
         <Logo />
       </Link>
