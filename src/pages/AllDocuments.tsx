@@ -5,8 +5,10 @@ import { FaFileAlt, FaHistory, FaTrash, FaEdit, FaDownload, FaRocket } from "rea
 import { fetchDocuments, removeDocument } from "../features/documents/documentsSlice";
 import type { RootState, AppDispatch } from "../store/store";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AllDocuments = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const { list: documents, status, loading } = useSelector((state: RootState) => state.documents);
 
@@ -19,7 +21,7 @@ const AllDocuments = () => {
   }, [dispatch, access]);
 
   const handleDelete = async (id: number) => {
-    if (window.confirm("Are you sure you want to delete this document?")) {
+    if (window.confirm(t('common.confirm_delete', 'Are you sure you want to delete this document?'))) {
       await dispatch(removeDocument(id));
     }
   };
@@ -33,23 +35,23 @@ const AllDocuments = () => {
              <div className="w-16 h-16 bg-secondary rounded-3xl flex items-center justify-center text-white text-3xl shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500">
                 <FaHistory />
              </div>
-             <div>
-                <h2 className="text-xs font-black uppercase tracking-[0.5em] text-primary mb-1">Archive</h2>
-                <h1 className="text-display text-secondary leading-none">All <span className="text-primary italic">Documents</span></h1>
+             <div className="text-left">
+                <h2 className="text-xs font-black uppercase tracking-[0.5em] text-primary mb-1">{t('common.archive')}</h2>
+                <h1 className="text-display text-secondary leading-none">{t('common.all')} <span className="text-primary italic">{t('common.documents')}</span></h1>
              </div>
           </div>
           <NavLink 
             to="/create/cv" 
             className="btn-primary px-8 py-4 flex items-center gap-3 active:scale-95 transition-transform"
           >
-            <FaRocket /> Start New Project
+            <FaRocket /> {t('common.start_new_project', 'Start New Project')}
           </NavLink>
         </header>
 
         {loading && documents.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-40 text-secondary/20">
             <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-6" />
-            <p className="text-xs font-black uppercase tracking-widest">Scanning Database...</p>
+            <p className="text-xs font-black uppercase tracking-widest">{t('common.scanning_database', 'Scanning Database...')}</p>
           </div>
         ) : documents.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -63,7 +65,7 @@ const AllDocuments = () => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="bg-white p-8 rounded-card shadow-sm border border-secondary/5 hover:shadow-premium transition-all group flex flex-col justify-between h-full"
                 >
-                  <div>
+                  <div className="text-left">
                     <div className="flex justify-between items-start mb-6">
                       <div className="w-12 h-12 bg-neutral-light rounded-2xl flex items-center justify-center text-secondary/20 group-hover:text-primary transition-colors text-xl">
                         <FaFileAlt />
@@ -74,10 +76,10 @@ const AllDocuments = () => {
                     </div>
                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2">{doc.doc_type}</p>
                     <h3 className="text-xl font-black text-secondary tracking-tighter uppercase mb-4 line-clamp-2">
-                        {doc.title || 'Untitled Document'}
+                        {doc.title || t('common.untitled')}
                     </h3>
                     <p className="text-xs font-bold text-secondary/40 uppercase mb-8">
-                        {doc.customer_name || 'Personal Project'}
+                        {doc.customer_name || t('common.personal_project', 'Personal Project')}
                     </p>
                   </div>
 
@@ -101,8 +103,8 @@ const AllDocuments = () => {
         ) : (
           <div className="bg-white p-20 rounded-card shadow-inner border border-dashed border-secondary/10 text-center">
             <FaFileAlt className="text-6xl text-secondary/5 mx-auto mb-6" />
-            <h3 className="text-xl font-black text-secondary mb-2">Workspace Empty</h3>
-            <p className="text-xs font-black text-secondary/20 uppercase tracking-[0.3em]">No documents found in your archive.</p>
+            <h3 className="text-xl font-black text-secondary mb-2">{t('common.workspace_empty', 'Workspace Empty')}</h3>
+            <p className="text-xs font-black text-secondary/20 uppercase tracking-[0.3em]">{t('common.no_docs_found', 'No documents found in your archive.')}</p>
           </div>
         )}
       </div>

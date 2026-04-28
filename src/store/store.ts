@@ -21,6 +21,7 @@ import downloadsReducer from "../features/downloads/downloadsSlice"
 import documentsReducer from "../features/documents/documentsSlice";
 import uiReducer from "../store/uiSlice"
 import risalaReducer from "../features/risala/risalaSlice";
+import docRequestsReducer from "./docRequestsSlice";
 // import profileReducer from "../features/certificates/profileSlice";
 
 
@@ -62,7 +63,8 @@ export const store = configureStore({
      downloads: downloadsReducer,
      documents: documentsReducer,
      ui: uiReducer,
-    references: referenceReducer,
+     references: referenceReducer,
+     docRequests: docRequestsReducer,
     // profile: profileReducer,
   },
   middleware: (getDefaultMiddleware) =>

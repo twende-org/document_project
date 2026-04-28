@@ -97,8 +97,8 @@ const EventProgram = () => {
 
   return (
     <SmartEditorLayout
-      title="Event Architect"
-      subtitle="Sequence of Service"
+      title={t('catalog.event_program_title')}
+      subtitle={t('event.sequence_service')}
       onSave={onSave}
       isSaving={isSaving}
       isValidated={isValidated}
@@ -109,7 +109,7 @@ const EventProgram = () => {
         <div className="bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-sans relative overflow-hidden text-left">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-black text-charcoal uppercase tracking-tighter leading-none mb-4">
-                {formData.eventTitle || 'Event Program'}
+                {formData.eventTitle || t('event.event_program_placeholder')}
               </h2>
               <div className="flex items-center justify-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                  <span>{formData.date}</span>
@@ -129,7 +129,7 @@ const EventProgram = () => {
                     </div>
                     <div className="flex-1">
                        <p className="text-md font-black text-charcoal uppercase tracking-tighter">
-                          {item.activity || 'Activity details...'}
+                          {item.activity || t('event.activity_placeholder')}
                        </p>
                     </div>
                  </div>
@@ -141,12 +141,12 @@ const EventProgram = () => {
       <section className="card-premium p-8 md:p-12 shadow-2xl relative overflow-hidden">
          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-redMain to-charcoal" />
          
-         <div className="space-y-8">
+         <div className="space-y-8 text-left">
            <div>
-             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">General Settings</h3>
+             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">{t('event.general_settings')}</h3>
              <div className="grid grid-cols-1 gap-6 text-left">
                <div>
-                 <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Event Title</label>
+                 <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('event.event_title')}</label>
                  <input 
                    type="text"
                    value={formData.eventTitle}
@@ -157,11 +157,11 @@ const EventProgram = () => {
                </div>
                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Event Date</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('event.event_date')}</label>
                     <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} className="input-premium" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Venue</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('event.venue')}</label>
                     <input type="text" value={formData.venue} onChange={(e) => setFormData({...formData, venue: e.target.value})} className="input-premium" />
                   </div>
                </div>
@@ -170,9 +170,9 @@ const EventProgram = () => {
 
            <div>
              <div className="flex justify-between items-center mb-8 border-b pb-4">
-               <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">Program Flow</h3>
+               <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">{t('event.program_flow')}</h3>
                <button onClick={addItem} className="text-redMain font-black text-[10px] uppercase tracking-widest hover:underline flex items-center gap-2">
-                 <FaPlus /> Add Item
+                 <FaPlus /> {t('event.add_item')}
                </button>
              </div>
 
@@ -191,7 +191,7 @@ const EventProgram = () => {
                       value={item.activity}
                       onChange={(e) => handleItemChange(idx, 'activity', e.target.value)}
                       className="flex-1 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm text-left"
-                      placeholder="Activity"
+                      placeholder={t('event.activity')}
                     />
                     <button onClick={() => removeItem(idx)} className="p-2 text-gray-300 hover:text-redMain">
                       <FaTrash />
@@ -202,12 +202,21 @@ const EventProgram = () => {
            </div>
            
            <Button 
-               label="AI Polish Program" 
+               label={t('event.ai_polish')} 
                variant="primary"
                icon={<span>✨</span>}
                onClick={onPolish}
                disabled={isPolishing}
                className="w-full"
+            />
+
+           <Button 
+               label={t('event.finalize')} 
+               variant="primary"
+               icon={<FaSave />}
+               onClick={onSave}
+               disabled={isSaving}
+               className="w-full mt-4"
             />
          </div>
       </section>

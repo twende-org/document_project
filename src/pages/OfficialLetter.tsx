@@ -5,8 +5,10 @@ import { useDocumentEngine } from '../documents/hooks/useDocumentEngine';
 import { SmartEditorLayout } from '../components/editor/SmartEditorLayout';
 import { notify } from '../utils/notificationService';
 import Button from '../components/formElements/Button';
+import { useTranslation } from 'react-i18next';
 
 const OfficialLetter = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const letterType = queryParams.get('type');
@@ -123,8 +125,8 @@ const OfficialLetter = () => {
 
   return (
     <SmartEditorLayout
-      title="Letter Architect"
-      subtitle="Official Correspondence"
+      title={t('catalog.official_letter_title')}
+      subtitle={t('letter.official_correspondence')}
       onSave={onSave}
       isSaving={isSaving}
       isValidated={isValidated}
@@ -136,36 +138,36 @@ const OfficialLetter = () => {
             <div className="flex justify-between items-start mb-12 border-b pb-8">
                <div>
                   <h2 className="text-2xl font-black text-redMain tracking-tighter">TWENDE</h2>
-                  <p className="text-[7px] text-gray-400 uppercase tracking-widest">Official Document</p>
+                  <p className="text-[7px] text-gray-400 uppercase tracking-widest">{t('catalog.official_letter_subtitle')}</p>
                </div>
                <div className="text-right">
-                  <p className="font-black text-charcoal">{formData.senderName || 'SENDER NAME'}</p>
-                  <p className="text-gray-400 text-[9px]">{formData.senderAddress || 'SENDER ADDRESS'}</p>
+                  <p className="font-black text-charcoal">{formData.senderName || t('letter.sender_name_placeholder')}</p>
+                  <p className="text-gray-400 text-[9px]">{formData.senderAddress || t('letter.sender_address_placeholder')}</p>
                </div>
             </div>
 
             <p className="font-black mb-8">{formData.date}</p>
 
             <div className="mb-8">
-               <p className="font-black text-charcoal text-sm">{formData.recipientName || 'RECIPIENT NAME'}</p>
-               <p className="text-gray-500 max-w-[200px]">{formData.recipientAddress || 'RECIPIENT ADDRESS'}</p>
+               <p className="font-black text-charcoal text-sm">{formData.recipientName || t('letter.recipient_name_placeholder')}</p>
+               <p className="text-gray-500 max-w-[200px]">{formData.recipientAddress || t('letter.recipient_address_placeholder')}</p>
             </div>
 
             <div className="mb-8 py-2 border-b border-redMain/20 inline-block">
-               <p className="font-black text-charcoal uppercase tracking-tight">RE: {formData.subject || 'SUBJECT OF CORRESPONDENCE'}</p>
+               <p className="font-black text-charcoal uppercase tracking-tight">RE: {formData.subject || t('letter.subject_placeholder')}</p>
             </div>
 
-            <p className="font-bold mb-4">Dear Sir/Madam,</p>
+            <p className="font-bold mb-4">{t('letter.dear')}</p>
             
             <div className="flex-1 text-justify">
-               <p>{formData.body || 'This is where your official correspondence content will appear. Use the AI Polish button to refine your drafting into professional language.'}</p>
+               <p>{formData.body || t('architect.ai_polishing')}</p>
             </div>
 
             <div className="mt-12">
-               <p>Yours Sincerely,</p>
+               <p>{t('letter.sincerely')}</p>
                <div className="h-12" />
-               <p className="font-black text-charcoal text-sm uppercase">{formData.senderName || 'SENDER NAME'}</p>
-               <p className="text-gray-400 text-[9px]">{formData.senderTitle || 'SENDER TITLE'}</p>
+               <p className="font-black text-charcoal text-sm uppercase">{formData.senderName || t('letter.sender_name_placeholder')}</p>
+               <p className="text-gray-400 text-[9px]">{formData.senderTitle || t('letter.sender_title')}</p>
             </div>
         </div>
       }
@@ -175,76 +177,76 @@ const OfficialLetter = () => {
          
          <div className="space-y-8 text-left">
            <div>
-             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">Personnel Details</h3>
+             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">{t('letter.personnel_details')}</h3>
              <div className="grid grid-cols-2 gap-6">
                 <div className="col-span-2">
-                  <label className="label-premium">Sender Name</label>
+                  <label className="label-premium">{t('letter.sender_name')}</label>
                   <input 
                     type="text" 
                     value={formData.senderName} 
                     onChange={(e) => setFormData({...formData, senderName: e.target.value})} 
                     className="input-premium" 
-                    placeholder="Your Full Name"
+                    placeholder={t('letter.sender_name')}
                   />
                 </div>
                 <div>
-                  <label className="label-premium">Sender Title</label>
+                  <label className="label-premium">{t('letter.sender_title')}</label>
                   <input type="text" value={formData.senderTitle} onChange={(e) => setFormData({...formData, senderTitle: e.target.value})} className="input-premium" placeholder="e.g. Manager" />
                 </div>
                 <div>
-                  <label className="label-premium">Date</label>
+                  <label className="label-premium">{t('letter.date')}</label>
                   <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} className="input-premium" />
                 </div>
              </div>
            </div>
 
            <div>
-             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">Recipient & Subject</h3>
+             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">{t('letter.recipient_subject')}</h3>
              <div className="space-y-6">
                <input 
                  type="text" 
                  value={formData.recipientName} 
                  onChange={(e) => setFormData({...formData, recipientName: e.target.value})} 
                  className="input-premium" 
-                 placeholder="Recipient Name"
+                 placeholder={t('letter.recipient_name')}
                />
                <textarea 
                  value={formData.recipientAddress} 
                  onChange={(e) => setFormData({...formData, recipientAddress: e.target.value})} 
                  className="input-premium h-20" 
-                 placeholder="Recipient Address"
+                 placeholder={t('letter.recipient_address')}
                />
                <input 
                  type="text" 
                  value={formData.subject} 
                  onChange={(e) => setFormData({...formData, subject: e.target.value})} 
                  className="input-premium font-black" 
-                 placeholder="Letter Subject (e.g. APPLICATION FOR JOB)"
+                 placeholder={t('letter.letter_subject')}
                />
              </div>
            </div>
 
            <div>
              <div className="flex justify-between items-center mb-8 border-b pb-4">
-               <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">Letter Content</h3>
+               <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">{t('letter.letter_content')}</h3>
                <button 
                   onClick={onPolish}
                   disabled={isPolishing || !formData.body}
                   className="text-redMain font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-70"
                >
-                  <FaMagic /> AI Polish Body
+                  <FaMagic /> {t('letter.ai_polish_body')}
                </button>
              </div>
              <textarea 
                value={formData.body} 
                onChange={(e) => setFormData({...formData, body: e.target.value})} 
                className="input-premium h-64 text-justify" 
-               placeholder="Write your letter here..."
+               placeholder={t('letter.write_here')}
              />
            </div>
 
            <Button 
-               label="Finalize & Generate Letter" 
+               label={t('letter.finalize')} 
                variant="primary"
                icon={<FaSave />}
                onClick={onSave}

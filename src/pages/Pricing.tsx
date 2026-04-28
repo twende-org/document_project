@@ -1,7 +1,9 @@
 import PricingCard from "../components/sections/Pricing";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Pricing = () => {
+  const { t } = useTranslation();
   const handleBuy = (plan: any) => {
     // TODO: integrate payment logic (AzamPay/Stripe)
     alert(`Redirecting to secure gateway for ${plan.name}...`);
@@ -9,24 +11,24 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: "Single Boost",
+      name: t('pricing.plans.single_boost'),
       price: "1000",
       credits: 1,
-      description: "Perfect for a quick one-off professional document.",
+      description: t('pricing.plans.single_boost_desc'),
       isPopular: false
     },
     {
-      name: "Basic Bundle",
+      name: t('pricing.plans.basic_bundle'),
       price: "5000",
       credits: 10,
-      description: "Optimized for light business use and frequent updates.",
+      description: t('pricing.plans.basic_bundle_desc'),
       isPopular: true
     },
     {
-      name: "Agent Pro",
+      name: t('pricing.plans.agent_pro'),
       price: "10000",
       credits: 25,
-      description: "Designed for high-traffic stationery shop operations.",
+      description: t('pricing.plans.agent_pro_desc'),
       isPopular: false
     }
   ];
@@ -40,23 +42,22 @@ const Pricing = () => {
              animate={{ opacity: 1, y: 0 }}
              className="label-premium text-primary mb-4"
            >
-             Flexible Power
+             {t('pricing.flexible_power')}
            </motion.h2>
            <motion.h1 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.1 }}
              className="text-display text-secondary mb-8 leading-none"
-           >
-             Professional Credits for <span className="text-primary italic">Every Need</span>
-           </motion.h1>
+             dangerouslySetInnerHTML={{ __html: t('pricing.hero_title') }}
+           />
            <motion.p 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.2 }}
              className="text-lg font-bold text-secondary/40 uppercase tracking-tight"
            >
-             Purchase credits once, use them whenever you need. No subscriptions, just results.
+             {t('pricing.hero_subtitle')}
            </motion.p>
         </header>
 
@@ -81,7 +82,7 @@ const Pricing = () => {
         </div>
 
         <section className="mt-32 text-center border-t border-secondary/5 pt-20">
-           <h3 className="text-[10px] font-black text-secondary/20 uppercase tracking-[0.5em] mb-8">Secure Payment Partners</h3>
+           <h3 className="text-[10px] font-black text-secondary/20 uppercase tracking-[0.5em] mb-8">{t('pricing.secure_partners')}</h3>
            <div className="flex flex-wrap justify-center items-center gap-16 grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
               <span className="text-3xl font-black text-secondary tracking-tighter uppercase italic">Azam<span className="text-primary">Pay</span></span>
               <span className="text-3xl font-black text-secondary tracking-tighter uppercase">Stripe</span>

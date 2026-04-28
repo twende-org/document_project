@@ -56,6 +56,44 @@ export const fetchAdminUsers = createAsyncThunk<
   }
 );
 
+export const toggleUserActive = createAsyncThunk<
+  { id: number; is_active: boolean },
+  number,
+  { state: RootState }
+>(
+  "adminUsers/toggleUserActive",
+  async (userId, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.access;
+      const response = await axios.patch(`${API_BASE_URL}/auth/admin/users/${userId}/`, {}, {
+        headers: { Authorization: token ? `Bearer ${token}` : "" },
+      });
+      return { id: userId, is_active: response.data.is_active };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk<
+  number,
+  number,
+  { state: RootState }
+>(
+  "adminUsers/deleteUser",
+  async (userId, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.access;
+      await axios.delete(`${API_BASE_URL}/auth/admin/users/${userId}/`, {
+        headers: { Authorization: token ? `Bearer ${token}` : "" },
+      });
+      return userId;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 // Slice
 export const adminUsersSlice = createSlice({
   name: "adminUsers",
@@ -76,6 +114,15 @@ export const adminUsersSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
         console.error("Failed to fetch admin users:", action.payload);
+      })
+      .addCase(toggleUserActive.fulfilled, (state, action) => {
+        const user = state.users.find(u => u.id === action.payload.id);
+        if (user) {
+          user.is_active = action.payload.is_active;
+        }
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.users = state.users.filter(u => u.id !== action.payload);
       });
   },
 });

@@ -1,12 +1,93 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState, AppDispatch } from "../../store/store";
+import { fetchDocRequests } from "../../store/docRequestsSlice";
+import { useEffect, useState } from "react";
+import { FaInfoCircle, FaTimes, FaBell } from "react-icons/fa";
 import { useTranslation, Trans } from "react-i18next";
+import { Link } from "react-router-dom";
+import { 
+  FaArrowRight, 
+  FaFileAlt, 
+  FaFileInvoice, 
+  FaEnvelope, 
+  FaUser, 
+  FaStore 
+} from "react-icons/fa";
 
 export const Home = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { requests } = useSelector((state: RootState) => state.docRequests);
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchDocRequests());
+    }
+  }, [user, dispatch]);
+
+  useEffect(() => {
+    if (requests.length > 0) {
+      const latestUpdate = requests.find(r => r.status === 'ADDED' || r.status === 'DEVELOPING');
+      if (latestUpdate) {
+        const storageKey = 'dismissed_req_' + String(latestUpdate.id) + '_' + String(latestUpdate.status);
+        if (!localStorage.getItem(storageKey)) {
+          setShowNotification(true);
+        }
+      }
+    }
+  }, [requests]);
+
+  const handleDismiss = () => {
+    const latestUpdate = requests.find(r => r.status === 'ADDED' || r.status === 'DEVELOPING');
+    if (latestUpdate) {
+      const storageKey = 'dismissed_req_' + String(latestUpdate.id) + '_' + String(latestUpdate.status);
+      localStorage.setItem(storageKey, 'true');
+    }
+    setShowNotification(false);
+  };
+
 
   return (
     <div className="flex flex-col w-full bg-white font-sans selection:bg-primary/10 selection:text-primary">
       {/* 1. HERO SECTION */}
+      
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="bg-primary text-white overflow-hidden"
+          >
+            <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="bg-white/20 p-2 rounded-full">
+                  <FaBell className="animate-bounce" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-70">Request Update</p>
+                  <p className="text-xs font-bold">
+                    {requests.some(r => r.status === "ADDED") 
+                      ? "Great news! One of your requested document templates is now available."
+                      : "Update: Our team is currently working on your document request."}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <Link to="/panel" className="bg-white text-primary px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-neutral-light transition-all">
+                  View Details
+                </Link>
+                <button onClick={handleDismiss} className="text-white/60 hover:text-white">
+                  <FaTimes />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-neutral-light">
         <div className="container mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <motion.div 
@@ -19,13 +100,7 @@ export const Home = () => {
               <span className="h-px w-12 bg-primary"></span>
               <span className="text-primary font-black uppercase tracking-[0.4em] text-action">{t('common.professional_excellence')}</span>
             </div>
-            <h1 className="text-display">
-              <Trans i18nKey="home.hero_title">
-                Create Professional <br />
-                Documents in Minutes <br />
-                — <span className="text-primary">Not Hours</span>
-              </Trans>
-            </h1>
+            <h1 className="text-display" dangerouslySetInnerHTML={{ __html: t('home.hero_title') }} />
             <p className="text-lg text-secondary/60 font-medium max-w-xl leading-relaxed">
               {t('home.hero_subtitle')}
             </p>
@@ -156,4 +231,3 @@ export const Home = () => {
 };
 
 export default Home;
-  

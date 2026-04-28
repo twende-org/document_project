@@ -9,6 +9,7 @@ import {
 } from "react-icons/ai";
 import { useCurrentUserCV } from "../hooks/useCurrentUserCV";
 import type { RootState } from "../store/store";
+import { useTranslation } from "react-i18next";
 
 // Templates
 import TraditionalTemplate from "../components/templates/cv-templates/TraditionalTemplate";
@@ -38,8 +39,7 @@ interface CVPDFProps {
 }
 
 const CVTemplates = () => {
-
-
+  const { t } = useTranslation();
 
   // --- State ---
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -114,17 +114,16 @@ const CVTemplates = () => {
   };
 
   return (
-    <main className="w-full min-h-screen bg-background transition-colors duration-300 pb-20 pt-10 border-t border-subHeadingGray/10">
+    <main className="w-full min-h-screen bg-background transition-colors duration-300 pb-20 pt-10 border-t border-subHeadingGray/10 text-left">
       <div className="container mx-auto px-4 sm:px-6">
 
         {/* Header Section */}
         <div className="prose prose-lg mx-auto text-center mb-8 md:mb-12 mt-16 max-w-3xl">
           <h1 className="text-3xl md:text-h1 font-bold text-redMain mb-4">
-            CV Template Options
+            {t('cv.template_options')}
           </h1>
           <p className="text-subHeadingGray text-base md:text-lg">
-            Choose from professional templates and preview your CV before downloading.
-            Optimized for ATS and designed for impact.
+            {t('cv.choose_template_desc')}
           </p>
         </div>
 
@@ -153,7 +152,7 @@ const CVTemplates = () => {
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                   <button className="flex items-center gap-2 bg-white text-gray-900 px-5 py-2 rounded-full font-semibold shadow-lg hover:scale-105 transition-transform">
                     <AiOutlineEye size={20} className="text-redMain" />
-                    <span>Preview</span>
+                    <span>{t('cv.preview')}</span>
                   </button>
                 </div>
               </div>
@@ -176,7 +175,7 @@ const CVTemplates = () => {
                   onClick={() => openPreview(category.name)}
                   type="button"
                   name="Preview Template"
-                  label="View Template"
+                  label={t('cv.view_template')}
                   className="w-full !rounded-lg border-2 border-transparent hover:border-redMain/20 active:scale-95 transition-transform"
                 />
               </div>
@@ -223,7 +222,7 @@ const CVTemplates = () => {
               <div className="w-full md:w-80 lg:w-96 bg-background border-t md:border-t-0 md:border-l border-subHeadingGray/20 flex flex-col z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] md:shadow-none">
 
                 <div className="p-6 border-b border-subHeadingGray/20 hidden md:flex justify-between items-center">
-                  <h2 className="text-xl font-bold text-text">Details</h2>
+                  <h2 className="text-xl font-bold text-text">{t('cv.details')}</h2>
                   <button onClick={() => setPreviewModalOpen(false)} className="text-subHeadingGray hover:text-redMain transition">
                     <AiOutlineClose size={24} />
                   </button>
@@ -238,7 +237,7 @@ const CVTemplates = () => {
                   </p>
 
                   <div className="bg-subHeadingGray/5 border border-subHeadingGray/10 rounded-xl p-4 mb-6">
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 text-left">
                       <AiOutlineFilePdf className="text-redMain mt-1" size={24} />
                       <div>
                         <p className="text-sm font-semibold text-text">Ready for Download</p>
@@ -261,7 +260,7 @@ const CVTemplates = () => {
                     ) : (
                       <div className="flex items-center gap-2 text-green-600 justify-center mb-2 text-sm font-medium">
                         <AiOutlineCheckCircle />
-                        {PAYMENT_ENABLED ? "License Active" : "Free Access"}
+                        {PAYMENT_ENABLED ? t('cv.license_active') : t('cv.free_access')}
                       </div>
                     )}
 
@@ -273,7 +272,7 @@ const CVTemplates = () => {
 
                         {({ loading }) => (
                           <button className="w-full py-3 md:py-4 text-base md:text-lg shadow-lg hover:shadow-xl transition-all rounded-xl active:scale-95 bg-green-600 hover:bg-green-700 text-white">
-                            {loading ? "Generating PDF..." : "Download PDF"}
+                            {loading ? t('cv.generating_pdf') : t('cv.download_pdf')}
                           </button>
                         )}
                       </PDFDownloadLink>

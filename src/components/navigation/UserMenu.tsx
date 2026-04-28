@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { RiUser3Line, RiLogoutBoxRLine, RiArrowDropDownLine } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
 
 export const UserMenu = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ export const UserMenu = () => {
         </div>
         <div className="hidden lg:block text-left">
           <p className="text-[10px] font-black uppercase tracking-widest text-white leading-none">
-            {user?.first_name || "Account"}
+            {user?.first_name || t('common.account')}
           </p>
         </div>
         <RiArrowDropDownLine className={`text-xl text-white/50 transition-transform ${isOpen ? "rotate-180" : ""}`} />
@@ -58,7 +60,7 @@ export const UserMenu = () => {
             className="w-full flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/5 transition-all border-t border-white/5"
           >
             <RiLogoutBoxRLine className="text-sm text-redMain" />
-            Logout
+            {t('common.logout')}
           </button>
         </div>
       )}

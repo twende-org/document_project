@@ -21,6 +21,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchDocuments } from '../features/documents/documentsSlice';
 import type { RootState, AppDispatch } from '../store/store';
 import DocumentPreviewModal from '../components/documents/DocumentPreviewModal';
+import RequestDocumentModal from '../components/modals/RequestDocumentModal';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 const Documents = () => {
   const { t } = useTranslation();
@@ -34,6 +36,7 @@ const Documents = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDoc, setSelectedDoc] = useState<any>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
 
   const params = new URLSearchParams(location.search);
   const isShowcaseMode = params.get('mode') === 'showcase';
@@ -165,9 +168,9 @@ const Documents = () => {
     {
       id: 'sample-cv',
       category: 'SHOWCASE',
-      title: 'Executive CV Preview',
-      subtitle: 'Career Growth',
-      description: 'See the impact of our precision-architected Executive Template.',
+      title: t('documents.showcase.cv_title'),
+      subtitle: t('documents.showcase.cv_subtitle'),
+      description: t('documents.showcase.cv_desc'),
       icon: <FaBriefcase />,
       previewImage: '/assets/samples/cv_sample.png',
       targetPath: '/create/cv',
@@ -176,9 +179,9 @@ const Documents = () => {
     {
       id: 'sample-invoice',
       category: 'SHOWCASE',
-      title: 'Smart Invoice Preview',
-      subtitle: 'Business Ops',
-      description: 'Observe the professional hierarchy of our financial documents.',
+      title: t('documents.showcase.invoice_title'),
+      subtitle: t('documents.showcase.invoice_subtitle'),
+      description: t('documents.showcase.invoice_desc'),
       icon: <FaFileInvoice />,
       previewImage: '/assets/samples/invoice_sample.png',
       targetPath: '/create/invoice',
@@ -187,9 +190,9 @@ const Documents = () => {
     {
       id: 'sample-letter',
       category: 'SHOWCASE',
-      title: 'Formal Letter Preview',
-      subtitle: 'Official Pro',
-      description: 'High-fidelity corporate correspondence generated with AI precision.',
+      title: t('documents.showcase.letter_title'),
+      subtitle: t('documents.showcase.letter_subtitle'),
+      description: t('documents.showcase.letter_desc'),
       icon: <FaEnvelope />,
       previewImage: '/assets/samples/letter_sample.png',
       targetPath: '/create/letter',
@@ -198,9 +201,9 @@ const Documents = () => {
     {
       id: 'sample-affidavit',
       category: 'SHOWCASE',
-      title: 'Legal Declaration Preview',
-      subtitle: 'Legal Standard',
-      description: 'Correctly formatted legal documents ready for verification.',
+      title: t('documents.showcase.affidavit_title'),
+      subtitle: t('documents.showcase.affidavit_subtitle'),
+      description: t('documents.showcase.affidavit_desc'),
       icon: <FaGavel />,
       previewImage: '/assets/samples/affidavit_sample.png',
       targetPath: '/create/affidavit',
@@ -403,6 +406,37 @@ const Documents = () => {
             setSelectedDoc(null);
           }} 
           document={selectedDoc} 
+        />
+
+        {/* Can't Find Document? Re-assurance Section */}
+        <section className="mt-24 bg-gradient-to-br from-gray-900 to-black rounded-[3.5rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] -mr-48 -mt-48" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-900/10 rounded-full blur-[80px] -ml-32 -mb-32" />
+          
+          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
+            <div className="w-20 h-20 bg-white/5 rounded-[2rem] flex items-center justify-center text-white text-3xl mx-auto border border-white/10">
+              <FaQuestionCircle />
+            </div>
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
+                {t('documents.missing_title', "Can't find what you're looking for?")}
+              </h2>
+              <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
+                {t('documents.missing_subtitle', "Our architects are constantly designing new templates based on user needs.")}
+              </p>
+            </div>
+            <button 
+              onClick={() => setIsRequestModalOpen(true)}
+              className="px-10 py-5 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-red-700 transition-all shadow-xl shadow-red-900/40 active:scale-95"
+            >
+              {t('documents.request_template', "Request a New Template")}
+            </button>
+          </div>
+        </section>
+
+        <RequestDocumentModal 
+          isOpen={isRequestModalOpen} 
+          onClose={() => setIsRequestModalOpen(false)} 
         />
       </div>
     </div>

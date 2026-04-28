@@ -87,8 +87,8 @@ const Affidavit = () => {
 
   return (
     <SmartEditorLayout
-      title="Affidavit Architect"
-      subtitle="Legal Instrument"
+      title={t('catalog.affidavits_title')}
+      subtitle={t('affidavit.legal_instrument')}
       onSave={onSave}
       isSaving={isSaving}
       isValidated={isValidated}
@@ -98,12 +98,12 @@ const Affidavit = () => {
       preview={
         <div className="bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-serif relative overflow-hidden text-left">
           <div className="text-center mb-16">
-            <h2 className="text-2xl font-black text-charcoal uppercase tracking-[0.3em] mb-4">Affidavit</h2>
+            <h2 className="text-2xl font-black text-charcoal uppercase tracking-[0.3em] mb-4">{t('catalog.affidavits_title')}</h2>
             <div className="w-24 h-1 bg-redMain mx-auto mb-6" />
           </div>
           <div className="flex-1 space-y-6 text-charcoal leading-loose text-sm">
             <p className="font-bold border-l-4 border-redMain pl-6 italic">
-              I, {formData.deponentName || '____________________'}, a {formData.deponentOccupation || '____________________'} and resident of {formData.deponentAddress || '____________________'} do hereby make oath and state as follows:
+              {t('affidavit.oath_start')} {formData.deponentName || '____________________'}, {t('affidavit.oath_resident')} {formData.deponentOccupation || '____________________'} {t('affidavit.oath_resident_of')} {formData.deponentAddress || '____________________'} {t('affidavit.oath_end')}
             </p>
             <div className="space-y-4 pl-6">
               {formData.statements.map((stmt: string, idx: number) => (
@@ -122,10 +122,10 @@ const Affidavit = () => {
          
          <div className="space-y-8">
            <div>
-             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">Deponent Details</h3>
+             <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">{t('affidavit.deponent_details')}</h3>
              <div className="grid grid-cols-1 gap-6 text-left">
                <div>
-                 <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Full Deponent Name</label>
+                 <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.full_name')}</label>
                  <input 
                    type="text"
                    value={formData.deponentName}
@@ -136,7 +136,7 @@ const Affidavit = () => {
                </div>
                 <div className="grid grid-cols-2 gap-4">
                    <div>
-                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Occupation</label>
+                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.occupation')}</label>
                      <input 
                        type="text"
                        value={formData.deponentOccupation}
@@ -145,7 +145,7 @@ const Affidavit = () => {
                      />
                    </div>
                    <div>
-                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">ID/Passport Number</label>
+                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.id_passport')}</label>
                      <input 
                         type="text" 
                         value={formData.idNumber} 
@@ -157,11 +157,11 @@ const Affidavit = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                    <div>
-                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Address</label>
+                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.address')}</label>
                      <input type="text" value={formData.deponentAddress} onChange={(e) => setFormData({...formData, deponentAddress: e.target.value})} className="input-premium" />
                    </div>
                    <div>
-                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Issue Date</label>
+                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.issue_date')}</label>
                      <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} className="input-premium" />
                    </div>
                 </div>
@@ -170,9 +170,9 @@ const Affidavit = () => {
 
            <div>
               <div className="flex justify-between items-center mb-8 border-b pb-4">
-                <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">Statements of Fact</h3>
+                <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">{t('affidavit.statements_fact')}</h3>
                 <button onClick={() => setFormData({ ...formData, statements: [...formData.statements, ''] })} className="text-redMain font-black text-[10px] uppercase tracking-widest hover:underline flex items-center gap-2">
-                  <FaPlus /> Add Point
+                  <FaPlus /> {t('affidavit.add_point')}
                 </button>
               </div>
               <div className="space-y-4">
@@ -186,7 +186,7 @@ const Affidavit = () => {
                         setFormData({ ...formData, statements: newStatements });
                       }}
                       className="w-full p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm min-h-[100px] text-left"
-                      placeholder="I state that..."
+                      placeholder={t('affidavit.i_state')}
                     />
                     <button onClick={() => setFormData({ ...formData, statements: formData.statements.filter((_: any, i: number) => i !== idx) })} className="p-2 text-gray-300 hover:text-redMain">
                       <FaTrash />
@@ -197,12 +197,21 @@ const Affidavit = () => {
             </div>
             
             <Button 
-               label="AI Polish Statements" 
+               label={t('affidavit.ai_polish_statements')} 
                variant="primary"
                icon={<span>✨</span>}
                onClick={onPolish}
                disabled={isPolishing}
                className="w-full"
+            />
+
+            <Button 
+               label={t('affidavit.finalize')} 
+               variant="primary"
+               icon={<FaSave />}
+               onClick={onSave}
+               disabled={isSaving}
+               className="w-full mt-4"
             />
          </div>
       </section>

@@ -1,5 +1,6 @@
 import React from "react";
 import { FaCheck, FaCrown } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface PricingCardProps {
   name: string;
@@ -11,15 +12,17 @@ interface PricingCardProps {
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({ name, price, credits, isPopular, onBuy, description }) => {
+  const { t } = useTranslation();
+  
   return (
     <div className={`card-premium group relative flex flex-col h-full bg-white transition-all duration-500 hover:-translate-y-4 ${isPopular ? 'border-2 border-primary shadow-2xl' : 'border border-secondary/5'}`}>
       {isPopular && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-[0.4em] px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
-          <FaCrown /> Agent Choice
+          <FaCrown /> {t('pricing.plans.agent_pro')}
         </div>
       )}
       
-      <div className="p-8 pb-0">
+      <div className="p-8 pb-0 text-left">
         <h3 className="text-xs font-black text-secondary/40 uppercase tracking-[0.4em] mb-4">{name}</h3>
         <div className="flex items-baseline gap-2 mb-4">
           <span className="text-5xl font-black text-secondary tracking-tighter tabular-nums group-hover:text-primary transition-colors">
@@ -35,7 +38,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ name, price, credits, isPopul
       <div className="px-8 flex-1">
          <div className="bg-neutral-light p-6 rounded-card border border-secondary/5 mb-8">
             <div className="flex items-center justify-between">
-               <span className="text-[10px] font-black text-secondary uppercase tracking-widest">Included Credits</span>
+               <span className="text-[10px] font-black text-secondary uppercase tracking-widest">{t('pricing.credits')}</span>
                <span className="text-xl font-black text-primary group-hover:scale-110 transition-transform">{credits}</span>
             </div>
          </div>
@@ -59,7 +62,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ name, price, credits, isPopul
           onClick={onBuy}
           className={`w-full py-6 rounded-button font-black uppercase tracking-[0.4em] text-xs transition-all duration-300 flex items-center justify-center gap-3 ${isPopular ? 'bg-secondary text-white hover:bg-charcoal' : 'bg-primary text-white hover:bg-red-700'}`}
         >
-          Buy Credits
+          {t('pricing.buy_now')}
         </button>
       </div>
     </div>

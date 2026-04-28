@@ -53,10 +53,6 @@ function App() {
   const user = useSelector((state: RootState) => state.auth.user);
   const isAdmin = user?.is_staff || user?.is_superuser;
 
-  const filteredRoutes = allRoutes.filter((route) => {
-    if (route.path === "/panel") return isAdmin;
-    return true;
-  });
   // Show global loader while app initializes
 
   useEffect(() => {
@@ -132,7 +128,7 @@ useEffect(() => {
       <main className="flex-1 w-full mt-20 transition-colors duration-300 bg-[var(--bg)] text-[var(--text)]">
         <OfflineWrapper>
           <Routes>
-            {filteredRoutes.map((route) => {
+            {allRoutes.map((route) => {
               const Element = route.element;
               return (
                 <Route

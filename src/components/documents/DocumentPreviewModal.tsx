@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { removeDocument } from '../../features/documents/documentsSlice';
 import type { AppDispatch } from '../../store/store';
+import { useTranslation } from 'react-i18next';
 
 import { generateClientPDF } from '../../utils/pdfGenerator';
 import { startFactory, stopFactory } from '../../store/uiSlice';
@@ -25,13 +26,14 @@ interface DocumentPreviewModalProps {
 }
 
 export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOpen, onClose, document }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   if (!document) return null;
 
   const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this document from your archive?')) {
+    if (window.confirm(t('common.confirm_delete_archive', 'Are you sure you want to delete this document from your archive?'))) {
       await dispatch(removeDocument(document.id));
       onClose();
     }
@@ -52,17 +54,15 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
 
   const handleDownload = async () => {
     try {
-      dispatch(startFactory("Retrieving and assembling archived document..."));
+      dispatch(startFactory(t('common.assembling_doc', "Retrieving and assembling archived document...")));
       await generateClientPDF(document.doc_type, document.content, document.title || 'document');
     } catch (err) {
       console.error('Failed to generate PDF:', err);
-      alert('Failed to generate PDF on the client side.');
+      alert(t('common.pdf_fail', 'Failed to generate PDF on the client side.'));
     } finally {
       dispatch(stopFactory());
     }
   };
-
-
 
   return (
     <AnimatePresence>
@@ -91,11 +91,11 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
                   <span className="px-3 py-1 bg-[#B91C1C] text-[10px] font-black uppercase tracking-widest rounded-full">
                     {document.doc_type}
                   </span>
-                  <span className="flex items-center gap-2 text-gray-400 text-[10px] font-black uppercase tracking-widest">
+                  <span className="flex items-center gap-2 text-gray-400 text-[10px] font-black uppercase tracking-widest text-left">
                     <FaCheckCircle className="text-green-500" /> {document.status}
                   </span>
                 </div>
-                <h2 className="text-3xl font-black tracking-tighter uppercase">{document.title || 'Untitled Document'}</h2>
+                <h2 className="text-3xl font-black tracking-tighter uppercase text-left">{document.title || t('common.untitled')}</h2>
               </div>
               <button 
                 onClick={onClose}
@@ -107,16 +107,16 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
 
             {/* Content Body */}
             <div className="p-8 space-y-8">
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-2 gap-8 text-left">
                 <div className="space-y-1">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                    <FaUser className="text-[#B91C1C]" /> Customer Name
+                    <FaUser className="text-[#B91C1C]" /> {t('quotation.customer_name')}
                   </p>
-                  <p className="text-lg font-bold text-[#1F2937]">{document.customer_name || 'Personal Project'}</p>
+                  <p className="text-lg font-bold text-[#1F2937]">{document.customer_name || t('common.personal_project')}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                    <FaCalendarAlt className="text-[#B91C1C]" /> Created On
+                    <FaCalendarAlt className="text-[#B91C1C]" /> {t('common.created_on', 'Created On')}
                   </p>
                   <p className="text-lg font-bold text-[#1F2937]">{new Date(document.created_at).toLocaleDateString()}</p>
                 </div>
@@ -125,7 +125,7 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
               {/* Preview Placeholder */}
               <div className="aspect-video bg-gray-50 rounded-[2rem] border border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-300 space-y-4">
                 <FaFileAlt size={48} className="text-gray-200" />
-                <p className="text-[10px] font-black uppercase tracking-widest">Document Integrity Verified</p>
+                <p className="text-[10px] font-black uppercase tracking-widest">{t('common.integrity_verified', 'Document Integrity Verified')}</p>
               </div>
 
               {/* Actions */}
@@ -137,7 +137,7 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
                   <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-[#1F2937] group-hover:bg-[#B91C1C] group-hover:text-white transition-all text-xl">
                     <FaEdit />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-[#B91C1C]">Edit</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-[#B91C1C]">{t('common.edit', 'Edit')}</span>
                 </button>
 
                 <button 
@@ -147,7 +147,7 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
                   <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-[#1F2937] group-hover:bg-green-600 group-hover:text-white transition-all text-xl">
                     <FaDownload />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600">Download</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600">{t('common.download', 'Download')}</span>
                 </button>
 
                 <button 
@@ -157,7 +157,7 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
                   <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-[#1F2937] group-hover:bg-gray-800 group-hover:text-white transition-all text-xl">
                     <FaTrash />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-800">Delete</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-800">{t('common.delete', 'Delete')}</span>
                 </button>
               </div>
             </div>

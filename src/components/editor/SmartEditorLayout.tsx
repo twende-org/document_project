@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaMagic, FaDownload, FaRocket, FaFileAlt, FaPenNib, FaCloudDownloadAlt } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface SmartEditorProps {
   title: string;
@@ -33,6 +34,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
   onStartTemplate,
   onImportProfile
 }) => {
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-neutral-light overflow-x-hidden">
@@ -51,9 +53,9 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
               >
                 <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
                   <FaFileAlt className="text-primary group-hover:scale-110 transition-transform" /> 
-                  Standard Template
+                  {t('architect.standard_template')}
                 </div>
-                <span className="text-[8px] text-white/40 font-medium uppercase tracking-tighter">Industry Redy Layout</span>
+                <span className="text-[8px] text-white/40 font-medium uppercase tracking-tighter">Industry Ready Layout</span>
               </button>
 
               <button 
@@ -62,7 +64,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
               >
                 <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
                   <FaMagic className="group-hover:rotate-12 transition-transform" /> 
-                  Start with AI
+                  {t('architect.start_ai')}
                 </div>
                 <span className="text-[8px] text-white/70 font-medium uppercase tracking-tighter">Magic Generation</span>
               </button>
@@ -74,7 +76,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                 >
                   <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[10px] text-primary">
                     <FaCloudDownloadAlt className="group-hover:translate-y-1 transition-transform" /> 
-                    Import Profile
+                    {t('architect.import_profile')}
                   </div>
                   <span className="text-[8px] text-primary/60 font-medium uppercase tracking-tighter">Sync your data</span>
                 </button>
@@ -87,7 +89,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
               >
                 <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[10px]">
                   <FaPenNib className="group-hover:-translate-y-1 transition-transform" /> 
-                  Manual Blank
+                  {t('architect.manual_blank')}
                 </div>
                 <span className="text-[8px] text-white/40 font-medium uppercase tracking-tighter">Total Control</span>
               </button>
@@ -115,7 +117,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                   className="btn-primary flex-1 py-6 text-lg flex items-center justify-center gap-3"
                >
                   {isSaving ? <span className="animate-spin text-xl">⏳</span> : <FaRocket />}
-                  {isSaving ? "Architecting..." : "Generate & Finalize"}
+                  {isSaving ? t('architect.architecting') : t('architect.generate_finalize')}
                </button>
             </div>
           </motion.div>
@@ -128,8 +130,8 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
           >
             <div className="bg-white rounded-card shadow-premium border border-neutral-border p-2 min-h-[700px] overflow-hidden flex flex-col">
                <div className="bg-neutral-light p-4 flex justify-between items-center border-b border-neutral-border">
-                  <span className="text-action text-secondary/40">Real-time Production Preview</span>
-                  {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">AI Polishing in progress...</span>}
+                  <span className="text-action text-secondary/40">{t('architect.realtime_preview')}</span>
+                  {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">{t('architect.ai_polishing')}</span>}
                </div>
                <div className="flex-1 bg-neutral-light/50 p-8 flex items-center justify-center">
                   {preview}

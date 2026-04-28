@@ -1,40 +1,46 @@
 import { motion } from "framer-motion";
 import { FaRocket, FaWallet, FaTools, FaHeadset } from "react-icons/fa";
-
-const helpCategories = [
-  {
-    title: "Getting Started",
-    icon: <FaRocket />,
-    items: [
-      "Choosing the right template",
-      "Using AI to polish your content",
-      "Managing your document library",
-      "Exporting to professional PDF"
-    ]
-  },
-  {
-    title: "Payments & Credits",
-    icon: <FaWallet />,
-    items: [
-      "How the credit system works",
-      "Purchasing bulk agent packs",
-      "Refunding unsuccessful transitions",
-      "Accepted payment methods"
-    ]
-  },
-  {
-    title: "Troubleshooting",
-    icon: <FaTools />,
-    items: [
-      "PDF alignment issues",
-      "AI extraction errors",
-      "Account access recovery",
-      "Browser compatibility"
-    ]
-  }
-];
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import RequestDocumentModal from "../modals/RequestDocumentModal";
 
 const Help = () => {
+  const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const helpCategories = [
+    {
+      title: t('help.categories.getting_started'),
+      icon: <FaRocket />,
+      items: [
+        "Choosing the right template",
+        "Using AI to polish your content",
+        "Managing your document library",
+        "Exporting to professional PDF"
+      ]
+    },
+    {
+      title: t('help.categories.payments_credits'),
+      icon: <FaWallet />,
+      items: [
+        "How the credit system works",
+        "Purchasing bulk agent packs",
+        "Refunding unsuccessful transitions",
+        "Accepted payment methods"
+      ]
+    },
+    {
+      title: t('help.categories.troubleshooting'),
+      icon: <FaTools />,
+      items: [
+        "PDF alignment issues",
+        "AI extraction errors",
+        "Account access recovery",
+        "Browser compatibility"
+      ]
+    }
+  ];
+
   return (
     <div className="py-24 bg-neutral-light min-h-screen">
       <div className="container mx-auto px-6">
@@ -45,18 +51,17 @@ const Help = () => {
             animate={{ opacity: 1, y: 0 }}
             className="label-premium text-primary mb-4"
           >
-            Support Hub
+            {t('help.support_hub')}
           </motion.h2>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="text-display text-secondary mb-8 leading-none"
-          >
-            How can we <span className="text-primary italic">Help?</span>
-          </motion.h1>
+            dangerouslySetInnerHTML={{ __html: t('help.hero_title') }}
+          />
           <p className="text-lg font-bold text-secondary/40 uppercase tracking-tight">
-            Find quick answers or connect with our specialized support team.
+            {t('help.hero_subtitle')}
           </p>
         </header>
 
@@ -70,13 +75,13 @@ const Help = () => {
               transition={{ delay: idx * 0.1 }}
               className="card-premium group hover:border-primary transition-all duration-500 bg-white"
             >
-              <div className="w-16 h-16 bg-neutral-light rounded-2xl flex items-center justify-center text-3xl text-secondary/20 group-hover:text-primary group-hover:bg-primary/5 transition-all duration-500 mb-8">
+              <div className="w-16 h-16 bg-neutral-light rounded-2xl flex items-center justify-center text-3xl text-secondary/20 group-hover:text-primary group-hover:bg-primary/5 transition-all duration-500 mb-8 text-left">
                  {category.icon}
               </div>
-              <h3 className="text-xl font-black text-secondary uppercase tracking-tighter mb-8 group-hover:text-primary transition-colors">
+              <h3 className="text-xl font-black text-secondary uppercase tracking-tighter mb-8 group-hover:text-primary transition-colors text-left">
                 {category.title}
               </h3>
-              <ul className="space-y-4">
+              <ul className="space-y-4 text-left">
                 {category.items.map((item, i) => (
                   <li key={i} className="text-[10px] font-black text-secondary/60 uppercase tracking-widest hover:text-primary cursor-pointer transition-colors border-b border-secondary/5 pb-2">
                     {item} →
@@ -90,15 +95,16 @@ const Help = () => {
         {/* Contact Support Section */}
         <section className="bg-secondary rounded-[3rem] p-16 text-center shadow-premium relative overflow-hidden">
            <div className="relative z-10">
-              <h3 className="text-xs font-black text-primary uppercase tracking-[0.5em] mb-6">Direct Channel</h3>
-              <h2 className="text-4xl font-black text-white uppercase tracking-tighter mb-8 leading-tight">
-                Still have <span className="text-primary italic">Questions?</span>
-              </h2>
+              <h3 className="text-xs font-black text-primary uppercase tracking-[0.5em] mb-6">{t('help.direct_channel')}</h3>
+              <h2 className="text-4xl font-black text-white uppercase tracking-tighter mb-8 leading-tight" dangerouslySetInnerHTML={{ __html: t('help.still_questions') }} />
               <p className="max-w-xl mx-auto text-white/40 font-bold uppercase tracking-tight mb-12">
-                Our support architects are available 24/7 to help you with any technical or billing inquiries.
+                {t('help.support_desc')}
               </p>
-              <button className="btn-primary px-12 py-6 text-xs flex items-center justify-center gap-4 mx-auto hover:scale-105 transition-transform">
-                <FaHeadset /> Contact Support Team
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="btn-primary px-12 py-6 text-xs flex items-center justify-center gap-4 mx-auto hover:scale-105 transition-transform"
+              >
+                <FaHeadset /> {t('help.contact_support')}
               </button>
            </div>
            
@@ -107,6 +113,11 @@ const Help = () => {
            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full -ml-24 -mb-24" />
         </section>
       </div>
+
+      <RequestDocumentModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 };

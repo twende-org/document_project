@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import type { RootState } from "../store/store";
 import type { RisalaData } from "../types/risalaTypes";
 import Button from "../components/formElements/Button";
+import { useTranslation } from "react-i18next";
 
 import PDFTraditional from "../components/risala-templates/methods/PDFTraditional";
 import PDFMinimal from "../components/risala-templates/methods/PDFMinimal";
@@ -56,6 +57,7 @@ const TEMPLATES: TemplateOption[] = [
 ];
 
 const RisalaTemplate: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const risalaData = useAppSelector(
     (state: RootState) => state.risala.data
@@ -93,7 +95,7 @@ const RisalaTemplate: React.FC = () => {
   if (risalaData === undefined) {
     return (
       <p className="text-center mt-24 text-subheading">
-        Inapakia taarifa za risala. Tafadhali subiri…
+        {t('risala.loading')}
       </p>
     );
   }
@@ -103,21 +105,19 @@ const RisalaTemplate: React.FC = () => {
     return (
       <div className="flex justify-center items-center min-h-screen bg-background px-4">
         <div className="max-w-md w-full bg-background border border-subheading rounded-2xl p-8 shadow-sm text-center animate-fadeIn">
-          <h2 className="text-h2 text-primary mb-3">
-            Hakuna Taarifa za Risala
+          <h2 className="text-h2 text-primary mb-3 text-left">
+            {t('risala.no_data')}
           </h2>
 
-          <p className="text-base text-subheading mb-4">
-            Ili kuendelea, tafadhali jaza kwanza taarifa muhimu
-            za tukio na risala.
+          <p className="text-base text-subheading mb-4 text-left">
+            {t('risala.no_data_desc')}
           </p>
 
-          <p className="text-base text-subheading mb-6">
-            Baada ya kujaza taarifa hizi, utaweza kuchagua
-            muundo wa risala na kupakua PDF.
+          <p className="text-base text-subheading mb-6 text-left">
+            {t('risala.no_data_hint')}
           </p>
 
-          <Button label="Jaza Taarifa za Risala" onClick={handleOnclick} />
+          <Button label={t('risala.fill_info')} onClick={handleOnclick} />
         </div>
       </div>
     );
@@ -132,9 +132,9 @@ const RisalaTemplate: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto bg-background text-text min-h-screen mt-14 px-4">
+    <div className="container mx-auto bg-background text-text min-h-screen mt-14 px-4 text-left">
       <h1 className="text-h1 mb-8 text-primary text-center">
-        Chagua Muundo wa Risala
+        {t('risala.choose_template')}
       </h1>
 
       {/* EVENT TYPE TABS */}
@@ -193,11 +193,11 @@ const RisalaTemplate: React.FC = () => {
           onClick={() => setPreviewOpen(false)}
         >
           <div
-            className="bg-background text-text rounded-xl shadow-2xl max-w-[85vw] w-full p-6 overflow-y-auto max-h-[95vh]"
+            className="bg-background text-text rounded-xl shadow-2xl max-w-[85vw] w-full p-6 overflow-y-auto max-h-[95vh] relative"
             onClick={e => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-5 text-xl font-bold text-primary"
+              className="absolute top-4 right-5 text-xl font-bold text-primary z-50"
               onClick={() => setPreviewOpen(false)}
             >
               ✕
@@ -205,7 +205,7 @@ const RisalaTemplate: React.FC = () => {
 
             <div className="flex justify-end gap-2 mb-4">
               <Button
-                label="Copy Text"
+                label={t('risala.copy_text')}
                 disabled={!risalaData.generated_risala}
                 onClick={() =>
                   navigator.clipboard.writeText(
@@ -230,8 +230,8 @@ const RisalaTemplate: React.FC = () => {
                       disabled={!risalaData.generated_risala}
                     >
                       {loading
-                        ? "Inatengeneza PDF…"
-                        : "Download PDF"}
+                        ? t('risala.generating_pdf')
+                        : t('risala.download_pdf')}
                     </button>
                   )}
                 </PDFDownloadLink>
