@@ -30,7 +30,7 @@ const Footer = () => {
           </div>
           <div>
             <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-redMain mb-8">{t('footer.connect')}</h4>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap gap-4 md:gap-6">
               {[
                 { icon: <SlSocialFacebook />, url: 'https://www.facebook.com/profile.php?id=61584451314320' },
                 { icon: <FaTiktok />, url: 'https://tiktok.com/@mlekwahub' },

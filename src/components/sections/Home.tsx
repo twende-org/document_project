@@ -217,10 +217,10 @@ export const Home = () => {
       {/* FINAL CTA */}
       <section className="py-24 bg-white text-center">
         <div className="container mx-auto px-6">
-          <h2 className="text-display text-secondary mb-12">{t('home.ready_to_begin')}</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-display text-secondary mb-12 px-4">{t('home.ready_to_begin')}</h2>
           <Link
             to="/create"
-            className="btn-primary py-6 px-12 text-lg"
+            className="btn-primary inline-flex items-center justify-center py-6 px-8 md:px-12 text-sm md:text-lg w-auto max-w-full"
           >
             {t('home.create_first')}
           </Link>
