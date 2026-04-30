@@ -278,7 +278,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                   {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">AI Polishing...</span>}
                </div>
                <div className="flex-1 bg-neutral-light/50 p-4 md:p-8 flex justify-center overflow-x-auto w-full">
-                  <div className="min-w-[700px] w-full">
+                  <div className="min-w-[700px] lg:min-w-0 w-full">
                      {preview}
                   </div>
                </div>
