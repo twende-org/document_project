@@ -135,7 +135,7 @@ export const MobileNavBar = () => {
                       to={link.path}
                       onClick={closeMenu}
                       className={({ isActive }) =>
-                        `text-4xl font-black uppercase tracking-tighter ${
+                        `text-2xl font-black uppercase tracking-tighter ${
                           isActive ? "text-primary" : "text-white"
                         }`
                       }
@@ -156,7 +156,7 @@ export const MobileNavBar = () => {
               <Link
                 to="/create"
                 onClick={closeMenu}
-                className="w-full h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-sm font-black uppercase tracking-widest shadow-2xl shadow-red-900/40"
+                className="w-full h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-sm font-black uppercase tracking-widest shadow-2xl shadow-red-900/40"
               >
                 {t('common.create')}
               </Link>

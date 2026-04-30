@@ -54,28 +54,49 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-8 py-4 rounded-button font-bold uppercase tracking-widest text-action shadow-red-glow hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-button font-bold uppercase tracking-widest text-[10px] md:text-action shadow-red-glow hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply bg-secondary text-white px-8 py-4 rounded-button font-bold uppercase tracking-widest text-action shadow-premium hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-secondary text-white px-6 py-3 md:px-8 md:py-4 rounded-button font-bold uppercase tracking-widest text-[10px] md:text-action shadow-premium hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-ghost {
-    @apply bg-transparent text-secondary border-2 border-secondary/10 px-8 py-4 rounded-button font-bold uppercase tracking-widest text-action hover:bg-secondary/5;
+    @apply bg-transparent text-secondary border-2 border-secondary/10 px-6 py-3 md:px-8 md:py-4 rounded-button font-bold uppercase tracking-widest text-[10px] md:text-action hover:bg-secondary/5;
   }
 
   .card-premium {
-    @apply bg-white p-8 rounded-card shadow-premium border border-neutral-border hover:border-primary/20 hover:scale-[1.02];
+    @apply bg-white p-6 md:p-8 rounded-card shadow-premium border border-neutral-border hover:border-primary/20 hover:scale-[1.02];
   }
   
   .input-premium {
-    @apply w-full bg-white border-2 border-neutral-border focus:border-primary focus:ring-4 focus:ring-primary/10 p-6 rounded-button font-bold text-secondary outline-none placeholder:opacity-50;
+    @apply w-full bg-white border-2 border-neutral-border focus:border-primary focus:ring-4 focus:ring-primary/10 p-4 md:p-6 rounded-button font-bold text-secondary outline-none placeholder:opacity-50 text-sm md:text-base;
   }
 
   .label-premium {
     @apply text-action text-secondary/60 mb-2 block uppercase;
   }
+
+  .glass-morphism {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  }
+
+  .mesh-gradient {
+    background-color: #f9fafb;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(185, 28, 28, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(31, 41, 55, 0.05) 0px, transparent 50%);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Custom Scrollbar */

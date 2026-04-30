@@ -178,7 +178,7 @@ const OfficialLetter = () => {
          <div className="space-y-8 text-left">
            <div>
              <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">{t('letter.personnel_details')}</h3>
-             <div className="grid grid-cols-2 gap-6">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-2">
                   <label className="label-premium">{t('letter.sender_name')}</label>
                   <input 

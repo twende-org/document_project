@@ -63,7 +63,7 @@ const AgentDashboard = () => {
              </div>
              <div className="text-left">
                 <h2 className="label-premium text-primary mb-1">{t('agent.agent_station')}</h2>
-                <h1 className="text-display text-secondary leading-none" dangerouslySetInnerHTML={{ __html: t('agent.command_center') }} />
+                <h1 className="text-3xl md:text-display text-secondary leading-none" dangerouslySetInnerHTML={{ __html: t('agent.command_center') }} />
              </div>
           </div>
           

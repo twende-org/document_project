@@ -256,10 +256,10 @@ const onSubmit = async (data: RisalaFormData) => {
           );
         })}
 
-        <div className="flex gap-2 mt-4">
-          {step > 1 && <Button label="Nyuma" onClick={back} type="button" />}
-          {step < totalSteps && <Button label="Next" onClick={next} type="button" />}
-          {step === totalSteps && <Button onClick={()=>{}} type="submit" label="Tengeneza Risala" />}
+        <div className="flex flex-col sm:flex-row gap-4 mt-8">
+          {step > 1 && <Button label="Nyuma" onClick={back} type="button" className="w-full sm:w-auto" />}
+          {step < totalSteps && <Button label="Next" onClick={next} type="button" className="w-full sm:w-auto" />}
+          {step === totalSteps && <Button onClick={()=>{}} type="submit" label="Tengeneza Risala" className="w-full sm:w-auto" />}
         </div>
       </form>
     </div>

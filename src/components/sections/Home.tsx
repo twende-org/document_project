@@ -100,20 +100,20 @@ export const Home = () => {
               <span className="h-px w-12 bg-primary"></span>
               <span className="text-primary font-black uppercase tracking-[0.4em] text-action">{t('common.professional_excellence')}</span>
             </div>
-            <h1 className="text-display" dangerouslySetInnerHTML={{ __html: t('home.hero_title') }} />
+            <h1 className="text-3xl md:text-display" dangerouslySetInnerHTML={{ __html: t('home.hero_title') }} />
             <p className="text-lg text-secondary/60 font-medium max-w-xl leading-relaxed">
               {t('home.hero_subtitle')}
             </p>
-            <div className="flex flex-wrap gap-6 pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4">
               <Link
                 to="/documents"
-                className="btn-primary flex items-center gap-3 group"
+                className="btn-primary flex items-center justify-center gap-3 group w-full sm:w-auto"
               >
                 {t('common.start_creating')} <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/documents?mode=showcase"
-                className="btn-ghost flex items-center gap-3"
+                className="btn-ghost flex items-center justify-center gap-3 w-full sm:w-auto"
               >
                 {t('home.try_sample')}
               </Link>

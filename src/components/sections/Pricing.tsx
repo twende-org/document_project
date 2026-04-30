@@ -60,7 +60,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ name, price, credits, isPopul
       <div className="p-8 pt-0 mt-auto">
         <button
           onClick={onBuy}
-          className={`w-full py-6 rounded-button font-black uppercase tracking-[0.4em] text-xs transition-all duration-300 flex items-center justify-center gap-3 ${isPopular ? 'bg-secondary text-white hover:bg-charcoal' : 'bg-primary text-white hover:bg-red-700'}`}
+          className={`w-full py-3 md:py-6 rounded-button font-black uppercase tracking-[0.4em] text-xs transition-all duration-300 flex items-center justify-center gap-3 ${isPopular ? 'bg-secondary text-white hover:bg-charcoal' : 'bg-primary text-white hover:bg-red-700'}`}
         >
           {t('pricing.buy_now')}
         </button>

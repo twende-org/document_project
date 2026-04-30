@@ -57,7 +57,7 @@ const Help = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-display text-secondary mb-8 leading-none"
+            className="text-3xl md:text-display text-secondary mb-8 leading-none"
             dangerouslySetInnerHTML={{ __html: t('help.hero_title') }}
           />
           <p className="text-lg font-bold text-secondary/40 uppercase tracking-tight">
@@ -102,7 +102,7 @@ const Help = () => {
               </p>
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="btn-primary px-12 py-6 text-xs flex items-center justify-center gap-4 mx-auto hover:scale-105 transition-transform"
+                className="btn-primary px-8 md:px-12 py-4 md:py-6 text-xs flex items-center justify-center gap-4 mx-auto hover:scale-105 transition-transform"
               >
                 <FaHeadset /> {t('help.contact_support')}
               </button>

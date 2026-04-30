@@ -74,10 +74,10 @@ const Dashboard = () => {
   if (!isAdmin) {
     return (
         <div className="mx-auto container mt-32 px-4 text-center">
-            <div className="bg-red-50 p-12 rounded-[3rem] border border-red-100 inline-block">
-                <h2 className="text-3xl font-black text-red-600 mb-4 uppercase tracking-tighter">Access Denied</h2>
-                <p className="text-gray-500 font-bold uppercase tracking-widest text-xs mb-8">You do not have administrative privileges to access this panel.</p>
-                <a href="/" className="btn-primary px-10 py-4 inline-block">Return Home</a>
+            <div className="bg-red-50 p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] border border-red-100 inline-block">
+                <h2 className="text-2xl md:text-3xl font-black text-red-600 mb-4 uppercase tracking-tighter">Access Denied</h2>
+                <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] md:text-xs mb-8">You do not have administrative privileges to access this panel.</p>
+                <a href="/" className="btn-primary px-8 md:px-10 py-3 md:py-4 inline-block">Return Home</a>
             </div>
         </div>
     );
