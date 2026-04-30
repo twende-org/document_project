@@ -1,11 +1,21 @@
 export type DocumentType = 'PROFORMA' | 'QUOTATION' | 'AFFIDAVIT' | 'CONTRACT' | 'EVENT_PROGRAM' | 'LETTER' | 'CV' | 'INVOICE';
 
+export interface DocumentSettings {
+  theme?: {
+    primaryColor: string;
+    secondaryColor?: string;
+    fontFamily?: string;
+  };
+  layout?: string;
+}
+
 export interface DocumentBase {
   id?: number;
   title: string;
   doc_type: DocumentType;
   status: 'DRAFT' | 'FINAL';
   content: any;
+  settings?: DocumentSettings;
   customer_name?: string;
   customer_phone?: string;
   is_polished?: boolean;

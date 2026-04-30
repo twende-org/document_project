@@ -314,7 +314,7 @@ const Documents = () => {
                   <motion.div
                     key={item.id}
                     whileHover={{ y: -8 }}
-                    className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-900/5 transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between aspect-[4/5]"
+                    className="bg-white rounded-[2rem] p-6 sm:p-8 border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-900/5 transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between min-h-[280px] sm:aspect-[4/5]"
                     onClick={() => {
                       if (isArchive) {
                         setSelectedDoc(item);
@@ -324,20 +324,20 @@ const Documents = () => {
                       }
                     }}
                   >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-bl-[4rem] -mr-8 -mt-8 group-hover:bg-red-50 transition-colors" />
+                    <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gray-50 rounded-bl-[3rem] sm:rounded-bl-[4rem] -mr-6 -mt-6 sm:-mr-8 sm:-mt-8 group-hover:bg-red-50 transition-colors" />
                     
-                    <div className="relative z-10 space-y-6">
-                      <div className={`w-14 h-14 ${isArchive ? 'bg-slate-800' : (item.color || 'bg-slate-800')} text-white rounded-2xl flex items-center justify-center text-xl shadow-xl group-hover:rotate-12 transition-all duration-500`}>
+                    <div className="relative z-10 space-y-4 sm:space-y-6">
+                      <div className={`w-12 h-12 sm:w-14 sm:h-14 ${isArchive ? 'bg-slate-800' : (item.color || 'bg-slate-800')} text-white rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl shadow-xl group-hover:rotate-12 transition-all duration-500`}>
                         {isArchive ? <FaFileAlt /> : item.icon}
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[#B91C1C] text-[9px] font-black uppercase tracking-[0.4em] leading-none mb-2">
+                        <p className="text-[#B91C1C] text-[8px] sm:text-[9px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] leading-none mb-2">
                           {isArchive ? item.status : item.subtitle}
                         </p>
-                        <h3 className="text-2xl font-black text-[#1F2937] tracking-tighter leading-tight group-hover:text-[#B91C1C] transition-colors line-clamp-2">
+                        <h3 className="text-xl sm:text-2xl font-black text-[#1F2937] tracking-tighter leading-tight group-hover:text-[#B91C1C] transition-colors line-clamp-2">
                           {isArchive ? (item.title || 'Untitled Document') : item.title}
                         </h3>
-                        <p className="text-gray-400 font-medium text-xs leading-relaxed line-clamp-3 pt-2">
+                        <p className="text-gray-400 font-medium text-[10px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3 pt-1 sm:pt-2">
                           {isArchive ? `Customer: ${item.customer_name || 'Personal'}` : item.description}
                         </p>
                       </div>

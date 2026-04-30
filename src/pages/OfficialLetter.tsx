@@ -6,6 +6,7 @@ import { SmartEditorLayout } from '../components/editor/SmartEditorLayout';
 import { notify } from '../utils/notificationService';
 import Button from '../components/formElements/Button';
 import { useTranslation } from 'react-i18next';
+import { DOCUMENT_REGISTRY } from '../documents/registry';
 
 const OfficialLetter = () => {
   const { t } = useTranslation();
@@ -33,7 +34,9 @@ const OfficialLetter = () => {
     handlePolish,
     isSaving,
     isPolishing,
-    isValidated
+    isValidated,
+    settings,
+    setSettings
   } = useDocumentEngine(getInitialData(), 'LETTER', {
     sender_name: 'senderName',
     sender_title: 'senderTitle',
@@ -133,39 +136,42 @@ const OfficialLetter = () => {
       isPolishing={isPolishing}
       onStartTemplate={onStartTemplate}
       onStartBlank={onStartBlank}
+      settings={settings}
+      onSettingsChange={setSettings}
+      templates={DOCUMENT_REGISTRY['LETTER'].templates}
       preview={
-        <div className="bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-sans relative text-left text-[11px] leading-relaxed text-gray-800">
-            <div className="flex justify-between items-start mb-12 border-b pb-8">
+        <div className={`bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-sans relative text-left text-gray-800 ${settings?.layout === 'compact' ? 'text-[9px] leading-tight gap-4' : 'text-[11px] leading-relaxed gap-6'}`}>
+            <div className={`flex justify-between items-start border-b pb-8 ${settings?.layout === 'compact' ? 'mb-6' : 'mb-12'}`} style={{ borderBottomColor: settings?.theme?.primaryColor + '40' }}>
                <div>
-                  <h2 className="text-2xl font-black text-redMain tracking-tighter">TWENDE</h2>
+                  <h2 className="text-2xl font-black tracking-tighter" style={{ color: settings?.theme?.primaryColor }}>TWENDE</h2>
                   <p className="text-[7px] text-gray-400 uppercase tracking-widest">{t('catalog.official_letter_subtitle')}</p>
                </div>
-               <div className="text-right">
-                  <p className="font-black text-charcoal">{formData.senderName || t('letter.sender_name_placeholder')}</p>
-                  <p className="text-gray-400 text-[9px]">{formData.senderAddress || t('letter.sender_address_placeholder')}</p>
-               </div>
+                <div className="text-right max-w-[200px]">
+                   <p className="font-black text-charcoal break-words">{formData.senderName || t('letter.sender_name_placeholder')}</p>
+                   <p className="text-gray-400 text-[9px] break-words whitespace-pre-wrap">{formData.senderAddress || t('letter.sender_address_placeholder')}</p>
+                </div>
             </div>
 
             <p className="font-black mb-8">{formData.date}</p>
 
-            <div className="mb-8">
-               <p className="font-black text-charcoal text-sm">{formData.recipientName || t('letter.recipient_name_placeholder')}</p>
-               <p className="text-gray-500 max-w-[200px]">{formData.recipientAddress || t('letter.recipient_address_placeholder')}</p>
+            <div className={`${settings?.layout === 'modern' ? 'mb-12' : 'mb-8'}`}>
+               <p className="font-black text-charcoal text-sm break-words max-w-[250px]">{formData.recipientName || t('letter.recipient_name_placeholder')}</p>
+               <p className="text-gray-500 max-w-[200px] break-words whitespace-pre-wrap">{formData.recipientAddress || t('letter.recipient_address_placeholder')}</p>
             </div>
 
-            <div className="mb-8 py-2 border-b border-redMain/20 inline-block">
-               <p className="font-black text-charcoal uppercase tracking-tight">RE: {formData.subject || t('letter.subject_placeholder')}</p>
+            <div className={`py-2 border-b inline-block max-w-full ${settings?.layout === 'modern' ? 'mb-12' : 'mb-8'}`} style={{ borderBottomColor: settings?.theme?.primaryColor + '40' }}>
+               <p className="font-black text-charcoal uppercase tracking-tight break-words max-w-[450px]">RE: {formData.subject || t('letter.subject_placeholder')}</p>
             </div>
 
             <p className="font-bold mb-4">{t('letter.dear')}</p>
             
-            <div className="flex-1 text-justify">
+            <div className={`flex-1 text-justify ${settings?.layout === 'modern' ? 'leading-loose' : ''}`}>
                <p>{formData.body || t('architect.ai_polishing')}</p>
             </div>
 
-            <div className="mt-12">
+            <div className={`${settings?.layout === 'compact' ? 'mt-6' : 'mt-12'}`}>
                <p>{t('letter.sincerely')}</p>
-               <div className="h-12" />
+               <div className={`${settings?.layout === 'compact' ? 'h-6' : 'h-12'}`} />
                <p className="font-black text-charcoal text-sm uppercase">{formData.senderName || t('letter.sender_name_placeholder')}</p>
                <p className="text-gray-400 text-[9px]">{formData.senderTitle || t('letter.sender_title')}</p>
             </div>
@@ -173,13 +179,13 @@ const OfficialLetter = () => {
       }
     >
       <section className="card-premium p-8 md:p-12 shadow-2xl relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-redMain to-charcoal" />
+         <div className="absolute top-0 left-0 w-full h-2" style={{ backgroundColor: settings?.theme?.primaryColor }} />
          
          <div className="space-y-8 text-left">
            <div>
              <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em] mb-8 border-b pb-4">{t('letter.personnel_details')}</h3>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="col-span-2">
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="sm:col-span-2">
                   <label className="label-premium">{t('letter.sender_name')}</label>
                   <input 
                     type="text" 

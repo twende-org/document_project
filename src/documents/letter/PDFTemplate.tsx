@@ -73,39 +73,83 @@ interface LetterData {
   body: string;
 }
 
-const LetterPDFTemplate = ({ data }: { data: LetterData }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header / Sender */}
-      <View style={styles.header}>
-        <Text style={styles.senderName}>{data.sender_name || 'Sender Name'}</Text>
-        <Text style={styles.date}>{data.date || new Date().toLocaleDateString()}</Text>
-      </View>
+const LetterPDFTemplate = ({ data, settings }: { data: LetterData, settings?: any }) => {
+  const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
+  const isCompact = settings?.layout === 'compact';
+  const isModern = settings?.layout === 'modern';
+  const isElegant = settings?.layout === 'elegant';
 
-      {/* Recipient */}
-      <View style={styles.recipientSection}>
-        <Text style={styles.label}>To:</Text>
-        <Text style={styles.recipientName}>{data.recipient_name || 'Recipient Name'}</Text>
-        <Text style={{ fontSize: 10 }}>{data.recipient_address || 'Recipient Address'}</Text>
-      </View>
-
-      {/* Subject */}
-      <Text style={styles.subject}>RE: {data.subject || 'Official Correspondence'}</Text>
-
-      {/* Body */}
-      <Text style={styles.body}>
-        {data.body || 'Letter content goes here...'}
-      </Text>
-
-      {/* Closing */}
-      <View style={styles.closing}>
-        <Text>Sincerely,</Text>
-        <View style={styles.signature}>
-          <Text style={{ fontWeight: 'bold' }}>{data.sender_name}</Text>
+  return (
+    <Document>
+      <Page size="A4" style={[styles.page, isCompact ? { padding: 40 } : {}]}>
+        {/* Header / Sender */}
+        <View style={[
+          styles.header, 
+          { borderBottomColor: primaryColor + '40' }, 
+          isCompact ? { marginBottom: 20 } : {},
+          isModern ? { flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 2, borderBottomColor: primaryColor } : {},
+          isElegant ? { alignItems: 'center', borderBottomWidth: 0, marginBottom: 60 } : {}
+        ]}>
+          <View style={isElegant ? { alignItems: 'center' } : {}}>
+            <Text style={[
+              styles.senderName, 
+              { color: primaryColor },
+              isElegant ? { fontSize: 24, letterSpacing: 4 } : {}
+            ]}>{data.sender_name || 'Sender Name'}</Text>
+            {(isModern || isElegant) && <Text style={{ fontSize: 9, color: '#666', letterSpacing: 2 }}>OFFICIAL CORRESPONDENCE</Text>}
+          </View>
+          {!isElegant && <Text style={[styles.date, isModern ? { marginTop: 0, alignSelf: 'flex-end' } : {}]}>{data.date || new Date().toLocaleDateString()}</Text>}
         </View>
-      </View>
-    </Page>
-  </Document>
-);
+
+        {/* Recipient & Date */}
+        <View style={[
+          styles.recipientSection, 
+          isCompact ? { marginBottom: 15 } : {},
+          isModern ? { backgroundColor: '#F9FAFB', padding: 10, borderRadius: 4 } : {},
+          isElegant ? { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', borderBottomWidth: 1, borderBottomColor: '#eee', paddingBottom: 10 } : {}
+        ]}>
+          <View>
+            <Text style={styles.label}>To:</Text>
+            <Text style={[styles.recipientName, isCompact ? { fontSize: 10 } : {}]}>{data.recipient_name || 'Recipient Name'}</Text>
+            <Text style={{ fontSize: isCompact ? 8 : 10 }}>{data.recipient_address || 'Recipient Address'}</Text>
+          </View>
+          {isElegant && <Text style={[styles.date, { marginTop: 0 }]}>{data.date || new Date().toLocaleDateString()}</Text>}
+        </View>
+
+        {/* Subject */}
+        <View style={[
+          isModern ? { marginVertical: 25, paddingLeft: 10, borderLeftWidth: 3, borderLeftColor: primaryColor } : {}
+        ]}>
+          <Text style={[
+            styles.subject, 
+            { borderBottomColor: primaryColor, borderBottomWidth: 1, textDecoration: 'none' }, 
+            isCompact ? { marginVertical: 10, fontSize: 10 } : {},
+            isModern ? { borderBottomWidth: 0, marginVertical: 0 } : {}
+          ]}>
+            RE: {data.subject || 'Official Correspondence'}
+          </Text>
+        </View>
+
+        {/* Body */}
+        <Text style={[styles.body, isModern ? { lineHeight: 1.8, fontSize: 11 } : {}, isCompact ? { fontSize: 9 } : {}]}>
+          {data.body || 'Letter content goes here...'}
+        </Text>
+
+        {/* Closing */}
+        <View style={[styles.closing, isCompact ? { marginTop: 25 } : {}]}>
+          <Text style={isCompact ? { fontSize: 9 } : {}}>Sincerely,</Text>
+          <View style={[
+            styles.signature, 
+            { borderTopColor: primaryColor }, 
+            isCompact ? { marginTop: 20, width: 150 } : {},
+            isModern ? { borderTopWidth: 2, width: 180 } : {}
+          ]}>
+            <Text style={{ fontWeight: 'bold', fontSize: isCompact ? 9 : 11 }}>{data.sender_name}</Text>
+          </View>
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
 export default LetterPDFTemplate;

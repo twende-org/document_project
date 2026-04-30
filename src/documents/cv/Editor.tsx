@@ -9,6 +9,7 @@ import { CV_TEMPLATE } from "../templates";
 import { toast } from "react-toastify";
 import { notify } from "../../utils/notificationService";
 import axios from "axios";
+import { DOCUMENT_REGISTRY } from "../registry";
 
 const Editor = () => {
   const initialData: CVContent = {
@@ -38,6 +39,8 @@ const Editor = () => {
     isSaving,
     isPolishing,
     isValidated,
+    settings,
+    setSettings,
     error
   } = useDocumentEngine<CVContent>(initialData, 'CV');
 
@@ -84,10 +87,12 @@ const Editor = () => {
       isSaving={isSaving}
       isPolishing={isPolishing}
       isValidated={isValidated}
-      preview={<Preview data={formData} />}
+      settings={settings}
+      onSettingsChange={setSettings}
+      templates={DOCUMENT_REGISTRY['CV'].templates}
+      preview={<Preview data={formData} settings={settings} />}
       onImportProfile={handleImportProfile}
       onStartBlank={() => {
-
         setFormData(initialData);
         toast.info("Started with a blank canvas.");
       }}
@@ -105,8 +110,6 @@ const Editor = () => {
       }}
     >
       <div className="space-y-12">
-        {/* Document Metadata moved to Layout */}
-
         {/* Personal Details */}
         <div className="card-premium">
           <h3 className="text-heading text-xl mb-8 flex items-center gap-3">

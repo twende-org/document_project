@@ -14,6 +14,10 @@ export function useDocumentEngine<T>(
 ) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<T>(initialData);
+  const [settings, setSettings] = useState<DocumentBase['settings']>({
+    theme: { primaryColor: '#B91C1C' }, // Default system color
+    layout: 'standard'
+  });
 
   const [isSaving, setIsSaving] = useState(false);
   const [isPolishing, setIsPolishing] = useState(false);
@@ -58,7 +62,8 @@ export function useDocumentEngine<T>(
         title,
         doc_type: docType as any,
         status,
-        content: payload
+        content: payload,
+        settings: settings
       };
       const savedDoc = await DocumentService.save(doc);
       setIsValidated(true);
@@ -66,7 +71,7 @@ export function useDocumentEngine<T>(
       if (status === 'FINAL') {
           dispatch(startFactory("Finalizing and generating PDF..."));
           try {
-            await generateClientPDF(docType, formData, title);
+            await generateClientPDF(docType, formData, title, settings);
           } finally {
             dispatch(stopFactory());
           }
@@ -98,13 +103,15 @@ export function useDocumentEngine<T>(
   return {
     formData,
     setFormData,
+    settings,
+    setSettings,
     updateField,
     handleSave,
     handlePolish,
     handleDownload: async (title: string) => {
         dispatch(startFactory("Manufacturing your PDF..."));
         try {
-          await generateClientPDF(docType, formData, title);
+          await generateClientPDF(docType, formData, title, settings);
         } finally {
           dispatch(stopFactory());
         }

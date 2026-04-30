@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   },
   billTo: {
     width: "50%",
+    paddingRight: 20,
   },
   label: {
     color: "#9CA3AF",
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     borderBottomStyle: 'solid',
     borderBottomColor: "#F3F4F6",
   },
-  descCol: { width: "60%" },
+  descCol: { width: "60%", paddingRight: 10 },
   qtyCol: { width: "10%", textAlign: "center" },
   priceCol: { width: "15%", textAlign: "right" },
   totalCol: { width: "15%", textAlign: "right" },
@@ -114,69 +115,104 @@ const styles = StyleSheet.create({
 
 interface InvoicePDFProps {
   data: any;
+  settings?: any;
 }
 
-const PDFTemplate = ({ data }: InvoicePDFProps) => {
+const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
   const { clientName, clientAddress, invoiceDate, dueDate, items, taxRate = 18 } = data;
   
   const subtotal = items.reduce((acc: number, item: any) => acc + (item.quantity * item.unitPrice), 0);
   const tax = subtotal * (taxRate / 100);
   const total = subtotal + tax;
 
+  const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
+  const isCompact = settings?.layout === 'compact';
+  const isModern = settings?.layout === 'modern';
+  const isElegant = settings?.layout === 'elegant';
+
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, isCompact ? { padding: 30 } : {}]}>
         {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.logo}>TWENDE</Text>
-            <Text style={{ fontSize: 8, color: "#9CA3AF", letterSpacing: 3 }}>DOCUMENTS ARCHITECT</Text>
+        <View style={[
+          styles.header, 
+          { borderBottomColor: primaryColor }, 
+          isCompact ? { marginBottom: 20 } : {},
+          isModern ? { backgroundColor: primaryColor, borderBottomWidth: 0, marginTop: -40, marginHorizontal: -40, marginBottom: 40, paddingTop: 60, paddingBottom: 50, paddingHorizontal: 40, flexDirection: 'row', alignItems: 'center' } : {},
+          isElegant ? { borderBottomWidth: 0, justifyContent: 'center', alignItems: 'center', marginBottom: 60 } : {}
+        ]}>
+          <View style={isElegant ? { alignItems: 'center' } : {}}>
+            <Text style={[
+              styles.logo, 
+              { color: primaryColor }, 
+              isModern ? { color: 'white' } : {},
+              isElegant ? { fontSize: 32, letterSpacing: 8 } : {}
+            ]}>TWENDE</Text>
+            <Text style={[
+              { fontSize: 8, color: "#9CA3AF", letterSpacing: 3 }, 
+              isModern ? { color: 'white', opacity: 0.8 } : {},
+              isElegant ? { marginTop: 5 } : {}
+            ]}>DOCUMENTS ARCHITECT</Text>
           </View>
-          <View style={{ textAlign: "right" }}>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>INVOICE</Text>
-            <Text style={{ color: "#9CA3AF" }}>#INV-{new Date().getTime().toString().slice(-6)}</Text>
-          </View>
+          {!isElegant && (
+            <View style={{ textAlign: "right" }}>
+              <Text style={[{ fontWeight: "bold", fontSize: 16 }, isModern ? { color: 'white' } : {}]}>INVOICE</Text>
+              <Text style={[{ color: "#9CA3AF" }, isModern ? { color: 'white', opacity: 0.8 } : {}]}>#INV-{new Date().getTime().toString().slice(-6)}</Text>
+            </View>
+          )}
         </View>
 
         {/* Info */}
-        <View style={styles.detailsContainer}>
+        <View style={[
+          styles.detailsContainer, 
+          isCompact ? { marginBottom: 15 } : {},
+          isModern || isElegant ? { marginTop: 20 } : {}
+        ]}>
           <View style={styles.billTo}>
             <Text style={styles.label}>Bill To:</Text>
-            <Text style={styles.value}>{clientName || "Client Name"}</Text>
-            <Text style={{ color: "#4B5563", marginTop: 4, width: 200 }}>{clientAddress || "Client Address"}</Text>
+            <Text style={[styles.value, isCompact ? { fontSize: 10 } : {}]}>{clientName || "Client Name"}</Text>
+            <Text style={{ color: "#4B5563", marginTop: 4, width: '100%', fontSize: isCompact ? 8 : 10 }}>{clientAddress || "Client Address"}</Text>
           </View>
           <View style={{ textAlign: "right" }}>
-            <View style={{ marginBottom: 10 }}>
+            <View style={{ marginBottom: isCompact ? 5 : 10 }}>
               <Text style={styles.label}>Issue Date:</Text>
-              <Text style={styles.value}>{invoiceDate || "YYYY-MM-DD"}</Text>
+              <Text style={[styles.value, isCompact ? { fontSize: 10 } : {}]}>{invoiceDate || "YYYY-MM-DD"}</Text>
             </View>
             <View>
               <Text style={styles.label}>Due Date:</Text>
-              <Text style={styles.value}>{dueDate || "YYYY-MM-DD"}</Text>
+              <Text style={[styles.value, { color: primaryColor }, isCompact ? { fontSize: 10 } : {}]}>{dueDate || "YYYY-MM-DD"}</Text>
             </View>
           </View>
         </View>
 
         {/* Table */}
-        <View style={styles.table}>
-          <View style={styles.tableHeader}>
-            <Text style={styles.descCol}>Description</Text>
-            <Text style={styles.qtyCol}>Qty</Text>
-            <Text style={styles.priceCol}>Unit Price</Text>
-            <Text style={styles.totalCol}>Total</Text>
+        <View style={[styles.table, isModern ? { marginTop: 30 } : {}]}>
+          <View style={[
+            styles.tableHeader, 
+            isCompact ? { padding: 6 } : {},
+            isModern ? { backgroundColor: 'white', borderBottomColor: primaryColor, borderBottomWidth: 2, paddingHorizontal: 0 } : {}
+          ]}>
+            <Text style={[styles.descCol, isModern ? { color: primaryColor } : {}]}>Description</Text>
+            <Text style={[styles.qtyCol, isModern ? { color: primaryColor } : {}]}>Qty</Text>
+            <Text style={[styles.priceCol, isModern ? { color: primaryColor } : {}]}>Unit Price</Text>
+            <Text style={[styles.totalCol, isModern ? { color: primaryColor } : {}]}>Total</Text>
           </View>
           {items.map((item: any, i: number) => (
-            <View key={i} style={styles.tableRow}>
-              <Text style={styles.descCol}>{item.description || "Service Item"}</Text>
-              <Text style={styles.qtyCol}>{item.quantity || 1}</Text>
-              <Text style={styles.priceCol}>{item.unitPrice?.toLocaleString() || 0}</Text>
-              <Text style={styles.totalCol}>{(item.quantity * item.unitPrice)?.toLocaleString() || 0}</Text>
+            <View key={i} style={[
+              styles.tableRow, 
+              isCompact ? { padding: 6 } : {},
+              isModern ? { paddingHorizontal: 0, borderBottomColor: '#f9f9f9' } : {}
+            ]}>
+              <Text style={[styles.descCol, isCompact ? { fontSize: 9 } : {}]}>{item.description || "Service Item"}</Text>
+              <Text style={[styles.qtyCol, isCompact ? { fontSize: 9 } : {}]}>{item.quantity || 1}</Text>
+              <Text style={[styles.priceCol, isCompact ? { fontSize: 9 } : {}]}>{item.unitPrice?.toLocaleString() || 0}</Text>
+              <Text style={[styles.totalCol, isCompact ? { fontSize: 9, fontWeight: 'bold' } : { fontWeight: 'bold' }]}>{(item.quantity * item.unitPrice)?.toLocaleString() || 0}</Text>
             </View>
           ))}
         </View>
 
         {/* Totals */}
-        <View style={styles.totalsContainer}>
+        <View style={[styles.totalsContainer, isCompact ? { marginTop: 20 } : {}]}>
           <View style={styles.totalLine}>
             <Text style={{ color: "#9CA3AF" }}>Subtotal:</Text>
             <Text style={{ fontWeight: "bold" }}>TSh {subtotal.toLocaleString()}</Text>
@@ -185,7 +221,12 @@ const PDFTemplate = ({ data }: InvoicePDFProps) => {
             <Text style={{ color: "#9CA3AF" }}>VAT ({taxRate}%):</Text>
             <Text style={{ fontWeight: "bold" }}>TSh {tax.toLocaleString()}</Text>
           </View>
-          <View style={styles.grandTotal}>
+          <View style={[
+            styles.grandTotal, 
+            { color: primaryColor, borderTopColor: primaryColor }, 
+            isCompact ? { fontSize: 12, width: 150 } : {},
+            isModern ? { backgroundColor: '#F9FAFB', padding: 15, borderTopWidth: 0, width: 220, borderRadius: 4 } : {}
+          ]}>
             <Text>Total Payable:</Text>
             <Text>TSh {total.toLocaleString()}</Text>
           </View>

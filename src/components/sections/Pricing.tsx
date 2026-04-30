@@ -22,45 +22,45 @@ const PricingCard: React.FC<PricingCardProps> = ({ name, price, credits, isPopul
         </div>
       )}
       
-      <div className="p-8 pb-0 text-left">
-        <h3 className="text-xs font-black text-secondary/40 uppercase tracking-[0.4em] mb-4">{name}</h3>
-        <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-5xl font-black text-secondary tracking-tighter tabular-nums group-hover:text-primary transition-colors">
+      <div className="p-6 md:p-8 pb-0 text-left">
+        <h3 className="text-[10px] md:text-xs font-black text-secondary/40 uppercase tracking-[0.4em] mb-3 md:mb-4">{name}</h3>
+        <div className="flex items-baseline gap-2 mb-3 md:mb-4">
+          <span className="text-4xl md:text-5xl font-black text-secondary tracking-tighter tabular-nums group-hover:text-primary transition-colors">
             {parseInt(price).toLocaleString()}
           </span>
-          <span className="text-xs font-bold text-secondary/40 uppercase">TZS</span>
+          <span className="text-[10px] md:text-xs font-bold text-secondary/40 uppercase">TZS</span>
         </div>
-        <p className="text-xs font-bold text-secondary/60 leading-relaxed uppercase tracking-tight mb-8">
+        <p className="text-[10px] md:text-xs font-bold text-secondary/60 leading-relaxed uppercase tracking-tight mb-6 md:mb-8">
           {description}
         </p>
       </div>
 
-      <div className="px-8 flex-1">
-         <div className="bg-neutral-light p-6 rounded-card border border-secondary/5 mb-8">
+      <div className="px-6 md:px-8 flex-1">
+         <div className="bg-neutral-light p-4 md:p-6 rounded-card border border-secondary/5 mb-6 md:mb-8">
             <div className="flex items-center justify-between">
-               <span className="text-[10px] font-black text-secondary uppercase tracking-widest">{t('pricing.credits')}</span>
-               <span className="text-xl font-black text-primary group-hover:scale-110 transition-transform">{credits}</span>
+               <span className="text-[9px] md:text-[10px] font-black text-secondary uppercase tracking-widest">{t('pricing.credits')}</span>
+               <span className="text-lg md:text-xl font-black text-primary group-hover:scale-110 transition-transform">{credits}</span>
             </div>
          </div>
          
-         <ul className="space-y-4 mb-12">
+         <ul className="space-y-3 md:space-y-4 mb-8 md:mb-12">
             {[
               'Instant PDF Generation',
               'Cloud Auto-Save',
               'AI Search Optimization',
               'Priority Support'
             ].map((feature, i) => (
-              <li key={i} className="flex items-center gap-3 text-[10px] font-black text-secondary/60 uppercase tracking-widest leading-none">
+              <li key={i} className="flex items-center gap-2 md:gap-3 text-[9px] md:text-[10px] font-black text-secondary/60 uppercase tracking-widest leading-none">
                 <FaCheck className="text-primary" /> {feature}
               </li>
             ))}
          </ul>
       </div>
 
-      <div className="p-8 pt-0 mt-auto">
+      <div className="p-6 md:p-8 pt-0 mt-auto">
         <button
           onClick={onBuy}
-          className={`w-full py-3 md:py-6 rounded-button font-black uppercase tracking-[0.4em] text-xs transition-all duration-300 flex items-center justify-center gap-3 ${isPopular ? 'bg-secondary text-white hover:bg-charcoal' : 'bg-primary text-white hover:bg-red-700'}`}
+          className={`w-full py-4 md:py-6 rounded-button font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-[10px] md:text-xs transition-all duration-300 flex items-center justify-center gap-3 ${isPopular ? 'bg-secondary text-white hover:bg-charcoal' : 'bg-primary text-white hover:bg-red-700'}`}
         >
           {t('pricing.buy_now')}
         </button>

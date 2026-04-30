@@ -8,6 +8,7 @@ import { INVOICE_TEMPLATE } from "../templates";
 import { toast } from "react-toastify";
 import { notify } from "../../utils/notificationService";
 import { useTranslation } from "react-i18next";
+import { DOCUMENT_REGISTRY } from "../registry";
 
 const Editor = () => {
   const { t } = useTranslation();
@@ -29,6 +30,8 @@ const Editor = () => {
     handleSave,
     isSaving,
     isValidated,
+    settings,
+    setSettings,
     error
   } = useDocumentEngine<InvoiceContent>(initialData, 'INVOICE');
 
@@ -78,7 +81,10 @@ const Editor = () => {
       onSave={onSave}
       isSaving={isSaving}
       isValidated={isValidated}
-      preview={<Preview data={formData} />}
+      settings={settings}
+      onSettingsChange={setSettings}
+      templates={DOCUMENT_REGISTRY['INVOICE'].templates}
+      preview={<Preview data={formData} settings={settings} />}
       onStartBlank={() => {
         setFormData(initialData);
         toast.info(t('invoice.add_line_items'));
@@ -154,7 +160,7 @@ const Editor = () => {
           
           <div className="space-y-6">
             {formData.items.map((item) => (
-              <div key={item.id} className="bg-neutral-light p-6 rounded-button border border-secondary/5 grid grid-cols-12 gap-4 items-center group relative">
+              <div className="bg-neutral-light p-6 rounded-button border border-secondary/5 grid grid-cols-12 gap-4 items-center group relative">
                 <div className="col-span-7">
                   <input 
                     type="text" 

@@ -2,7 +2,7 @@ import { pdf } from "@react-pdf/renderer";
 import { DOCUMENT_REGISTRY } from "../documents/registry";
 import type { DocumentType } from "../documents/types";
 
-export const generateClientPDF = async (docType: DocumentType, data: any, title?: string) => {
+export const generateClientPDF = async (docType: DocumentType, data: any, title?: string, settings?: any) => {
   const manifest = DOCUMENT_REGISTRY[docType];
 
   if (!manifest) {
@@ -12,7 +12,7 @@ export const generateClientPDF = async (docType: DocumentType, data: any, title?
   const { pdfComponent: PDFTemplate, defaultTitle } = manifest;
   const fileName = title || defaultTitle;
 
-  const element = <PDFTemplate data={data} />;
+  const element = <PDFTemplate data={data} settings={settings} />;
 
   try {
     const blob = await pdf(element).toBlob();

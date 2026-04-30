@@ -7,6 +7,7 @@ import { notify } from '../utils/notificationService';
 import { SmartEditorLayout } from '../components/editor/SmartEditorLayout';
 import { DocumentPreviewModal } from '../components/documents/DocumentPreviewModal';
 import Button from '../components/formElements/Button';
+import { DOCUMENT_REGISTRY } from '../documents/registry';
 
 const Affidavit = () => {
   const { t } = useTranslation();
@@ -29,6 +30,8 @@ const Affidavit = () => {
     isSaving,
     isPolishing,
     isValidated,
+    settings,
+    setSettings
   } = useDocumentEngine<any>(initialData, 'AFFIDAVIT', {
     declarant_name: 'deponentName',
     id_number: 'idNumber',
@@ -95,30 +98,41 @@ const Affidavit = () => {
       isPolishing={isPolishing}
       onStartTemplate={onStartTemplate}
       onStartBlank={onStartBlank}
+      settings={settings}
+      onSettingsChange={setSettings}
+      templates={DOCUMENT_REGISTRY['AFFIDAVIT'].templates}
       preview={
-        <div className="bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-serif relative overflow-hidden text-left">
-          <div className="text-center mb-16">
-            <h2 className="text-2xl font-black text-charcoal uppercase tracking-[0.3em] mb-4">{t('catalog.affidavits_title')}</h2>
-            <div className="w-24 h-1 bg-redMain mx-auto mb-6" />
+        <div className={`bg-white shadow-inner min-h-[850px] flex flex-col font-serif relative overflow-hidden text-left ${settings?.layout === 'compact' ? 'gap-2 p-8' : 'gap-6 p-12'}`}>
+          <div className={`text-center ${settings?.layout === 'compact' ? 'mb-8' : 'mb-16'} ${settings?.layout === 'modern' ? 'text-left' : ''}`}>
+            <h2 className={`${settings?.layout === 'elegant' ? 'text-3xl' : 'text-2xl'} font-black text-charcoal uppercase tracking-[0.3em] mb-4`}>{t('catalog.affidavits_title')}</h2>
+            <div className={`h-1 ${settings?.layout === 'modern' ? 'w-full' : 'w-24 mx-auto'} mb-6`} style={{ backgroundColor: settings?.theme?.primaryColor }} />
+            {settings?.layout === 'elegant' && <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400 mt-[-10px]">Republic of Tanzania</p>}
           </div>
-          <div className="flex-1 space-y-6 text-charcoal leading-loose text-sm">
-            <p className="font-bold border-l-4 border-redMain pl-6 italic">
-              {t('affidavit.oath_start')} {formData.deponentName || '____________________'}, {t('affidavit.oath_resident')} {formData.deponentOccupation || '____________________'} {t('affidavit.oath_resident_of')} {formData.deponentAddress || '____________________'} {t('affidavit.oath_end')}
+          <div className={`flex-1 space-y-6 text-charcoal leading-loose ${settings?.layout === 'compact' ? 'text-xs' : 'text-sm'} ${settings?.layout === 'modern' ? 'bg-slate-50/50 p-8 rounded-3xl border-l-8' : ''}`} style={{ borderLeftColor: settings?.layout === 'modern' ? settings?.theme?.primaryColor : 'transparent' }}>
+            <p className={`font-bold border-l-4 pl-6 italic ${settings?.layout === 'modern' ? 'border-none pl-0' : ''}`} style={{ borderLeftColor: settings?.theme?.primaryColor }}>
+              {t('affidavit.oath_start')} <span className="underline decoration-2" style={{ textDecorationColor: settings?.theme?.primaryColor }}>{formData.deponentName || '____________________'}</span>, {t('affidavit.oath_resident')} {formData.deponentOccupation || '____________________'} {t('affidavit.oath_resident_of')} {formData.deponentAddress || '____________________'} {t('affidavit.oath_end')}
             </p>
-            <div className="space-y-4 pl-6">
+            <div className={`space-y-4 pl-6 ${settings?.layout === 'modern' ? 'space-y-8 pl-0' : ''} ${settings?.layout === 'elegant' ? 'space-y-12' : ''}`}>
               {formData.statements.map((stmt: string, idx: number) => (
-                <div key={idx} className="flex gap-4">
-                  <span className="font-black text-redMain w-8">{idx + 1}.</span>
-                  <p className="flex-1">{stmt || '____________________________________________________________________'}</p>
+                <div key={idx} className={`flex gap-4 ${settings?.layout === 'elegant' ? 'flex-col items-center text-center' : ''}`}>
+                  <span className={`font-black ${settings?.layout === 'elegant' ? 'w-full text-lg mb-2' : 'w-8'}`} style={{ color: settings?.theme?.primaryColor }}>{idx + 1}.</span>
+                  <p className="flex-1 italic">{stmt || '____________________________________________________________________'}</p>
                 </div>
               ))}
             </div>
           </div>
+          {settings?.layout === 'elegant' && (
+             <div className="mt-16 pt-12 border-t flex justify-between items-center px-12" style={{ borderTopColor: settings?.theme?.primaryColor + '20' }}>
+                <div className="w-40 border-b border-charcoal pb-1" />
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Commissioner for Oaths</p>
+             </div>
+          )}
         </div>
       }
+
     >
       <section className="card-premium p-8 md:p-12 shadow-2xl relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-redMain to-charcoal" />
+         <div className="absolute top-0 left-0 w-full h-2" style={{ backgroundColor: settings?.theme?.primaryColor }} />
          
          <div className="space-y-8">
            <div>
@@ -134,7 +148,7 @@ const Affidavit = () => {
                    placeholder="e.g. John Doe"
                  />
                </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                    <div>
                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.occupation')}</label>
                      <input 
@@ -155,7 +169,7 @@ const Affidavit = () => {
                       />
                    </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                    <div>
                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('affidavit.address')}</label>
                      <input type="text" value={formData.deponentAddress} onChange={(e) => setFormData({...formData, deponentAddress: e.target.value})} className="input-premium" />

@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 2,
     color: "#B91C1C",
-    marginBottom: 10
+    marginBottom: 10,
+    lineHeight: 1.4,
   },
   subHeader: {
     flexDirection: "row",
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     textTransform: "uppercase",
-    marginBottom: 2
+    marginBottom: 2,
+    lineHeight: 1.4,
   },
   footer: {
     position: "absolute",
@@ -81,8 +83,19 @@ const styles = StyleSheet.create({
     borderTopStyle: 'solid',
     borderTopColor: "#F3F4F6",
     paddingTop: 10
+  },
+  itemsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 40
+  },
+  columnItem: {
+    width: '48%',
+    marginBottom: 20
   }
 });
+
 
 interface EventItem {
   time: string;
@@ -96,7 +109,7 @@ interface EventData {
   items: EventItem[];
 }
 
-const EventProgramPDFTemplate = ({ data }: { data: EventData }) => {
+const EventProgramPDFTemplate = ({ data, settings }: { data: EventData, settings?: any }) => {
   const { 
     eventTitle = "Event Program",
     date = "TBA",
@@ -104,30 +117,76 @@ const EventProgramPDFTemplate = ({ data }: { data: EventData }) => {
     items = []
   } = data;
 
+  const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
+  const isCompact = settings?.layout === 'compact';
+  const isModern = settings?.layout === 'modern';
+  const isElegant = settings?.layout === 'elegant';
+
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{eventTitle}</Text>
-          <View style={styles.subHeader}>
-            <Text style={styles.subHeaderItem}>{date}</Text>
-            <Text style={{ color: "#B91C1C" }}>|</Text>
-            <Text style={styles.subHeaderItem}>{venue}</Text>
+      <Page size="A4" style={[styles.page, isCompact ? { padding: 40 } : {}]}>
+        <View style={[
+          styles.header, 
+          isCompact ? { marginBottom: 20 } : {},
+          isModern ? { borderBottomWidth: 3, borderBottomColor: primaryColor, paddingBottom: 20, textAlign: 'left' } : {},
+          isElegant ? { borderStyle: 'solid', borderTopWidth: 2, borderBottomWidth: 2, borderColor: primaryColor, padding: 30, marginBottom: 60 } : {}
+        ]}>
+          <Text style={[
+            styles.title, 
+            { color: primaryColor }, 
+            isCompact ? { fontSize: 20 } : {}, 
+            isModern ? { fontSize: 32 } : {},
+            isElegant ? { fontSize: 36, letterSpacing: 8 } : {}
+          ]}>{eventTitle}</Text>
+          <View style={[
+            styles.subHeader, 
+            isModern ? { justifyContent: 'flex-start' } : {},
+            isElegant ? { borderTopWidth: 1, borderTopColor: primaryColor + '20', marginTop: 15, paddingTop: 10 } : {}
+          ]}>
+            <Text style={[styles.subHeaderItem, isModern ? { fontWeight: 'bold', color: '#333' } : {}]}>{date}</Text>
+            <Text style={{ color: primaryColor }}>|</Text>
+            <Text style={[styles.subHeaderItem, isModern ? { fontWeight: 'bold', color: '#333' } : {}]}>{venue}</Text>
           </View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
+        <View style={[
+          isModern ? { marginTop: 30, borderLeftWidth: 1, borderLeftColor: '#eee' } : {}, 
+          isCompact ? styles.itemsContainer : { marginTop: 40, flexDirection: 'column' },
+          isElegant ? { marginTop: 0, alignItems: 'center' } : {}
+        ]}>
+
           {items.map((item, idx) => (
-            <View key={idx} style={styles.itemRow}>
-              <View style={styles.dot} />
-              <Text style={styles.time}>{item.time || "--:--"}</Text>
-              <View style={styles.activity}>
-                <Text style={styles.activityTitle}>{item.activity || "Activity"}</Text>
-                <Text style={{ fontSize: 9, color: "#9CA3AF" }}>Official Program Item</Text>
+            <View key={idx} style={[
+              styles.itemRow, 
+              isModern ? { marginBottom: 25, borderLeftWidth: 4, borderLeftColor: primaryColor, paddingLeft: 25 } : { marginBottom: 30 }, 
+              isCompact ? styles.columnItem : {},
+              isElegant ? { borderLeftWidth: 0, paddingLeft: 0, alignItems: 'center', marginBottom: 40 } : {}
+            ]}>
+              {(!isElegant) && <View style={[styles.dot, { backgroundColor: primaryColor }, isModern ? { left: -6, width: 10, height: 10 } : {}]} />}
+              <Text style={[
+                styles.time, 
+                { color: primaryColor }, 
+                isCompact ? { fontSize: 9, width: 50 } : {},
+                isModern ? { fontSize: 14, width: 100 } : {},
+                isElegant ? { width: 'auto', textAlign: 'center', marginBottom: 5 } : {}
+              ]}>
+                {item.time || "--:--"}
+              </Text>
+              <View style={[styles.activity, isElegant ? { alignItems: 'center' } : {}]}>
+                <Text style={[
+                  styles.activityTitle, 
+                  isCompact ? { fontSize: 9, lineHeight: 1.2 } : {}, 
+                  isModern ? { fontSize: 16 } : {},
+                  isElegant ? { fontSize: 18, letterSpacing: 2 } : {}
+                ]}>{item.activity || "Activity"}</Text>
+                <Text style={{ fontSize: isCompact ? 6 : 9, color: "#9CA3AF" }}>Official Program Item</Text>
+
+                {isElegant && <View style={{ width: 40, height: 1, backgroundColor: primaryColor + '40', marginTop: 15 }} />}
               </View>
             </View>
           ))}
         </View>
+
 
         <Text style={styles.footer}>Twende Documents • Event Orchestration Module</Text>
       </Page>

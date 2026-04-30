@@ -45,7 +45,10 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
       'CV': '/create/cv',
       'INVOICE': '/create/invoice',
       'LETTER': '/create/letter',
-      'AFFIDAVIT': '/create/affidavit'
+      'AFFIDAVIT': '/create/affidavit',
+      'PROFORMA': '/create/proforma',
+      'QUOTATION': '/create/quotation',
+      'EVENT_PROGRAM': '/create/event-program'
     };
     const path = typeMap[document.doc_type] || '/create';
     navigate(`${path}?id=${document.id}`);
@@ -55,7 +58,7 @@ export const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({ isOp
   const handleDownload = async () => {
     try {
       dispatch(startFactory(t('common.assembling_doc', "Retrieving and assembling archived document...")));
-      await generateClientPDF(document.doc_type, document.content, document.title || 'document');
+      await generateClientPDF(document.doc_type, document.content, document.title || 'document', document.settings);
     } catch (err) {
       console.error('Failed to generate PDF:', err);
       alert(t('common.pdf_fail', 'Failed to generate PDF on the client side.'));

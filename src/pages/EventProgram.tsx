@@ -7,6 +7,7 @@ import { notify } from '../utils/notificationService';
 import { SmartEditorLayout } from '../components/editor/SmartEditorLayout';
 import { DocumentPreviewModal } from '../components/documents/DocumentPreviewModal';
 import Button from '../components/formElements/Button';
+import { DOCUMENT_REGISTRY } from '../documents/registry';
 
 const EventProgram = () => {
   const { t } = useTranslation();
@@ -17,7 +18,9 @@ const EventProgram = () => {
     handlePolish,
     isSaving,
     isPolishing,
-    isValidated
+    isValidated,
+    settings,
+    setSettings
   } = useDocumentEngine({
     eventTitle: 'Annual General Meeting',
     date: new Date().toISOString().split('T')[0],
@@ -105,41 +108,52 @@ const EventProgram = () => {
       isPolishing={isPolishing}
       onStartTemplate={onStartTemplate}
       onStartBlank={onStartBlank}
+      settings={settings}
+      onSettingsChange={setSettings}
+      templates={DOCUMENT_REGISTRY['EVENT_PROGRAM'].templates}
       preview={
-        <div className="bg-white p-12 shadow-inner min-h-[850px] flex flex-col font-sans relative overflow-hidden text-left">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black text-charcoal uppercase tracking-tighter leading-none mb-4">
+        <div className={`bg-white shadow-inner min-h-[850px] flex flex-col font-sans relative overflow-hidden text-left ${settings?.layout === 'compact' ? 'gap-4 p-8' : 'gap-12 p-12'}`}>
+            <div className={`text-center ${settings?.layout === 'compact' ? 'mb-6' : 'mb-12'} ${settings?.layout === 'modern' ? 'text-left border-l-8 pl-6' : ''}`} style={{ borderLeftColor: settings?.layout === 'modern' ? settings?.theme?.primaryColor : 'transparent' }}>
+              <h2 className={`${settings?.layout === 'compact' ? 'text-2xl' : 'text-3xl'} font-black text-charcoal uppercase tracking-tighter leading-none mb-4 break-words max-w-full`}>
                 {formData.eventTitle || t('event.event_program_placeholder')}
               </h2>
-              <div className="flex items-center justify-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                 <span>{formData.date}</span>
-                 <div className="w-1 h-1 rounded-full bg-redMain" />
-                 <span>{formData.venue}</span>
+              <div className={`flex items-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-widest ${settings?.layout === 'modern' ? 'justify-start' : 'justify-center'}`}>
+                 <span className="break-words max-w-[150px]">{formData.date}</span>
+                 <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: settings?.theme?.primaryColor }} />
+                 <span className="break-words max-w-[200px]">{formData.venue}</span>
               </div>
             </div>
 
-            <div className="flex-1 max-w-2xl mx-auto w-full space-y-8">
+            <div className={`flex-1 max-w-4xl mx-auto w-full ${settings?.layout === 'compact' ? 'grid grid-cols-2 gap-x-12 gap-y-4' : 'flex flex-col space-y-8'} ${settings?.layout === 'elegant' ? 'items-center' : ''}`}>
                {formData.items.map((item, idx) => (
-                 <div key={idx} className="flex gap-8 group animate-fade-in relative pl-8">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-slate-100 rounded-full" />
-                    <div className="absolute left-[-5px] top-4 w-3 h-3 bg-white border-2 border-redMain rounded-full" />
+                 <div key={idx} className={`flex gap-6 group animate-fade-in relative ${settings?.layout === 'compact' ? 'pl-4' : 'pl-8'} ${settings?.layout === 'elegant' ? 'flex-col items-center pl-0' : ''}`}>
+                    {settings?.layout !== 'elegant' && (
+                      <>
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-slate-100 rounded-full" />
+                        <div className="absolute left-[-5px] top-4 w-3 h-3 bg-white border-2 rounded-full" style={{ borderColor: settings?.theme?.primaryColor }} />
+                      </>
+                    )}
                     
-                    <div className="w-16 shrink-0">
-                       <p className="text-sm font-black text-redMain tracking-tighter">{item.time || '--:--'}</p>
+                    <div className={`${settings?.layout === 'elegant' ? 'w-full text-center' : (settings?.layout === 'compact' ? 'w-12' : 'w-16')} shrink-0`}>
+                       <p className={`${settings?.layout === 'elegant' ? 'text-lg' : 'text-sm'} font-black tracking-tighter`} style={{ color: settings?.theme?.primaryColor }}>{item.time || '--:--'}</p>
                     </div>
-                    <div className="flex-1">
-                       <p className="text-md font-black text-charcoal uppercase tracking-tighter">
+                    <div className="flex-1 min-w-0">
+                       <p className={`${settings?.layout === 'compact' ? 'text-[10px] line-clamp-2' : 'text-md'} font-black text-charcoal uppercase tracking-tighter break-words`}>
                           {item.activity || t('event.activity_placeholder')}
                        </p>
                     </div>
+                    {settings?.layout === 'elegant' && <div className="w-12 h-0.5 bg-slate-100 mt-4" />}
                  </div>
                ))}
             </div>
+
+
         </div>
       }
+
     >
       <section className="card-premium p-8 md:p-12 shadow-2xl relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-redMain to-charcoal" />
+         <div className="absolute top-0 left-0 w-full h-2" style={{ backgroundColor: settings?.theme?.primaryColor }} />
          
          <div className="space-y-8 text-left">
            <div>
@@ -155,7 +169,7 @@ const EventProgram = () => {
                    placeholder="e.g. Wedding Reception"
                  />
                </div>
-               <div className="grid grid-cols-2 gap-4">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('event.event_date')}</label>
                     <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} className="input-premium" />
@@ -178,24 +192,26 @@ const EventProgram = () => {
 
              <div className="space-y-4">
                {formData.items.map((item, idx) => (
-                 <div key={idx} className="flex gap-4 group items-start">
+                 <div key={idx} className="flex flex-col sm:flex-row gap-4 group sm:items-start">
                     <input 
                       type="text"
                       placeholder="00:00"
                       value={item.time}
                       onChange={(e) => handleItemChange(idx, 'time', e.target.value)}
-                      className="w-24 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-black text-center text-sm"
+                      className="w-full sm:w-24 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-black text-center text-sm"
                     />
-                    <input 
-                      type="text"
-                      value={item.activity}
-                      onChange={(e) => handleItemChange(idx, 'activity', e.target.value)}
-                      className="flex-1 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm text-left"
-                      placeholder={t('event.activity')}
-                    />
-                    <button onClick={() => removeItem(idx)} className="p-2 text-gray-300 hover:text-redMain">
-                      <FaTrash />
-                    </button>
+                    <div className="flex gap-4 w-full">
+                       <input 
+                         type="text"
+                         value={item.activity}
+                         onChange={(e) => handleItemChange(idx, 'activity', e.target.value)}
+                         className="flex-1 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm text-left"
+                         placeholder={t('event.activity')}
+                       />
+                       <button onClick={() => removeItem(idx)} className="p-2 text-gray-300 hover:text-redMain">
+                         <FaTrash />
+                       </button>
+                    </div>
                  </div>
                ))}
              </div>
