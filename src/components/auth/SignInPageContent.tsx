@@ -189,7 +189,7 @@ export const SignInPageContent: React.FC<SignInPageContentProps> = ({ onNavigate
                       onSuccess={handleGoogleSuccess} 
                       onError={() => toast.error("Google login failed")} 
                       theme="outline"
-                      shape="rect"
+                      shape="rectangular"
                       width="100%"
                       size="large"
                       text={mode === "signin" ? "signin_with" : "signup_with"}
