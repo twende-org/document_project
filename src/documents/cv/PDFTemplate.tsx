@@ -167,32 +167,84 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
             </View>
           )}
 
-          <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Executive Summary</Text>
-          <Text style={[styles.summary, isCompact ? { fontSize: 9 } : {}]}>
-            {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
-          </Text>
+          {isModern ? (
+            <View style={{ flexDirection: 'row', gap: 30 }}>
+              {/* Left Column (8/12 equivalent) */}
+              <View style={{ flex: 2 }}>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>Professional Summary</Text>
+                <Text style={styles.summary}>
+                  {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
+                </Text>
 
-          <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Professional Experience</Text>
-          {experience.map((exp: any, i: number) => (
-            <View key={i} style={[styles.experienceItem, isCompact ? { marginBottom: 12 } : {}]}>
-              <Text style={[styles.jobTitle, isCompact ? { fontSize: 10 } : {}]}>{exp.title || "Job Title"}</Text>
-              <Text style={[styles.companyInfo, isCompact ? { fontSize: 8 } : {}]}>{exp.company || "Company Name"} | {exp.duration || "2020 - Present"}</Text>
-              {exp.description && (
-                 <View style={styles.bulletRow}>
-                   <View style={[styles.bullet, { backgroundColor: primaryColor }]} />
-                   <Text style={[{ flex: 1 }, isCompact ? { fontSize: 8 } : {}]}>{exp.description}</Text>
-                 </View>
-              )}
-            </View>
-          ))}
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>Professional History</Text>
+                {experience.map((exp: any, i: number) => (
+                  <View key={i} style={styles.experienceItem}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <Text style={[styles.jobTitle, { fontSize: 13, textTransform: 'uppercase', color: '#1F2937' }]}>{exp.title || "Job Title"}</Text>
+                      <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#9CA3AF' }}>{exp.duration || "2020 - Present"}</Text>
+                    </View>
+                    <Text style={[styles.companyInfo, { color: primaryColor, fontWeight: 'bold', textTransform: 'uppercase', fontSize: 9, marginBottom: 6 }]}>{exp.company || "Company Name"}</Text>
+                    {exp.description && (
+                      <Text style={{ fontSize: 9, color: '#4B5563', lineHeight: 1.5 }}>{exp.description}</Text>
+                    )}
+                  </View>
+                ))}
+              </View>
+              
+              {/* Right Column (4/12 equivalent) */}
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>Expertise</Text>
+                <View style={{ flexDirection: 'column', gap: 5 }}>
+                  {skills.map((skill: string, index: number) => (
+                    <View key={index} style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                      <View style={{ width: 3, height: 3, backgroundColor: primaryColor, borderRadius: 2 }} />
+                      <Text style={{ fontSize: 8, fontWeight: 'bold', textTransform: 'uppercase', color: '#374151' }}>{skill}</Text>
+                    </View>
+                  ))}
+                  {skills.length === 0 && (
+                    <Text style={{ fontSize: 8, color: '#666' }}>Strategic Leadership{"\n"}Project Management</Text>
+                  )}
+                </View>
 
-          <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Education</Text>
-          {education.map((edu: any, i: number) => (
-            <View key={i} style={[{ marginBottom: 10 }, isCompact ? { marginBottom: 6 } : {}]}>
-              <Text style={[{ fontWeight: "bold" }, isCompact ? { fontSize: 9 } : {}]}>{edu.degree || "Bachelor of Science"}</Text>
-              <Text style={[{ color: "#4B5563" }, isCompact ? { fontSize: 8 } : {}]}>{edu.school || "University Name"} | {edu.year || "2015"}</Text>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>Academic Background</Text>
+                {education.map((edu: any, i: number) => (
+                  <View key={i} style={{ marginBottom: 10 }}>
+                    <Text style={{ fontSize: 9, fontWeight: "bold", textTransform: 'uppercase', color: '#1F2937' }}>{edu.degree || "Bachelor of Science"}</Text>
+                    <Text style={{ fontSize: 8, color: "#9CA3AF", fontWeight: 'bold' }}>{edu.school || "University Name"} | {edu.year || "2015"}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
-          ))}
+          ) : (
+            <>
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Executive Summary</Text>
+              <Text style={[styles.summary, isCompact ? { fontSize: 9 } : {}]}>
+                {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
+              </Text>
+
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Professional Experience</Text>
+              {experience.map((exp: any, i: number) => (
+                <View key={i} style={[styles.experienceItem, isCompact ? { marginBottom: 12 } : {}]}>
+                  <Text style={[styles.jobTitle, isCompact ? { fontSize: 10 } : {}]}>{exp.title || "Job Title"}</Text>
+                  <Text style={[styles.companyInfo, isCompact ? { fontSize: 8 } : {}]}>{exp.company || "Company Name"} | {exp.duration || "2020 - Present"}</Text>
+                  {exp.description && (
+                     <View style={styles.bulletRow}>
+                       <View style={[styles.bullet, { backgroundColor: primaryColor }]} />
+                       <Text style={[{ flex: 1 }, isCompact ? { fontSize: 8 } : {}]}>{exp.description}</Text>
+                     </View>
+                  )}
+                </View>
+              ))}
+
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Education</Text>
+              {education.map((edu: any, i: number) => (
+                <View key={i} style={[{ marginBottom: 10 }, isCompact ? { marginBottom: 6 } : {}]}>
+                  <Text style={[{ fontWeight: "bold" }, isCompact ? { fontSize: 9 } : {}]}>{edu.degree || "Bachelor of Science"}</Text>
+                  <Text style={[{ color: "#4B5563" }, isCompact ? { fontSize: 8 } : {}]}>{edu.school || "University Name"} | {edu.year || "2015"}</Text>
+                </View>
+              ))}
+            </>
+          )}
         </View>
       </Page>
     </Document>
