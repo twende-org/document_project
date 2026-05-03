@@ -1,4 +1,5 @@
 import { pdf } from "@react-pdf/renderer";
+import i18n from "../i18n";
 import { DOCUMENT_REGISTRY } from "../documents/registry";
 import type { DocumentType } from "../documents/types";
 
@@ -12,7 +13,11 @@ export const generateClientPDF = async (docType: DocumentType, data: any, title?
   const { pdfComponent: PDFTemplate, defaultTitle } = manifest;
   const fileName = title || defaultTitle;
 
-  const element = <PDFTemplate data={data} settings={settings} />;
+  // Inject current language into settings if not present
+  const currentLang = settings?.lang || i18n.language || 'en';
+  const updatedSettings = { ...settings, lang: currentLang };
+
+  const element = <PDFTemplate data={data} settings={updatedSettings} />;
 
   try {
     const blob = await pdf(element).toBlob();

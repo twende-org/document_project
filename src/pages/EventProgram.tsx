@@ -73,19 +73,8 @@ const EventProgram = () => {
   };
 
   const onStartTemplate = () => {
-    setFormData({
-      eventTitle: 'COMMUNITY HARVEST FESTIVAL 2024',
-      date: new Date().toISOString().split('T')[0],
-      venue: 'Main Community Hall, Victoria',
-      items: [
-        { time: '09:00 AM', activity: 'Opening Prayers and Welcoming Remarks' },
-        { time: '10:30 AM', activity: 'Cultural Performance: Traditional Dance Group' },
-        { time: '12:00 PM', activity: 'Exhibition Tour and Product Showcasing' },
-        { time: '01:30 PM', activity: 'Lunch Break and Networking Session' },
-        { time: '03:00 PM', activity: 'Awards Ceremony and Closing Statements' }
-      ]
-    });
-    notify.info("Standard Event template loaded.");
+    setFormData(t('event.sample_data', { returnObjects: true }));
+    notify.info(t('common.template_loaded'));
   };
 
   const onStartBlank = () => {

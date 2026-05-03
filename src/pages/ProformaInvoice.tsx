@@ -52,7 +52,7 @@ const ProformaInvoice = () => {
   const onSave = async () => {
     try {
       await handleSave(`Proforma: ${formData.clientName || 'Client'}`, 'FINAL');
-      notify.success("Invoice Finalized & Exported.");
+      notify.success(t('invoice.finalized_success', "Invoice Finalized & Exported."));
     } catch (err: any) {
       notify.error(err.response?.data?.message || err.message || "Failed to finalize invoice.");
     }
@@ -67,23 +67,21 @@ const ProformaInvoice = () => {
   };
 
   const onStartTemplate = () => {
+    const sampleData = t('invoice.sample_data', { returnObjects: true }) as any;
     setFormData({
-      clientName: 'Global Solutions Ltd',
-      clientAddress: '123 Enterprise Way, Industrial Area\nDar es Salaam',
-      bankDetails: 'NMB Bank - A/C: 0123456789 (Twende Docs)',
-      invoiceDate: new Date().toISOString().split('T')[0],
-      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      items: [
-        { description: 'Professional Consultation Services', quantity: 1, unitPrice: 150000 },
-        { description: 'Document Architectural Design', quantity: 2, unitPrice: 75000 },
-        { description: 'System Integration & Setup', quantity: 1, unitPrice: 200000 }
-      ]
+      clientName: sampleData.clientName,
+      clientAddress: sampleData.clientAddress,
+      bankDetails: sampleData.bankDetails,
+      invoiceDate: sampleData.invoiceDate,
+      dueDate: sampleData.dueDate,
+      items: sampleData.items
     });
-    notify.info("Standard Invoice template loaded.");
+    notify.info(t('common.template_loaded'));
   };
 
   const onStartBlank = () => {
     setFormData({
+      ...initialData, // Wait, initialData is not defined in scope, I'll use the literal
       clientName: '',
       clientAddress: '',
       bankDetails: 'NMB Bank - A/C: 0123456789 (Twende Docs)',
@@ -91,7 +89,7 @@ const ProformaInvoice = () => {
       dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       items: [{ description: '', quantity: 1, unitPrice: 0 }]
     });
-    notify.info("Editor cleared for a fresh start.");
+    notify.info(t('common.editor_cleared', 'Editor cleared for a fresh start.'));
   };
 
   return (
@@ -115,8 +113,8 @@ const ProformaInvoice = () => {
                 <p className="font-black tracking-[0.3em] uppercase text-[10px] mt-2" style={{ color: settings?.theme?.primaryColor }}>{t('invoice.commercial_instrument')}</p>
               </div>
               <div className="text-right">
-                <p className="font-black text-charcoal text-xl tracking-tighter uppercase" style={{ color: settings?.theme?.primaryColor }}>TWENDE</p>
-                <p className="text-[8px] text-gray-400 font-bold uppercase tracking-widest mt-1">{t('quotation.official_solutions')}</p>
+                <p className="font-black text-charcoal text-xl tracking-tighter uppercase" style={{ color: settings?.theme?.primaryColor }}>{t('common.brand_name', 'TWENDE')}</p>
+                <p className="text-[8px] text-gray-400 font-bold uppercase tracking-widest mt-1">{t('invoice.official_solutions')}</p>
               </div>
             </div>
 

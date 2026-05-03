@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { DocumentService } from '../DocumentService';
 import type { DocumentType, DocumentBase } from '../types';
 import { generateClientPDF } from '../../utils/pdfGenerator';
+import { useTranslation } from 'react-i18next';
 
 import { useDispatch } from 'react-redux';
 import { startFactory, stopFactory } from '../../store/uiSlice';
@@ -13,6 +14,7 @@ export function useDocumentEngine<T>(
   computedFields?: (data: T) => any
 ) {
   const dispatch = useDispatch();
+  const { i18n } = useTranslation();
   const [formData, setFormData] = useState<T>(initialData);
   const [settings, setSettings] = useState<DocumentBase['settings']>({
     theme: { primaryColor: '#B91C1C' }, // Default system color
@@ -90,7 +92,7 @@ export function useDocumentEngine<T>(
   const handlePolish = async (content: string) => {
     setIsPolishing(true);
     try {
-      const result = await DocumentService.polish(content, docType);
+      const result = await DocumentService.polish(content, docType, i18n.language);
       return result.polished_content;
     } catch (err: any) {
       setError('AI Polishing failed. Returning original content.');

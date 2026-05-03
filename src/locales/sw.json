@@ -52,7 +52,32 @@
     "how_will_you_use": "Utatumiaje stakabadhi hii?",
     "submit_request": "Tuma Ombi",
     "submitting": "Inatuma...",
-    "close": "Funga"
+    "close": "Funga",
+    "republic_of_tanzania": "Jamhuri ya Muungano wa Tanzania",
+    "brand_name": "TWENDE",
+    "editor_cleared": "Kihariri kimefutwa kwa ajili ya kuanza upya.",
+    "ai_polish_desc": "Boresha Maelezo kwa AI",
+    "template_loaded": "Kiolezo kimepakiwa kikamilifu.",
+    "standard_start": "Anza Kawaida",
+    "magic_start": "Anza kwa Uchawi",
+    "import_data": "Ingiza Data",
+    "manual_entry": "Ingiza mwenyewe",
+    "fast_track": "Njia ya Haraka",
+    "ai_generation": "Uzalishaji wa AI",
+    "sync_profile": "Sawazisha Wasifu",
+    "full_control": "Udhibiti Kamili",
+    "templates": "Violezo",
+    "data": "Data",
+    "design": "Usanifu",
+    "select_template": "Chagua Kiolezo",
+    "choose_layout": "Chagua muundo unaofaa mahitaji yako",
+    "theme_colors": "Rangi za Mandhari",
+    "personalize_brand": "Binafsisha utambulisho wako",
+    "primary_color": "Rangi Kuu ya Sahihi",
+    "finalize_download": "Kamilisha & Pakua",
+    "architecting": "Inasanifu...",
+    "real_time_preview": "Muonekano wa Papo hapo",
+    "ai_polishing": "Inaboresha kwa AI..."
   },
   "home": {
     "hero_title": "Tengeneza Stakabadhi za Kitaalamu kwa Dakika — <span class=\"text-primary\">Sio Masaa</span>",
@@ -73,7 +98,15 @@
     "for_agents": "Kwa Mawakala",
     "for_agents_desc": "Wamiliki wa maduka ya vifaa vya ofisini na mawakala wanaweza kusimamia wateja na salio kwa urahisi.",
     "ready_to_begin": "Uko tayari kuanza?",
-    "create_first": "Tengeneza Stakabadhi yako ya Kwanza"
+    "create_first": "Tengeneza Stakabadhi yako ya Kwanza",
+    "stats": {
+      "title": "Inaaminika na Maelfu",
+      "subtitle": "Jiunge na jamii inayokua ya wataalamu na mawakala wanaotumia Document Pro kwa matokeo bora.",
+      "documents": "Hati Zilizotengenezwa",
+      "users": "Wataalamu Hai",
+      "agents": "Mawakala wa Biashara",
+      "success_rate": "Kiwango cha Mafanikio"
+    }
   },
   "documents": {
     "studio_title": "Studio ya Stakabadhi",
@@ -177,7 +210,7 @@
     "recipient_subject": "Mpokeaji & Mada",
     "recipient_name": "Jina la Mpokeaji",
     "recipient_address": "Anwani ya Mpokeaji",
-    "letter_subject": "Mada ya Barua",
+    "letter_subject": "KUHUSU",
     "letter_content": "Maudhui ya Barua",
     "ai_polish_body": "Boresha kwa AI",
     "write_here": "Andika barua yako hapa...",
@@ -188,7 +221,41 @@
     "sender_address_placeholder": "ANWANI YA MTUMAJI",
     "recipient_name_placeholder": "JINA LA MPOKEAJI",
     "recipient_address_placeholder": "ANWANI YA MPOKEAJI",
-    "subject_placeholder": "MADA YA MAWASILIANO"
+    "subject_placeholder": "MADA YA MAWASILIANO",
+    "templates": {
+      "standard": { "label": "Biashara Rasmi", "desc": "Muundo rasmi wa kitaalamu kwa matumizi ya kiofisi." },
+      "modern": { "label": "Binafsi ya Kisasa", "desc": "Mawasiliano ya kawaida lakini ya kitaalamu." },
+      "compact": { "label": "Muhtasari Mfupi", "desc": "Mpangilio mfupi kwa ajili ya matangazo mafupi ya kiofisi." },
+      "elegant": { "label": "Prestige ya Kifahari", "desc": "Mawasiliano rasmi ya hali ya juu kwa barua muhimu." }
+    },
+    "sample_data": {
+      "recipient_name": "Meneja wa Ajira",
+      "recipient_address": "Future Tech Ltd, Wilaya ya Ubunifu",
+      "date": "2024-04-09",
+      "subject": "Maombi ya Kazi ya Mtaalamu Mwandamizi wa Stakabadhi",
+      "body": "Ninaandika kuelezea nia yangu thabiti ya nafasi ya Mtaalamu Mwandamizi wa Stakabadhi. Nikiwa na uzoefu mkubwa katika uandishi wa kidijitali na mifumo inayotumia AI, nina uhakika katika uwezo wangu wa kuchangia mafanikio ya timu yenu...",
+      "sender_name": "Msimamizi wa Twende Documents"
+    },
+    "sample_data_internship": {
+      "senderName": "Jina Lako",
+      "senderTitle": "Mwanafunzi",
+      "senderAddress": "Jina la Chuo\nIdara ya [Masomo Yako]\n[Maelezo Yako ya Mawasiliano]",
+      "recipientName": "Meneja wa Rasilimali Watu",
+      "recipientAddress": "[Jina la Kampuni]\n[Anwani ya Kampuni]\n[Mji, Nchi]",
+      "date": "2024-05-02",
+      "subject": "OMBI LA NAFASI YA MAFUNZO KWA VITENDO (INTERNSHIP) KATIKA IDARA YA [JINA LA IDARA]",
+      "body": "Ndugu,\n\nMimi ni mwanafunzi wa [Mwaka wa Masomo] katika [Jina la Chuo] nikisomea [Jina la Shahada]. Ninaandika kuomba rasmi nafasi ya mafunzo kwa vitendo katika shirika lenu kuanzia kipindi cha [Tarehe ya Kuanza] hadi [Tarehe ya Kumaliza].\n\nKatika masomo yangu, nimepata maarifa ya msingi katika [Ujuzi 1] na [Ujuzi 2], na nina hamu ya kutumia ujuzi huu katika mazingira ya kitaalamu...\n\nAsante kwa muda na kutilia maanani ombi langu.\n\nWako,\n\n[Jina Lako]"
+    },
+    "sample_data_cover_letter": {
+      "senderName": "Jina Lako",
+      "senderTitle": "Mwombaji",
+      "senderAddress": "Anwani Yako\nMji, Nchi",
+      "recipientName": "Meneja wa Ajira",
+      "recipientAddress": "[Jina la Kampuni]\n[Mahali]",
+      "date": "2024-05-02",
+      "subject": "OMBI LA KAZI YA NAFASI YA [JINA LA KAZI]",
+      "body": "Ndugu,\n\nNinaandika kuelezea nia yangu ya nafasi ya [Jina la Kazi] katika [Jina la Kampuni] kama ilivyotangazwa. Nina uzoefu mkubwa katika [Fani Yako] na ninaamini nitakuwa msaada mkubwa kwa timu yenu...\n\nWako,\n[Jina Lako]"
+    }
   },
   "affidavit": {
     "legal_instrument": "Stakabadhi ya Kisheria",
@@ -206,7 +273,30 @@
     "oath_resident": "wa kazi ya",
     "oath_resident_of": "na mkazi wa",
     "oath_end": "ninaapa na kutoa maelezo yafuatayo:",
-    "finalize": "Kamilisha & Pakua Kiapo"
+    "finalize": "Kamilisha & Pakua Kiapo",
+    "templates": {
+      "standard": { "label": "Kawaida ya Kisheria", "desc": "Muundo wa kawaida wa tamko la kisheria." },
+      "modern": { "label": "Kiapo kilichopangwa", "desc": "Hati ya kisheria iliyopangwa kwa mfumo wa kisasa." },
+      "compact": { "label": "Maelezo Mafupi", "desc": "Imeboreshwa kwa ajili ya orodha ndefu za maelezo." },
+      "elegant": { "label": "Haki ya Kifahari", "desc": "Mpangilio wa kisheria wa hali ya juu wenye mtindo wa asili." }
+    },
+    "act_reference": "Katika Shauri la Sheria ya Viapo na Matamko ya Kisheria (Sura ya 15, Sheria za Tanzania)",
+    "oath_final_statement": "Kwamba kila kilichoelezwa hapa ni kweli kwa ufahamu, taarifa na imani yangu.",
+    "sworn_by": "Kimeapwa na muapa aliyetajwa:",
+    "deponent": "Muapa",
+    "commissioner_stamp": "Muhuri wa\nKamishna wa\nViapo",
+    "commissioner_for_oaths": "Kamishna wa Viapo",
+    "sample_data": {
+      "deponentName": "Juma Bakari",
+      "deponentAddress": "S.L.P 123, Dar es Salaam",
+      "deponentOccupation": "Mshauri wa Biashara",
+      "idNumber": "19900101-12345-00001-20",
+      "statements": [
+        "Kwamba mimi ndiye muapa katika shauri hili na hivyo ninaelewa vyema ukweli wa jambo hili.",
+        "Kwamba kiapo hiki kimetolewa kwa ajili ya kusaidia ombi langu la uhakiki wa stakabadhi.",
+        "Kwamba kila kilichoelezwa hapa ni kweli kwa ufahamu na imani yangu."
+      ]
+    }
   },
   "invoice": {
     "financial_instrument": "Stakabadhi ya Fedha",
@@ -239,8 +329,39 @@
     "precision_engine": "Injini ya Usahihi: Inatumia Twende Documents",
     "service_item": "Huduma",
     "invoice": "INVOIS",
+    "finalized_success": "Invois Imekamilishwa na Kupakuliwa.",
+    "ai_client_name": "Mteja Aliyeboreshwa na AI",
+    "ai_service_item": "Ushauri wa Huduma Iliyozalishwa na AI",
+    "client_name_placeholder": "mf. Kampuni ya Twende",
+    "attention_to": "Kuhusu",
+    "date_terms": "Tarehe na Masharti",
+    "description": "Maelezo",
+    "amount": "Kiasi",
+    "total_settlement": "Malipo ya Jumla",
+    "amount_due_tzs": "Kiasi cha Kulipwa TZS",
+    "service_items": "Vipengele vya Huduma",
+    "total_amount_payable": "Jumla ya Kiasi cha Kulipwa",
+    "unit_price": "Gharama ya Unit",
+    "templates": {
+      "standard": { "label": "Shirika la Kawaida", "desc": "Invois rasmi inayozingatia kodi ya shirika." },
+      "modern": { "label": "Kidijitali cha Kisasa", "desc": "Risiti na invois ya kisasa ya kidijitali." },
+      "compact": { "label": "Risiti Ndogo", "desc": "Mpangilio unaookoa nafasi kwa ajili ya miamala ya haraka." },
+      "elegant": { "label": "Premium ya Kifahari", "desc": "Invois ya hali ya juu kwa ajili ya huduma za premium." }
+    },
     "qty": "Idadi",
-    "rate": "Gharama"
+    "rate": "Gharama",
+    "sample_data": {
+      "clientName": "Kampuni ya Twende Digital",
+      "clientAddress": "Mtaa wa Kariakoo, Dar es Salaam",
+      "invoiceDate": "2024-04-09",
+      "dueDate": "2024-04-23",
+      "items": [
+        { "id": "i1", "description": "Usanifu wa Stakabadhi za Kitaalamu", "quantity": 1, "unitPrice": 150000 },
+        { "id": "i2", "description": "Mkakati na Ushauri wa AI", "quantity": 2, "unitPrice": 75000 }
+      ],
+      "taxRate": 18,
+      "bankDetails": "Benki ya NMB - Tawi: Corporate - Akaunti: 0123456789"
+    }
   },
   "pricing": {
     "flexible_power": "Nguvu ya Kipekee",
@@ -256,6 +377,12 @@
       "agent_pro_desc": "Imeundwa kwa ajili ya maduka yenye wateja wengi na mawakala wakubwa."
     },
     "buy_now": "Nunua Sasa",
+    "choose_method": "Chagua Njia ya Malipo",
+    "mobile_money": "Simu (Mobile Money)",
+    "card": "Kadi (Credit/Debit Card)",
+    "snippe_desc": "Malipo salama kupitia Snippe",
+    "enter_phone": "Weka namba yako ya simu",
+    "pay_securely": "Lipia kwa Usalama",
     "credits": "Salio",
     "tsh": "TSh"
   },
@@ -318,7 +445,25 @@
     "ai_polish": "Boresha kwa AI",
     "finalize": "Kamilisha & Pakua Ratiba",
     "event_program_placeholder": "Ratiba ya Tukio",
-    "activity_placeholder": "Maelezo ya shughuli..."
+    "templates": {
+      "standard": { "label": "Sherehe ya Kawaida", "desc": "Ratiba ya kawaida ya tukio rasmi." },
+      "modern": { "label": "Mstari wa Wakati", "desc": "Mstari wa wakati wa kisasa wa mtindo wa mwingiliano." },
+      "compact": { "label": "Mwongozo wa Mfukoni", "desc": "Muhtasari mdogo na wenye ufanisi wa ratiba." },
+      "elegant": { "label": "Gala ya Kifahari", "desc": "Mpangilio wa kisanaa kwa ajili ya matukio ya hali ya juu." }
+    },
+    "activity_placeholder": "SHUGHULI ZA RATIBA...",
+    "sample_data": {
+      "eventTitle": "TAMASHA LA MAVUNO LA JAMII 2024",
+      "date": "2024-05-02",
+      "venue": "Ukumbi wa Jamii, Victoria",
+      "items": [
+        { "time": "03:00 Alfajiri", "activity": "Maombi ya Ufunguzi na Karibu" },
+        { "time": "04:30 Asubuhi", "activity": "Burudani ya Utamaduni: Kikundi cha Ngoma za Asili" },
+        { "time": "06:00 Mchana", "activity": "Ziara ya Maonyesho na Utambulisho wa Bidhaa" },
+        { "time": "07:30 Mchana", "activity": "Muda wa Chakula cha Mchana na Maongezi" },
+        { "time": "09:00 Alasiri", "activity": "Sherehe za Tuzo na Hotuba ya Kufunga" }
+      ]
+    }
   },
   "cv": {
     "template_options": "Aina za CV",
@@ -353,7 +498,36 @@
     "my_cv_desc": "Hapa ndipo unaweza kuona na kusimamia CV yako. Unaweza kuhariri, kupakua, au kushiriki CV yako na waajiri.",
     "edit_cv": "Hariri CV",
     "download_cv": "Pakua CV",
-    "share_cv": "Shiriki CV"
+    "share_cv": "Shiriki CV",
+    "templates": {
+      "standard": { "label": "Mtaalamu Mkuu", "desc": "Mpangilio wa kawaida wa shirika kwa viongozi wenye uzoefu." },
+      "modern": { "label": "Ubunifu wa Kisasa", "desc": "Muundo safi na wa kisasa kwa ajili ya majukumu ya teknolojia na ubunifu." },
+      "compact": { "label": "Ufanisi wa Kiufundi", "desc": "Mpangilio ulioshonwa kwa ajili ya kurasa nyingi za uzoefu." },
+      "elegant": { "label": "Kitaaluma na Kifahari", "desc": "Mpangilio wa hali ya juu wenye maandishi na nafasi iliyoboreshwa." }
+    },
+    "sample_data": {
+      "personalInfo": {
+        "fullName": "Alex Standard",
+        "jobTitle": "Mbunifu Mwandamizi wa Mifumo",
+        "email": "alex@example.com",
+        "phone": "+255 700 000 000",
+        "address": "Dar es Salaam, Tanzania"
+      },
+      "summary": "Mbunifu wa mifumo mwenye uzoefu wa miaka 10+ katika kusanifu mifumo ya wingu inayokua na kuongoza timu za fani mbalimbali.",
+      "experience": [
+        { 
+          "id": "t1", 
+          "title": "Msanidi Programu Kiongozi", 
+          "company": "Tech Systems Ltd", 
+          "duration": "2019 - 2024", 
+          "description": "Nilitekeleza programu za React za kiwango cha juu na kuboresha miundombinu ya wingu." 
+        }
+      ],
+      "education": [
+        { "id": "e1", "degree": "Shahada ya Uzamili ya Sayansi ya Kompyuta", "school": "Chuo Kikuu cha Dar es Salaam", "year": "2015" }
+      ],
+      "skills": ["React", "TypeScript", "AWS", "Node.js", "Usanifu wa Mifumo"]
+    }
   },
   "dashboard": {
     "statistics": "Dashibodi ya Takwimu",

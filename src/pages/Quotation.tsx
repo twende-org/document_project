@@ -66,18 +66,15 @@ const Quotation = () => {
   };
 
   const onStartTemplate = () => {
+    const sampleData = t('invoice.sample_data', { returnObjects: true }) as any;
     setFormData({
-      clientName: 'Premier Agency',
-      clientAddress: 'Plot 45, Victoria Area\nDar es Salaam',
-      invoiceDate: new Date().toISOString().split('T')[0],
-      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      items: [
-        { description: 'Graphic Design Services', quantity: 1, unitPrice: 50000 },
-        { description: 'Social Media Management (1 Month)', quantity: 1, unitPrice: 150000 },
-        { description: 'Content Writing (5 Articles)', quantity: 5, unitPrice: 20000 }
-      ]
+      clientName: sampleData.clientName,
+      clientAddress: sampleData.clientAddress,
+      invoiceDate: sampleData.invoiceDate,
+      dueDate: sampleData.dueDate,
+      items: sampleData.items
     });
-    notify.info("Standard Quotation template loaded.");
+    notify.info(t('common.template_loaded'));
   };
 
   const onStartBlank = () => {
@@ -88,7 +85,7 @@ const Quotation = () => {
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       items: [{ description: '', quantity: 1, unitPrice: 0 }]
     });
-    notify.info("Editor cleared for a fresh start.");
+    notify.info(t('common.editor_cleared'));
   };
 
   return (
@@ -112,7 +109,7 @@ const Quotation = () => {
                 <p className="font-black tracking-[0.3em] uppercase text-[10px] mt-2" style={{ color: settings?.theme?.primaryColor }}>{t('quotation.proposal_instrument')}</p>
               </div>
               <div className="text-right">
-                <p className="font-black text-charcoal text-xl tracking-tighter uppercase" style={{ color: settings?.theme?.primaryColor }}>TWENDE</p>
+                <p className="font-black text-charcoal text-xl tracking-tighter uppercase" style={{ color: settings?.theme?.primaryColor }}>{t('common.brand_name', 'TWENDE')}</p>
                 <p className="text-[8px] text-gray-400 font-bold uppercase tracking-widest mt-1">{t('quotation.official_solutions')}</p>
               </div>
             </div>

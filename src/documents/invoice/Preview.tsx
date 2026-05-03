@@ -23,58 +23,58 @@ const Preview: React.FC<InvoicePreviewProps> = ({ data, settings }) => {
     return (
       <div className="bg-slate-200 p-4 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-white overflow-hidden min-h-[800px] sticky top-32 text-left">
         <div className="bg-white p-12 shadow-inner min-h-[700px] flex flex-col font-sans text-charcoal items-center text-center">
-           <header className="mb-16 pb-12 border-b w-full" style={{ borderColor: primaryColor + '20' }}>
-              <div className="flex flex-col items-center gap-4">
-                 <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ backgroundColor: primaryColor + '10', color: primaryColor }}>
-                    <FaShieldAlt />
-                 </div>
-                 <h2 className="text-4xl font-black tracking-[0.2em] uppercase" style={{ color: primaryColor }}>{t('invoice.invoice')}</h2>
-                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.5em]">Twende Digital Solutions</p>
+          <header className="mb-16 pb-12 border-b w-full" style={{ borderColor: primaryColor + '20' }}>
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ backgroundColor: primaryColor + '10', color: primaryColor }}>
+                <FaShieldAlt />
               </div>
-           </header>
+              <h2 className="text-4xl font-black tracking-[0.2em] uppercase" style={{ color: primaryColor }}>{t('invoice.invoice')}</h2>
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.5em]">Twende Digital Solutions</p>
+            </div>
+          </header>
 
-           <div className="grid grid-cols-2 gap-12 w-full mb-16 text-left">
-              <div>
-                 <p className="text-[8px] font-black text-gray-300 uppercase tracking-widest mb-2">Attention To</p>
-                 <p className="text-xl font-black uppercase text-charcoal">{clientName || "Client Entity"}</p>
-                 <p className="text-xs text-gray-500 leading-relaxed">{clientAddress}</p>
-              </div>
-              <div className="text-right">
-                 <p className="text-[8px] font-black text-gray-300 uppercase tracking-widest mb-2">Date & Terms</p>
-                 <p className="text-sm font-black text-charcoal">{invoiceDate}</p>
-                 <p className="text-sm font-black uppercase" style={{ color: primaryColor }}>{dueDate || "Upon Receipt"}</p>
-              </div>
-           </div>
+          <div className="grid grid-cols-2 gap-12 w-full mb-16 text-left">
+            <div>
+              <p className="text-[8px] font-black text-gray-300 uppercase tracking-widest mb-2">{t('invoice.attention_to')}</p>
+              <p className="text-xl font-black uppercase text-charcoal">{clientName || t('invoice.client_entity')}</p>
+              <p className="text-xs text-gray-500 leading-relaxed">{clientAddress}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-[8px] font-black text-gray-300 uppercase tracking-widest mb-2">{t('invoice.date_terms')}</p>
+              <p className="text-sm font-black text-charcoal">{invoiceDate}</p>
+              <p className="text-sm font-black uppercase" style={{ color: primaryColor }}>{dueDate || t('invoice.upon_receipt')}</p>
+            </div>
+          </div>
 
-           <table className="w-full mb-16">
-              <thead className="border-b" style={{ borderColor: primaryColor + '20' }}>
-                 <tr>
-                    <th className="py-4 text-left text-[9px] font-black uppercase tracking-widest text-gray-400">Description</th>
-                    <th className="py-4 text-right text-[9px] font-black uppercase tracking-widest text-gray-400">Amount</th>
-                 </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                 {items.map((item: any, i: number) => (
-                    <tr key={i}>
-                       <td className="py-4 text-left">
-                          <p className="font-black text-charcoal uppercase text-sm">{item.description}</p>
-                          <p className="text-[8px] text-gray-400">Qty: {item.quantity} × TSh {Number(item.unitPrice).toLocaleString()}</p>
-                       </td>
-                       <td className="py-4 text-right font-black text-charcoal">TSh {(item.quantity * item.unitPrice).toLocaleString()}</td>
-                    </tr>
-                 ))}
-              </tbody>
-           </table>
+          <table className="w-full mb-16">
+            <thead className="border-b" style={{ borderColor: primaryColor + '20' }}>
+              <tr>
+                <th className="py-4 text-left text-[9px] font-black uppercase tracking-widest text-gray-400">{t('invoice.description')}</th>
+                <th className="py-4 text-right text-[9px] font-black uppercase tracking-widest text-gray-400">{t('invoice.amount')}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {items.map((item: any, i: number) => (
+                <tr key={i}>
+                  <td className="py-4 text-left">
+                    <p className="font-black text-charcoal uppercase text-sm">{item.description}</p>
+                    <p className="text-[8px] text-gray-400">{t('invoice.qty')}: {item.quantity} × TSh {Number(item.unitPrice).toLocaleString()}</p>
+                  </td>
+                  <td className="py-4 text-right font-black text-charcoal">TSh {(item.quantity * item.unitPrice).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-           <div className="mt-auto w-full pt-12 border-t" style={{ borderColor: primaryColor + '20' }}>
-              <div className="flex justify-between items-center bg-slate-50 p-8 rounded-3xl">
-                 <div className="text-left">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Total Settlement</p>
-                    <p className="text-sm font-bold text-gray-300 uppercase">Amount Due TZS</p>
-                 </div>
-                 <p className="text-4xl font-black" style={{ color: primaryColor }}>{total.toLocaleString()}</p>
+          <div className="mt-auto w-full pt-12 border-t" style={{ borderColor: primaryColor + '20' }}>
+            <div className="flex justify-between items-center bg-slate-50 p-8 rounded-3xl">
+              <div className="text-left">
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{t('invoice.total_settlement')}</p>
+                <p className="text-sm font-bold text-gray-300 uppercase">{t('invoice.amount_due_tzs')}</p>
               </div>
-           </div>
+              <p className="text-4xl font-black" style={{ color: primaryColor }}>{total.toLocaleString()}</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -85,60 +85,60 @@ const Preview: React.FC<InvoicePreviewProps> = ({ data, settings }) => {
     return (
       <div className="bg-slate-200 p-4 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-white overflow-hidden min-h-[800px] sticky top-32 text-left">
         <div className="bg-white p-12 shadow-inner min-h-[700px] flex flex-col font-sans text-charcoal">
-           <header className="flex justify-between items-start mb-16">
-              <div>
-                 <h2 className="text-5xl font-black uppercase tracking-tighter leading-none" style={{ color: primaryColor }}>{t('invoice.invoice')}</h2>
-                 <p className="text-sm font-black text-gray-400 tracking-widest uppercase mt-2">Twende Documents Engine</p>
-              </div>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl text-white shadow-xl" style={{ backgroundColor: primaryColor }}>
-                 <FaShieldAlt />
-              </div>
-           </header>
+          <header className="flex justify-between items-start mb-16">
+            <div>
+              <h2 className="text-5xl font-black uppercase tracking-tighter leading-none" style={{ color: primaryColor }}>{t('invoice.invoice')}</h2>
+              <p className="text-sm font-black text-gray-400 tracking-widest uppercase mt-2">Twende Documents Engine</p>
+            </div>
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl text-white shadow-xl" style={{ backgroundColor: primaryColor }}>
+              <FaShieldAlt />
+            </div>
+          </header>
 
-           <div className="bg-slate-50 p-8 rounded-3xl mb-12 flex justify-between items-center">
-              <div>
-                 <p className="text-[10px] font-black text-gray-300 uppercase mb-1">Invoicing To</p>
-                 <p className="text-2xl font-black uppercase tracking-tight">{clientName || "Client Entity"}</p>
-              </div>
-              <div className="text-right">
-                 <p className="text-[10px] font-black text-gray-300 uppercase mb-1">Issue Date</p>
-                 <p className="text-lg font-black">{invoiceDate}</p>
-              </div>
-           </div>
+          <div className="bg-slate-50 p-8 rounded-3xl mb-12 flex justify-between items-center">
+            <div>
+              <p className="text-[10px] font-black text-gray-300 uppercase mb-1">{t('invoice.invoice_to')}</p>
+              <p className="text-2xl font-black uppercase tracking-tight">{clientName || t('invoice.client_entity')}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-[10px] font-black text-gray-300 uppercase mb-1">{t('invoice.issue_date')}</p>
+              <p className="text-lg font-black">{invoiceDate}</p>
+            </div>
+          </div>
 
-           <div className="flex-1">
-              <table className="w-full">
-                 <thead>
-                    <tr className="text-left border-b-2 border-slate-100">
-                       <th className="py-4 text-[10px] font-black uppercase text-gray-400">Service Items</th>
-                       <th className="py-4 text-center text-[10px] font-black uppercase text-gray-400">Qty</th>
-                       <th className="py-4 text-right text-[10px] font-black uppercase text-gray-400">Rate</th>
-                    </tr>
-                 </thead>
-                 <tbody className="divide-y divide-slate-50">
-                    {items.map((item: any, i: number) => (
-                       <tr key={i}>
-                          <td className="py-6">
-                             <p className="font-black uppercase tracking-tight">{item.description}</p>
-                          </td>
-                          <td className="py-6 text-center font-bold text-gray-400">{item.quantity}</td>
-                          <td className="py-6 text-right font-black text-charcoal">TSh {Number(item.unitPrice).toLocaleString()}</td>
-                       </tr>
-                    ))}
-                 </tbody>
-              </table>
-           </div>
+          <div className="flex-1">
+            <table className="w-full">
+              <thead>
+                <tr className="text-left border-b-2 border-slate-100">
+                  <th className="py-4 text-[10px] font-black uppercase text-gray-400">{t('invoice.service_items')}</th>
+                  <th className="py-4 text-center text-[10px] font-black uppercase text-gray-400">{t('invoice.qty')}</th>
+                  <th className="py-4 text-right text-[10px] font-black uppercase text-gray-400">{t('invoice.rate')}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {items.map((item: any, i: number) => (
+                  <tr key={i}>
+                    <td className="py-6">
+                      <p className="font-black uppercase tracking-tight">{item.description}</p>
+                    </td>
+                    <td className="py-6 text-center font-bold text-gray-400">{item.quantity}</td>
+                    <td className="py-6 text-right font-black text-charcoal">TSh {Number(item.unitPrice).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-           <div className="mt-12 pt-8 flex justify-between items-end">
-              <div className="text-[10px] font-black text-gray-300 uppercase space-y-1">
-                 <p>Twende Digital Solutions</p>
-                 <p>Precision Built Documents</p>
-              </div>
-              <div className="text-right">
-                 <p className="text-sm font-black text-gray-400 uppercase mb-2">Total Amount Payable</p>
-                 <p className="text-5xl font-black tracking-tighter" style={{ color: primaryColor }}>TSh {total.toLocaleString()}</p>
-              </div>
-           </div>
+          <div className="mt-12 pt-8 flex justify-between items-end">
+            <div className="text-[10px] font-black text-gray-300 uppercase space-y-1">
+              <p>Twende Digital Solutions</p>
+              <p>Precision Built Documents</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-black text-gray-400 uppercase mb-2">{t('invoice.total_amount_payable')}</p>
+              <p className="text-5xl font-black tracking-tighter" style={{ color: primaryColor }}>TSh {total.toLocaleString()}</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -216,14 +216,14 @@ const Preview: React.FC<InvoicePreviewProps> = ({ data, settings }) => {
         {/* Totals */}
         <div className="mt-16 pt-12 border-t-8 border-slate-50">
           <div className="flex flex-col items-end gap-2 mb-8 px-6">
-             <div className="flex justify-between w-64">
-                <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{t('invoice.subtotal')}</span>
-                <span className="font-black text-charcoal">TSh {subtotal.toLocaleString()}</span>
-             </div>
-             <div className="flex justify-between w-64">
-                <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{t('invoice.tax')} ({taxRate}%)</span>
-                <span className="font-black text-charcoal">TSh {tax.toLocaleString()}</span>
-             </div>
+            <div className="flex justify-between w-64">
+              <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{t('invoice.subtotal')}</span>
+              <span className="font-black text-charcoal">TSh {subtotal.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between w-64">
+              <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{t('invoice.tax')} ({taxRate}%)</span>
+              <span className="font-black text-charcoal">TSh {tax.toLocaleString()}</span>
+            </div>
           </div>
           
           <div className={`flex justify-between items-center p-10 rounded-[2rem] text-white shadow-2xl transform hover:scale-[1.02] transition-transform duration-500`} style={{ backgroundColor: primaryColor }}>

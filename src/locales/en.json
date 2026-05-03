@@ -52,7 +52,32 @@
     "how_will_you_use": "How will you use this document?",
     "submit_request": "Submit Request",
     "submitting": "Submitting...",
-    "close": "Close"
+    "close": "Close",
+    "republic_of_tanzania": "United Republic of Tanzania",
+    "brand_name": "TWENDE",
+    "editor_cleared": "Editor cleared for a fresh start.",
+    "ai_polish_desc": "AI Polish Description",
+    "template_loaded": "Template loaded successfully.",
+    "standard_start": "Standard Start",
+    "magic_start": "Magic Start",
+    "import_data": "Import Data",
+    "manual_entry": "Manual Entry",
+    "fast_track": "Fast Track",
+    "ai_generation": "AI Generation",
+    "sync_profile": "Sync Profile",
+    "full_control": "Full Control",
+    "templates": "Templates",
+    "data": "Data",
+    "design": "Design",
+    "select_template": "Select Template",
+    "choose_layout": "Choose the layout that fits your needs",
+    "theme_colors": "Theme Colors",
+    "personalize_brand": "Personalize your brand identity",
+    "primary_color": "Primary Signature Color",
+    "finalize_download": "Finalize & Download",
+    "architecting": "Architecting...",
+    "real_time_preview": "Real-time Preview",
+    "ai_polishing": "AI Polishing..."
   },
   "home": {
     "hero_title": "Create Professional Documents in Minutes — <span class=\"text-primary\">Not Hours</span>",
@@ -73,7 +98,15 @@
     "for_agents": "For Agents",
     "for_agents_desc": "Stationery shop owners and professional agents can manage multiple clients and credits efficiently.",
     "ready_to_begin": "Ready to begin?",
-    "create_first": "Create Your First Document"
+    "create_first": "Create Your First Document",
+    "stats": {
+      "title": "Trusted by Thousands",
+      "subtitle": "Join a growing community of professionals and agents using Document Pro for high-fidelity results.",
+      "documents": "Documents Generated",
+      "users": "Active Professionals",
+      "agents": "Business Agents",
+      "success_rate": "Success Rate"
+    }
   },
   "documents": {
     "studio_title": "Document Studio",
@@ -177,7 +210,7 @@
     "recipient_subject": "Recipient & Subject",
     "recipient_name": "Recipient Name",
     "recipient_address": "Recipient Address",
-    "letter_subject": "Letter Subject",
+    "letter_subject": "RE",
     "letter_content": "Letter Content",
     "ai_polish_body": "AI Polish Body",
     "write_here": "Write your letter here...",
@@ -188,7 +221,41 @@
     "sender_address_placeholder": "SENDER ADDRESS",
     "recipient_name_placeholder": "RECIPIENT NAME",
     "recipient_address_placeholder": "RECIPIENT ADDRESS",
-    "subject_placeholder": "SUBJECT OF CORRESPONDENCE"
+    "subject_placeholder": "SUBJECT OF CORRESPONDENCE",
+    "templates": {
+      "standard": { "label": "Formal Business", "desc": "Strict professional format for official use." },
+      "modern": { "label": "Modern Personal", "desc": "Casual yet professional personal correspondence." },
+      "compact": { "label": "Brief Note", "desc": "Concise layout for short official notices." },
+      "elegant": { "label": "Elegant Prestige", "desc": "Sophisticated formal correspondence for high-stakes letters." }
+    },
+    "sample_data": {
+      "recipient_name": "The Hiring Manager",
+      "recipient_address": "Future Tech Ltd, Innovation District",
+      "date": "2024-04-09",
+      "subject": "Application for Senior Document Specialist",
+      "body": "I am writing to express my strong interest in the Senior Document Specialist position. With my extensive background in digital documentation and AI-assisted architectures, I am confident in my ability to contribute to your team's success...",
+      "sender_name": "Twende Documents Admin"
+    },
+    "sample_data_internship": {
+      "senderName": "Your Name",
+      "senderTitle": "Student",
+      "senderAddress": "University Name\nDepartment of [Your Major]\n[Your Contact Info]",
+      "recipientName": "The Human Resource Manager",
+      "recipientAddress": "[Company Name]\n[Company Address]\n[City, Country]",
+      "date": "2024-05-02",
+      "subject": "APPLICATION FOR INTERNSHIP PLACEMENT IN [DEPARTMENT NAME]",
+      "body": "Dear Sir/Madam,\n\nI am a [Year of Study] student at [University Name] pursuing a [Degree Name]. I am writing to formally request an internship placement at your esteemed organization for the period of [Start Date] to [End Date].\n\nDuring my studies, I have gained foundational knowledge in [Skill 1] and [Skill 2], and I am eager to apply these skills in a professional environment...\n\nThank you for your time and consideration.\n\nSincerely,\n\n[Your Name]"
+    },
+    "sample_data_cover_letter": {
+      "senderName": "Your Name",
+      "senderTitle": "Applicant",
+      "senderAddress": "Your Address\nCity, Country",
+      "recipientName": "The Hiring Manager",
+      "recipientAddress": "[Company Name]\n[Location]",
+      "date": "2024-05-02",
+      "subject": "APPLICATION FOR THE POSITION OF [POSITION NAME]",
+      "body": "Dear Sir/Madam,\n\nI am writing to express my interest in the [Position Name] role at [Company Name] as advertised. I have a strong background in [Your Field] and believe I would be a great fit for your team...\n\nSincerely,\n[Your Name]"
+    }
   },
   "affidavit": {
     "legal_instrument": "Legal Instrument",
@@ -206,7 +273,30 @@
     "oath_resident": "a",
     "oath_resident_of": "and resident of",
     "oath_end": "do hereby make oath and state as follows:",
-    "finalize": "Finalize & Export Affidavit"
+    "finalize": "Finalize & Export Affidavit",
+    "templates": {
+      "standard": { "label": "Legal Standard", "desc": "Industry-standard legal declaration format." },
+      "modern": { "label": "Structured Affidavit", "desc": "Modern organized legal document." },
+      "compact": { "label": "Dense Statement", "desc": "Optimized for long lists of statements." },
+      "elegant": { "label": "Elegant Justice", "desc": "Sophisticated legal layout with classical formal styling." }
+    },
+    "act_reference": "In the Matter of the Oaths and Statutory Declarations Act (Chapter 15, Laws of Tanzania)",
+    "oath_final_statement": "That what is stated hereinabove is true to the best of my knowledge, information, and belief.",
+    "sworn_by": "Sworn by the said deponent:",
+    "deponent": "Deponent",
+    "commissioner_stamp": "Commissioner\nFor Oaths\nStamp",
+    "commissioner_for_oaths": "Commissioner for Oaths",
+    "sample_data": {
+      "deponentName": "John Doe",
+      "deponentAddress": "P.O. Box 123, Dar es Salaam",
+      "deponentOccupation": "Business Consultant",
+      "idNumber": "19900101-12345-00001-20",
+      "statements": [
+        "That I am the deponent herein and thus well-versed with the facts of this matter.",
+        "That this affidavit is made in support of my application for verification of documents.",
+        "That whatever is stated herein is true to the best of my knowledge and belief."
+      ]
+    }
   },
   "invoice": {
     "financial_instrument": "Financial Instrument",
@@ -239,8 +329,39 @@
     "precision_engine": "Precision Engine: Powered by Twende Documents",
     "service_item": "Service Item",
     "invoice": "INVOICE",
+    "finalized_success": "Invoice Finalized & Exported.",
+    "ai_client_name": "AI Optimized Client Entity",
+    "ai_service_item": "AI-Generated Service Consultation",
+    "client_name_placeholder": "e.g. Acme Corp Int'l",
+    "attention_to": "Attention To",
+    "date_terms": "Date & Terms",
+    "description": "Description",
+    "amount": "Amount",
+    "total_settlement": "Total Settlement",
+    "amount_due_tzs": "Amount Due TZS",
+    "service_items": "Service Items",
+    "total_amount_payable": "Total Amount Payable",
+    "unit_price": "Unit Price",
+    "templates": {
+      "standard": { "label": "Standard Corporate", "desc": "Official tax-compliant corporate invoice." },
+      "modern": { "label": "Modern Digital", "desc": "Stylish digital-first receipt and invoice." },
+      "compact": { "label": "Mini Receipt", "desc": "Space-saving layout for quick transactions." },
+      "elegant": { "label": "Elegant Premium", "desc": "Minimalist high-end invoice for premium services." }
+    },
     "qty": "Qty",
-    "rate": "Rate"
+    "rate": "Rate",
+    "sample_data": {
+      "clientName": "Enterprise Solutions Co.",
+      "clientAddress": "Regency Park, Wing A, Dar es Salaam",
+      "invoiceDate": "2024-04-09",
+      "dueDate": "2024-04-23",
+      "items": [
+        { "id": "i1", "description": "Professional Document Architecture", "quantity": 1, "unitPrice": 150000 },
+        { "id": "i2", "description": "AI Consultation & Strategy", "quantity": 2, "unitPrice": 75000 }
+      ],
+      "taxRate": 18,
+      "bankDetails": "NMB Bank - Branch: Corporate - Acc: 0123456789"
+    }
   },
   "pricing": {
     "flexible_power": "Flexible Power",
@@ -256,6 +377,12 @@
       "agent_pro_desc": "Designed for high-traffic stationery shop operations."
     },
     "buy_now": "Buy Now",
+    "choose_method": "Choose Payment Method",
+    "mobile_money": "Mobile Money",
+    "card": "Credit/Debit Card",
+    "snippe_desc": "Secure payment via Snippe",
+    "enter_phone": "Enter your Phone Number",
+    "pay_securely": "Pay Securely",
     "credits": "Credits",
     "tsh": "TSh"
   },
@@ -318,7 +445,25 @@
     "ai_polish": "AI Polish Program",
     "finalize": "Finalize & Export Program",
     "event_program_placeholder": "Event Program",
-    "activity_placeholder": "Activity details..."
+    "templates": {
+      "standard": { "label": "Ceremonial Classic", "desc": "Traditional formal event schedule." },
+      "modern": { "label": "Sleek Timeline", "desc": "Modern interactive-style timeline." },
+      "compact": { "label": "Pocket Guide", "desc": "Small, efficient schedule overview." },
+      "elegant": { "label": "Elegant Gala", "desc": "Artistic centered layout for premium events." }
+    },
+    "activity_placeholder": "PROGRAM ACTIVITY...",
+    "sample_data": {
+      "eventTitle": "COMMUNITY HARVEST FESTIVAL 2024",
+      "date": "2024-05-02",
+      "venue": "Main Community Hall, Victoria",
+      "items": [
+        { "time": "09:00 AM", "activity": "Opening Prayers and Welcoming Remarks" },
+        { "time": "10:30 AM", "activity": "Cultural Performance: Traditional Dance Group" },
+        { "time": "12:00 PM", "activity": "Exhibition Tour and Product Showcasing" },
+        { "time": "01:30 PM", "activity": "Lunch Break and Networking Session" },
+        { "time": "03:00 PM", "activity": "Awards Ceremony and Closing Statements" }
+      ]
+    }
   },
   "cv": {
     "template_options": "CV Template Options",
@@ -353,7 +498,36 @@
     "my_cv_desc": "This is where you can view and manage your CV. You can edit, download, or share your CV with potential employers.",
     "edit_cv": "Edit CV",
     "download_cv": "Download CV",
-    "share_cv": "Share CV"
+    "share_cv": "Share CV",
+    "templates": {
+      "standard": { "label": "Executive Professional", "desc": "Classic corporate layout for seasoned leaders." },
+      "modern": { "label": "Modern Creative", "desc": "Clean, contemporary design for tech & creative roles." },
+      "compact": { "label": "Technical Efficient", "desc": "Dense layout optimized for multiple pages of experience." },
+      "elegant": { "label": "Elegant Academic", "desc": "Sophisticated layout with refined typography and spacing." }
+    },
+    "sample_data": {
+      "personalInfo": {
+        "fullName": "Alex Standard",
+        "jobTitle": "Senior Solutions Architect",
+        "email": "alex@example.com",
+        "phone": "+255 700 000 000",
+        "address": "Dar es Salaam, Tanzania"
+      },
+      "summary": "Results-driven Solutions Architect with 10+ years of experience in designing scalable cloud architectures and leading cross-functional teams.",
+      "experience": [
+        { 
+          "id": "t1", 
+          "title": "Lead Developer", 
+          "company": "Tech Systems Ltd", 
+          "duration": "2019 - 2024", 
+          "description": "Implemented enterprise-scale React applications and optimized cloud infrastructure." 
+        }
+      ],
+      "education": [
+        { "id": "e1", "degree": "MSc in Computer Science", "school": "University of Dar es Salaam", "year": "2015" }
+      ],
+      "skills": ["React", "TypeScript", "AWS", "Node.js", "Architecture Design"]
+    }
   },
   "dashboard": {
     "statistics": "Statistics Dashboard",

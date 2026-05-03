@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { t } from "../../utils/pdfI18n";
 
 // Register custom font for premium feel (if available, fallback to Helvetica)
 Font.register({
@@ -120,6 +121,7 @@ interface InvoicePDFProps {
 
 const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
   const { clientName, clientAddress, invoiceDate, dueDate, items, taxRate = 18 } = data;
+  const lang = settings?.lang || 'en';
   
   const subtotal = items.reduce((acc: number, item: any) => acc + (item.quantity * item.unitPrice), 0);
   const tax = subtotal * (taxRate / 100);
@@ -156,7 +158,7 @@ const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
           </View>
           {!isElegant && (
             <View style={{ textAlign: "right" }}>
-              <Text style={[{ fontWeight: "bold", fontSize: 16 }, isModern ? { color: 'white' } : {}]}>INVOICE</Text>
+              <Text style={[{ fontWeight: "bold", fontSize: 16 }, isModern ? { color: 'white' } : {}]}>{t('invoice.invoice', lang)}</Text>
               <Text style={[{ color: "#9CA3AF" }, isModern ? { color: 'white', opacity: 0.8 } : {}]}>#INV-{new Date().getTime().toString().slice(-6)}</Text>
             </View>
           )}
@@ -169,17 +171,17 @@ const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
           isModern || isElegant ? { marginTop: 20 } : {}
         ]}>
           <View style={styles.billTo}>
-            <Text style={styles.label}>Bill To:</Text>
+            <Text style={styles.label}>{t('invoice.invoice_to', lang)}</Text>
             <Text style={[styles.value, isCompact ? { fontSize: 10 } : {}]}>{clientName || "Client Name"}</Text>
             <Text style={{ color: "#4B5563", marginTop: 4, width: '100%', fontSize: isCompact ? 8 : 10 }}>{clientAddress || "Client Address"}</Text>
           </View>
           <View style={{ textAlign: "right" }}>
             <View style={{ marginBottom: isCompact ? 5 : 10 }}>
-              <Text style={styles.label}>Issue Date:</Text>
+              <Text style={styles.label}>{t('invoice.issue_date', lang)}:</Text>
               <Text style={[styles.value, isCompact ? { fontSize: 10 } : {}]}>{invoiceDate || "YYYY-MM-DD"}</Text>
             </View>
             <View>
-              <Text style={styles.label}>Due Date:</Text>
+              <Text style={styles.label}>{t('invoice.due_date', lang)}:</Text>
               <Text style={[styles.value, { color: primaryColor }, isCompact ? { fontSize: 10 } : {}]}>{dueDate || "YYYY-MM-DD"}</Text>
             </View>
           </View>
@@ -192,10 +194,10 @@ const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
             isCompact ? { padding: 6 } : {},
             isModern ? { backgroundColor: 'white', borderBottomColor: primaryColor, borderBottomWidth: 2, paddingHorizontal: 0 } : {}
           ]}>
-            <Text style={[styles.descCol, isModern ? { color: primaryColor } : {}]}>Description</Text>
-            <Text style={[styles.qtyCol, isModern ? { color: primaryColor } : {}]}>Qty</Text>
-            <Text style={[styles.priceCol, isModern ? { color: primaryColor } : {}]}>Unit Price</Text>
-            <Text style={[styles.totalCol, isModern ? { color: primaryColor } : {}]}>Total</Text>
+            <Text style={[styles.descCol, isModern ? { color: primaryColor } : {}]}>{t('invoice.description', lang) || "Description"}</Text>
+            <Text style={[styles.qtyCol, isModern ? { color: primaryColor } : {}]}>{t('invoice.qty', lang) || "Qty"}</Text>
+            <Text style={[styles.priceCol, isModern ? { color: primaryColor } : {}]}>{t('invoice.unit_price', lang) || "Unit Price"}</Text>
+            <Text style={[styles.totalCol, isModern ? { color: primaryColor } : {}]}>{t('invoice.total', lang) || "Total"}</Text>
           </View>
           {items.map((item: any, i: number) => (
             <View key={i} style={[
@@ -214,11 +216,11 @@ const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
         {/* Totals */}
         <View style={[styles.totalsContainer, isCompact ? { marginTop: 20 } : {}]}>
           <View style={styles.totalLine}>
-            <Text style={{ color: "#9CA3AF" }}>Subtotal:</Text>
+            <Text style={{ color: "#9CA3AF" }}>{t('invoice.subtotal', lang)}:</Text>
             <Text style={{ fontWeight: "bold" }}>TSh {subtotal.toLocaleString()}</Text>
           </View>
           <View style={styles.totalLine}>
-            <Text style={{ color: "#9CA3AF" }}>VAT ({taxRate}%):</Text>
+            <Text style={{ color: "#9CA3AF" }}>{t('invoice.tax', lang)} ({taxRate}%):</Text>
             <Text style={{ fontWeight: "bold" }}>TSh {tax.toLocaleString()}</Text>
           </View>
           <View style={[
@@ -227,13 +229,13 @@ const PDFTemplate = ({ data, settings }: InvoicePDFProps) => {
             isCompact ? { fontSize: 12, width: 150 } : {},
             isModern ? { backgroundColor: '#F9FAFB', padding: 15, borderTopWidth: 0, width: 220, borderRadius: 4 } : {}
           ]}>
-            <Text>Total Payable:</Text>
+            <Text>{t('invoice.amount_payable', lang)}:</Text>
             <Text>TSh {total.toLocaleString()}</Text>
           </View>
         </View>
 
         {/* Footer */}
-        <Text style={styles.footer}>Generated via Twende Documents Precision Engine</Text>
+        <Text style={styles.footer}>{t('invoice.precision_engine', lang)}</Text>
       </Page>
     </Document>
   );

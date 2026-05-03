@@ -1,5 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { t } from "../../utils/pdfI18n";
 
 // Standard PDF Styles
 const styles = StyleSheet.create({
@@ -75,6 +76,7 @@ interface LetterData {
 
 const LetterPDFTemplate = ({ data, settings }: { data: LetterData, settings?: any }) => {
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
+  const lang = settings?.lang || 'en';
   const isCompact = settings?.layout === 'compact';
   const isModern = settings?.layout === 'modern';
   const isElegant = settings?.layout === 'elegant';
@@ -96,7 +98,7 @@ const LetterPDFTemplate = ({ data, settings }: { data: LetterData, settings?: an
               { color: primaryColor },
               isElegant ? { fontSize: 24, letterSpacing: 4 } : {}
             ]}>{data.sender_name || 'Sender Name'}</Text>
-            {(isModern || isElegant) && <Text style={{ fontSize: 9, color: '#666', letterSpacing: 2 }}>OFFICIAL CORRESPONDENCE</Text>}
+            {(isModern || isElegant) && <Text style={{ fontSize: 9, color: '#666', letterSpacing: 2 }}>{t('letter.official_correspondence', lang)}</Text>}
           </View>
           {!isElegant && <Text style={[styles.date, isModern ? { marginTop: 0, alignSelf: 'flex-end' } : {}]}>{data.date || new Date().toLocaleDateString()}</Text>}
         </View>
@@ -109,7 +111,7 @@ const LetterPDFTemplate = ({ data, settings }: { data: LetterData, settings?: an
           isElegant ? { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', borderBottomWidth: 1, borderBottomColor: '#eee', paddingBottom: 10 } : {}
         ]}>
           <View>
-            <Text style={styles.label}>To:</Text>
+            <Text style={styles.label}>{t('letter.recipient_name', lang)}:</Text>
             <Text style={[styles.recipientName, isCompact ? { fontSize: 10 } : {}]}>{data.recipient_name || 'Recipient Name'}</Text>
             <Text style={{ fontSize: isCompact ? 8 : 10 }}>{data.recipient_address || 'Recipient Address'}</Text>
           </View>
@@ -126,7 +128,7 @@ const LetterPDFTemplate = ({ data, settings }: { data: LetterData, settings?: an
             isCompact ? { marginVertical: 10, fontSize: 10 } : {},
             isModern ? { borderBottomWidth: 0, marginVertical: 0 } : {}
           ]}>
-            RE: {data.subject || 'Official Correspondence'}
+            {t('letter.letter_subject', lang)}: {data.subject || t('letter.official_correspondence', lang)}
           </Text>
         </View>
 
@@ -137,7 +139,7 @@ const LetterPDFTemplate = ({ data, settings }: { data: LetterData, settings?: an
 
         {/* Closing */}
         <View style={[styles.closing, isCompact ? { marginTop: 25 } : {}]}>
-          <Text style={isCompact ? { fontSize: 9 } : {}}>Sincerely,</Text>
+          <Text style={isCompact ? { fontSize: 9 } : {}}>{t('letter.sincerely', lang)}</Text>
           <View style={[
             styles.signature, 
             { borderTopColor: primaryColor }, 

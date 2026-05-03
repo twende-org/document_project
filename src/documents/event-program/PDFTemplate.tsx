@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { t } from "../../utils/pdfI18n";
 
 const styles = StyleSheet.create({
   page: {
@@ -117,6 +118,8 @@ const EventProgramPDFTemplate = ({ data, settings }: { data: EventData, settings
     items = []
   } = data;
 
+  const lang = settings?.lang || 'en';
+
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
   const isCompact = settings?.layout === 'compact';
   const isModern = settings?.layout === 'modern';
@@ -137,15 +140,15 @@ const EventProgramPDFTemplate = ({ data, settings }: { data: EventData, settings
             isCompact ? { fontSize: 20 } : {}, 
             isModern ? { fontSize: 32 } : {},
             isElegant ? { fontSize: 36, letterSpacing: 8 } : {}
-          ]}>{eventTitle}</Text>
+          ]}>{eventTitle || t('catalog.event_program_title', lang)}</Text>
           <View style={[
             styles.subHeader, 
             isModern ? { justifyContent: 'flex-start' } : {},
             isElegant ? { borderTopWidth: 1, borderTopColor: primaryColor + '20', marginTop: 15, paddingTop: 10 } : {}
           ]}>
-            <Text style={[styles.subHeaderItem, isModern ? { fontWeight: 'bold', color: '#333' } : {}]}>{date}</Text>
+            <Text style={[styles.subHeaderItem, isModern ? { fontWeight: 'bold', color: '#333' } : {}]}>{t('event.event_date', lang)}: {date}</Text>
             <Text style={{ color: primaryColor }}>|</Text>
-            <Text style={[styles.subHeaderItem, isModern ? { fontWeight: 'bold', color: '#333' } : {}]}>{venue}</Text>
+            <Text style={[styles.subHeaderItem, isModern ? { fontWeight: 'bold', color: '#333' } : {}]}>{t('event.venue', lang)}: {venue}</Text>
           </View>
         </View>
 
@@ -179,7 +182,7 @@ const EventProgramPDFTemplate = ({ data, settings }: { data: EventData, settings
                   isModern ? { fontSize: 16 } : {},
                   isElegant ? { fontSize: 18, letterSpacing: 2 } : {}
                 ]}>{item.activity || "Activity"}</Text>
-                <Text style={{ fontSize: isCompact ? 6 : 9, color: "#9CA3AF" }}>Official Program Item</Text>
+                <Text style={{ fontSize: isCompact ? 6 : 9, color: "#9CA3AF" }}>{t('event.sequence_service', lang)}</Text>
 
                 {isElegant && <View style={{ width: 40, height: 1, backgroundColor: primaryColor + '40', marginTop: 15 }} />}
               </View>

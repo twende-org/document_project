@@ -36,10 +36,10 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
     pdfComponent: CVPDFTemplate,
     defaultTitle: 'My_Professional_CV',
     templates: [
-      { id: 'standard', label: 'Executive Professional', desc: 'Classic corporate layout for seasoned leaders.' },
-      { id: 'modern', label: 'Modern Creative', desc: 'Clean, contemporary design for tech & creative roles.' },
-      { id: 'compact', label: 'Technical Efficient', desc: 'Dense layout optimized for multiple pages of experience.' },
-      { id: 'elegant', label: 'Elegant Academic', desc: 'Sophisticated layout with refined typography and spacing.' }
+      { id: 'standard', label: 'cv.templates.standard.label', desc: 'cv.templates.standard.desc' },
+      { id: 'modern', label: 'cv.templates.modern.label', desc: 'cv.templates.modern.desc' },
+      { id: 'compact', label: 'cv.templates.compact.label', desc: 'cv.templates.compact.desc' },
+      { id: 'elegant', label: 'cv.templates.elegant.label', desc: 'cv.templates.elegant.desc' }
     ]
   },
   INVOICE: {
@@ -48,10 +48,10 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
     pdfComponent: InvoicePDFTemplate,
     defaultTitle: 'Invoice_Export',
     templates: [
-      { id: 'standard', label: 'Standard Corporate', desc: 'Official tax-compliant corporate invoice.' },
-      { id: 'modern', label: 'Modern Digital', desc: 'Stylish digital-first receipt and invoice.' },
-      { id: 'compact', label: 'Mini Receipt', desc: 'Space-saving layout for quick transactions.' },
-      { id: 'elegant', label: 'Elegant Premium', desc: 'Minimalist high-end invoice for premium services.' }
+      { id: 'standard', label: 'invoice.templates.standard.label', desc: 'invoice.templates.standard.desc' },
+      { id: 'modern', label: 'invoice.templates.modern.label', desc: 'invoice.templates.modern.desc' },
+      { id: 'compact', label: 'invoice.templates.compact.label', desc: 'invoice.templates.compact.desc' },
+      { id: 'elegant', label: 'invoice.templates.elegant.label', desc: 'invoice.templates.elegant.desc' }
     ]
   },
   LETTER: {
@@ -60,10 +60,10 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
     pdfComponent: LetterPDFTemplate,
     defaultTitle: 'Cover_Letter',
     templates: [
-      { id: 'standard', label: 'Formal Business', desc: 'Strict professional format for official use.' },
-      { id: 'modern', label: 'Modern Personal', desc: 'Casual yet professional personal correspondence.' },
-      { id: 'compact', label: 'Brief Note', desc: 'Concise layout for short official notices.' },
-      { id: 'elegant', label: 'Elegant Prestige', desc: 'Sophisticated formal correspondence for high-stakes letters.' }
+      { id: 'standard', label: 'letter.templates.standard.label', desc: 'letter.templates.standard.desc' },
+      { id: 'modern', label: 'letter.templates.modern.label', desc: 'letter.templates.modern.desc' },
+      { id: 'compact', label: 'letter.templates.compact.label', desc: 'letter.templates.compact.desc' },
+      { id: 'elegant', label: 'letter.templates.elegant.label', desc: 'letter.templates.elegant.desc' }
     ]
   },
   PROFORMA: {
@@ -96,10 +96,10 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
     pdfComponent: AffidavitPDFTemplate,
     defaultTitle: 'Affidavit_Document',
     templates: [
-      { id: 'standard', label: 'Legal Standard', desc: 'Industry-standard legal declaration format.' },
-      { id: 'modern', label: 'Structured Affidavit', desc: 'Modern organized legal document.' },
-      { id: 'compact', label: 'Dense Statement', desc: 'Optimized for long lists of statements.' },
-      { id: 'elegant', label: 'Elegant Justice', desc: 'Sophisticated legal layout with classical formal styling.' }
+      { id: 'standard', label: 'affidavit.templates.standard.label', desc: 'affidavit.templates.standard.desc' },
+      { id: 'modern', label: 'affidavit.templates.modern.label', desc: 'affidavit.templates.modern.desc' },
+      { id: 'compact', label: 'affidavit.templates.compact.label', desc: 'affidavit.templates.compact.desc' },
+      { id: 'elegant', label: 'affidavit.templates.elegant.label', desc: 'affidavit.templates.elegant.desc' }
     ]
   },
   CONTRACT: {
@@ -120,10 +120,10 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
     pdfComponent: EventProgramPDFTemplate,
     defaultTitle: 'Program_Schedule',
     templates: [
-      { id: 'standard', label: 'Ceremonial Classic', desc: 'Traditional formal event schedule.' },
-      { id: 'modern', label: 'Sleek Timeline', desc: 'Modern interactive-style timeline.' },
-      { id: 'compact', label: 'Pocket Guide', desc: 'Small, efficient schedule overview.' },
-      { id: 'elegant', label: 'Elegant Gala', desc: 'Artistic centered layout for premium events.' }
+      { id: 'standard', label: 'event.templates.standard.label', desc: 'event.templates.standard.desc' },
+      { id: 'modern', label: 'event.templates.modern.label', desc: 'event.templates.modern.desc' },
+      { id: 'compact', label: 'event.templates.compact.label', desc: 'event.templates.compact.desc' },
+      { id: 'elegant', label: 'event.templates.elegant.label', desc: 'event.templates.elegant.desc' }
     ]
   }
 };

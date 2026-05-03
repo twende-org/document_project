@@ -37,10 +37,11 @@ export const DocumentService = {
     link.remove();
   },
 
-  async polish(content: string, docType: string) {
+  async polish(content: string, docType: string, lang: string = 'en') {
     const response = await axiosClient.post(`/api/ai/polish/`, {
       data: content,
-      type: docType
+      type: docType,
+      language: lang
     });
     return response.data;
   }

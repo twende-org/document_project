@@ -90,15 +90,15 @@ const Editor = () => {
         toast.info(t('invoice.add_line_items'));
       }}
       onStartTemplate={() => {
-        setFormData(INVOICE_TEMPLATE);
-        toast.success(t('common.template_loaded', 'Template loaded!'));
+        setFormData(t('invoice.sample_data', { returnObjects: true }));
+        toast.success(t('common.template_loaded'));
       }}
       onStartAI={() => {
         setFormData({
           ...INVOICE_TEMPLATE,
-          clientName: "AI Optimized Client Entity",
+          clientName: t('invoice.ai_client_name', 'AI Optimized Client Entity'),
           items: [
-            { id: "ai1", description: "AI-Generated Service Consultation", quantity: 1, unitPrice: 200000 }
+            { id: "ai1", description: t('invoice.ai_service_item', 'AI-Generated Service Consultation'), quantity: 1, unitPrice: 200000 }
           ]
         });
         toast.success(t('common.ai_drafted', 'AI-drafted initialized!'));
@@ -118,7 +118,7 @@ const Editor = () => {
                 value={formData.clientName}
                 onChange={(e) => updateField('clientName', e.target.value)}
                 className="input-premium p-4"
-                placeholder="e.g. Acme Corp Int'l"
+                placeholder={t('invoice.client_name_placeholder', "e.g. Acme Corp Int'l")}
               />
             </div>
             <div className="md:col-span-2">

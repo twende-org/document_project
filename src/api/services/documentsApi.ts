@@ -17,8 +17,8 @@ export const updateDocument = (id: number, data: any) =>
 export const deleteDocument = (id: number) => 
     axiosClient.delete(DOCUMENTS_ENDPOINTS.detail(id));
 
-export const polishDocument = (id: number) => 
-    axiosClient.post(DOCUMENTS_ENDPOINTS.polish(id));
+export const polishDocument = (id: number, lang: string = 'en') => 
+    axiosClient.post(DOCUMENTS_ENDPOINTS.polish(id), { language: lang });
 
 export const downloadDocumentPdf = (id: number) => 
     axiosClient.get(DOCUMENTS_ENDPOINTS.download(id), { responseType: 'blob' });

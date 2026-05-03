@@ -1,12 +1,17 @@
+import React, { useState } from "react";
 import PricingCard from "../components/sections/Pricing";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import PaymentModal from "../components/modals/PaymentModal";
 
 const Pricing = () => {
   const { t } = useTranslation();
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleBuy = (plan: any) => {
-    // TODO: integrate payment logic (AzamPay/Stripe)
-    alert(`Redirecting to secure gateway for ${plan.name}...`);
+    setSelectedPlan(plan);
+    setIsModalOpen(true);
   };
 
   const plans = [
@@ -84,11 +89,17 @@ const Pricing = () => {
         <section className="mt-32 text-center border-t border-secondary/5 pt-20">
            <h3 className="text-[10px] font-black text-secondary/20 uppercase tracking-[0.5em] mb-8">{t('pricing.secure_partners')}</h3>
            <div className="flex flex-wrap justify-center items-center gap-16 grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+              <span className="text-3xl font-black text-secondary tracking-tighter uppercase italic text-primary">Snippe</span>
               <span className="text-3xl font-black text-secondary tracking-tighter uppercase italic">Azam<span className="text-primary">Pay</span></span>
               <span className="text-3xl font-black text-secondary tracking-tighter uppercase">Stripe</span>
-              <span className="text-3xl font-black text-secondary tracking-tighter uppercase italic text-primary">T-Pesa</span>
            </div>
         </section>
+
+        <PaymentModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          plan={selectedPlan} 
+        />
       </div>
     </div>
   );

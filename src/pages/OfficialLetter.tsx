@@ -69,47 +69,20 @@ const OfficialLetter = () => {
 
   const onStartTemplate = () => {
     if (letterType === 'internship-letter') {
-      setFormData({
-        senderName: 'Your Name',
-        senderTitle: 'Student',
-        senderAddress: 'University Name\nDepartment of [Your Major]\n[Your Contact Info]',
-        recipientName: 'The Human Resource Manager',
-        recipientAddress: '[Company Name]\n[Company Address]\n[City, Country]',
-        date: new Date().toISOString().split('T')[0],
-        subject: 'APPLICATION FOR INTERNSHIP PLACEMENT IN [DEPARTMENT NAME]',
-        body: 'Dear Sir/Madam,\n\nI am a [Year of Study] student at [University Name] pursuing a [Degree Name]. I am writing to formally request an internship placement at your esteemed organization for the period of [Start Date] to [End Date].\n\nDuring my studies, I have gained foundational knowledge in [Skill 1] and [Skill 2], and I am eager to apply these skills in a professional environment...\n\nThank you for your time and consideration.\n\nSincerely,\n\n[Your Name]'
-      });
-      notify.info("Internship Letter template loaded.");
+      setFormData(t('letter.sample_data_internship', { returnObjects: true }));
+      notify.info(t('common.template_loaded'));
       return;
     }
 
     if (letterType === 'cover-letter') {
-      setFormData({
-        senderName: 'Your Name',
-        senderTitle: 'Applicant',
-        senderAddress: 'Your Address\nCity, Country',
-        recipientName: 'The Hiring Manager',
-        recipientAddress: '[Company Name]\n[Location]',
-        date: new Date().toISOString().split('T')[0],
-        subject: 'APPLICATION FOR THE POSITION OF [POSITION NAME]',
-        body: 'Dear Sir/Madam,\n\nI am writing to express my interest in the [Position Name] role at [Company Name] as advertised. I have a strong background in [Your Field] and believe I would be a great fit for your team...\n\nSincerely,\n[Your Name]'
-      });
-      notify.info("Cover Letter template loaded.");
+      setFormData(t('letter.sample_data_cover_letter', { returnObjects: true }));
+      notify.info(t('common.template_loaded'));
       return;
     }
 
     // Default Standard Template
-    setFormData({
-      senderName: 'Your Name',
-      senderTitle: 'Your Position',
-      senderAddress: 'Your Address\nCity, Country',
-      recipientName: 'The Regional Manager',
-      recipientAddress: 'Organization Name\nP.O. Box 456\nCity, Country',
-      date: new Date().toISOString().split('T')[0],
-      subject: 'FORMAL REQUEST FOR PARTNERSHIP ENGAGEMENT',
-      body: 'Dear Sir/Madam,\n\nI am writing to formally propose a partnership between our organizations. Having observed your recent achievements in the sector, I believe there is a strong synergy...\n\nI look forward to discussing this proposal further.\n\nYours faithfully,\n\n[Your Name]'
-    });
-    notify.info("Standard Letter template loaded.");
+    setFormData(t('letter.sample_data', { returnObjects: true }));
+    notify.info(t('common.template_loaded'));
   };
 
   const onStartBlank = () => {

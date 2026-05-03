@@ -97,8 +97,8 @@ const Editor = () => {
         toast.info("Started with a blank canvas.");
       }}
       onStartTemplate={() => {
-        setFormData(CV_TEMPLATE);
-        toast.success("Industry-standard template loaded!");
+        setFormData(t('cv.sample_data', { returnObjects: true }));
+        toast.success(t('common.template_loaded'));
       }}
       onStartAI={async () => {
         setFormData({
@@ -113,11 +113,11 @@ const Editor = () => {
         {/* Personal Details */}
         <div className="card-premium">
           <h3 className="text-heading text-xl mb-8 flex items-center gap-3">
-            <FaUserAlt className="text-primary" /> 01. Identity
+            <FaUserAlt className="text-primary" /> 01. {t('cv.sections.personal_information')}
           </h3>
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <label className="label-premium">Full Name</label>
+              <label className="label-premium">{t('affidavit.full_name')}</label>
               <input 
                 type="text" 
                 value={formData.personalInfo.fullName}
@@ -158,7 +158,7 @@ const Editor = () => {
         {/* Career Summary */}
         <div className="card-premium relative">
           <div className="flex justify-between items-center mb-8">
-            <h3 className="text-heading text-xl">02. Career Summary</h3>
+            <h3 className="text-heading text-xl">02. {t('cv.sections.career_objective')}</h3>
             <button 
               onClick={polishSummary}
               disabled={isPolishing || !formData.summary}
@@ -179,7 +179,7 @@ const Editor = () => {
         <div className="card-premium">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-heading text-xl flex items-center gap-3">
-              <FaBriefcase className="text-primary" /> 03. Experience
+              <FaBriefcase className="text-primary" /> 03. {t('cv.sections.work_experience')}
             </h3>
             <button onClick={handleAddExperience} className="text-primary text-action hover:scale-105 transition-transform">+ Add Role</button>
           </div>
@@ -250,7 +250,7 @@ const Editor = () => {
         <div className="card-premium">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-heading text-xl flex items-center gap-3">
-              <FaGraduationCap className="text-primary" /> 04. Education
+              <FaGraduationCap className="text-primary" /> 04. {t('cv.sections.education')}
             </h3>
             <button 
                 onClick={() => setFormData({...formData, education: [...formData.education, { id: Math.random().toString(), degree: "", school: "", year: "" }]})}
@@ -306,7 +306,7 @@ const Editor = () => {
         {/* Skills */}
         <div className="card-premium">
           <h3 className="text-heading text-xl mb-8 flex items-center gap-3">
-            <FaCog className="text-primary" /> 05. Expertise & Skills
+            <FaCog className="text-primary" /> 05. {t('cv.sections.skills')}
           </h3>
           <div className="space-y-4">
              <div className="flex gap-4">

@@ -85,9 +85,9 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
               >
                 <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[9px] md:text-[10px]">
                    <FaFileAlt className="text-primary group-hover:scale-110 transition-transform" /> 
-                   <span className="truncate">Standard Start</span>
+                   <span className="truncate">{t('common.standard_start')}</span>
                 </div>
-                <span className="text-[7px] md:text-[8px] text-white/40 font-medium uppercase tracking-tighter">Fast Track</span>
+                <span className="text-[7px] md:text-[8px] text-white/40 font-medium uppercase tracking-tighter">{t('common.fast_track')}</span>
               </button>
  
               <button 
@@ -95,10 +95,10 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                 className="group flex flex-col items-center gap-2 p-3 md:p-4 rounded-2xl bg-primary text-white hover:bg-redMain transition-all shadow-xl shadow-red-900/20 active:scale-95 text-center"
               >
                 <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[9px] md:text-[10px]">
-                  <FaMagic className="group-hover:rotate-12 transition-transform" /> 
-                  <span className="truncate">Magic Start</span>
+                   <FaMagic className="group-hover:rotate-12 transition-transform" /> 
+                   <span className="truncate">{t('common.magic_start')}</span>
                 </div>
-                <span className="text-[7px] md:text-[8px] text-white/70 font-medium uppercase tracking-tighter">AI Generation</span>
+                <span className="text-[7px] md:text-[8px] text-white/70 font-medium uppercase tracking-tighter">{t('common.ai_generation')}</span>
               </button>
  
               {onImportProfile && (
@@ -108,9 +108,9 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                 >
                   <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[9px] md:text-[10px] text-primary">
                     <FaCloudDownloadAlt className="group-hover:translate-y-1 transition-transform" /> 
-                    <span className="truncate">Import Data</span>
+                    <span className="truncate">{t('common.import_data')}</span>
                   </div>
-                  <span className="text-[7px] md:text-[8px] text-primary/60 font-medium uppercase tracking-tighter">Sync Profile</span>
+                  <span className="text-[7px] md:text-[8px] text-primary/60 font-medium uppercase tracking-tighter">{t('common.sync_profile')}</span>
                 </button>
               )}
  
@@ -120,9 +120,9 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
               >
                 <div className="flex items-center gap-2 font-black uppercase tracking-widest text-[9px] md:text-[10px]">
                   <FaPenNib className="group-hover:-translate-y-1 transition-transform" /> 
-                  <span className="truncate">Manual Entry</span>
+                  <span className="truncate">{t('common.manual_entry')}</span>
                 </div>
-                <span className="text-[7px] md:text-[8px] text-white/40 font-medium uppercase tracking-tighter">Full Control</span>
+                <span className="text-[7px] md:text-[8px] text-white/40 font-medium uppercase tracking-tighter">{t('common.full_control')}</span>
               </button>
            </div>
         </div>
@@ -144,19 +144,19 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                 onClick={() => setActiveTab("templates")}
                 className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === "templates" ? "bg-secondary text-white shadow-lg" : "text-secondary/40 hover:text-secondary"}`}
               >
-                <FaThLarge size={14} /> Templates
+                <FaThLarge size={14} /> {t('common.templates')}
               </button>
               <button 
                 onClick={() => setActiveTab("content")}
                 className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === "content" ? "bg-secondary text-white shadow-lg" : "text-secondary/40 hover:text-secondary"}`}
               >
-                <FaEdit size={14} /> Data
+                <FaEdit size={14} /> {t('common.data')}
               </button>
               <button 
                 onClick={() => setActiveTab("design")}
                 className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === "design" ? "bg-secondary text-white shadow-lg" : "text-secondary/40 hover:text-secondary"}`}
               >
-                <FaPalette size={14} /> Design
+                <FaPalette size={14} /> {t('common.design')}
               </button>
             </div>
 
@@ -175,8 +175,8 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                         <FaThLarge size={20} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">Select Template</h3>
-                        <p className="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">Choose the layout that fits your needs</p>
+                        <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">{t('common.select_template')}</h3>
+                        <p className="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">{t('common.choose_layout')}</p>
                       </div>
                     </div>
 
@@ -187,8 +187,8 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                           onClick={() => updateLayout(layout.id)}
                           className={`flex flex-col items-start text-left p-6 rounded-2xl border-2 transition-all active:scale-[0.98] ${settings?.layout === layout.id ? "border-primary bg-primary/5" : "border-neutral-border hover:border-secondary/20"}`}
                         >
-                          <span className={`text-[10px] font-black uppercase tracking-widest mb-1 ${settings?.layout === layout.id ? "text-primary" : "text-secondary"}`}>{layout.label}</span>
-                          <span className="text-[8px] font-bold text-secondary/40 uppercase tracking-tighter">{layout.desc}</span>
+                          <span className={`text-[10px] font-black uppercase tracking-widest mb-1 ${settings?.layout === layout.id ? "text-primary" : "text-secondary"}`}>{t(layout.label)}</span>
+                          <span className="text-[8px] font-bold text-secondary/40 uppercase tracking-tighter">{t(layout.desc)}</span>
                         </button>
                       ))}
                     </div>
@@ -222,13 +222,13 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                         <FaPalette size={20} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">Theme Colors</h3>
-                        <p className="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">Personalize your brand identity</p>
+                        <h3 className="text-sm font-black text-charcoal uppercase tracking-[0.2em]">{t('common.theme_colors')}</h3>
+                        <p className="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">{t('common.personalize_brand')}</p>
                       </div>
                     </div>
 
                     <div className="space-y-6">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Primary Signature Color</label>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">{t('common.primary_color')}</label>
                       <div className="flex flex-wrap gap-3">
                         {PRESET_COLORS.map(color => (
                           <button
@@ -261,7 +261,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                   className="btn-primary flex-1 py-4 md:py-6 text-base md:text-lg flex items-center justify-center gap-3"
                >
                   {isSaving ? <span className="animate-spin text-xl">⏳</span> : <FaRocket />}
-                  {isSaving ? "Architecting..." : "Finalize & Download"}
+                  {isSaving ? t('common.architecting') : t('common.finalize_download')}
                </button>
             </div>
           </motion.div>
@@ -274,8 +274,8 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
           >
             <div className="bg-white rounded-card shadow-premium border border-neutral-border p-2 min-h-[700px] flex flex-col w-full">
                <div className="bg-neutral-light p-4 flex justify-between items-center border-b border-neutral-border">
-                  <span className="text-action text-secondary/40">Real-time Preview</span>
-                  {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">AI Polishing...</span>}
+                  <span className="text-action text-secondary/40">{t('common.real_time_preview')}</span>
+                  {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">{t('common.ai_polishing')}</span>}
                </div>
                <div className="flex-1 bg-neutral-light/50 p-4 md:p-8 flex justify-center overflow-x-auto w-full">
                   <div className="min-w-[700px] lg:min-w-0 w-full">

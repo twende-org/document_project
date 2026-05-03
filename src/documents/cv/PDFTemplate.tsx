@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { t } from "../../utils/pdfI18n";
 import type { CVContent } from "../types";
 
 const styles = StyleSheet.create({
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
 
 const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) => {
   const { personalInfo = {} as any, experience = [], education = [], skills = [] } = data;
+  const lang = settings?.lang || 'en';
   
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
   const isCompact = settings?.layout === 'compact';
@@ -106,7 +108,7 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
         {!isModern && !isElegant && (
           <View style={[styles.sidebar, isCompact ? { width: 140, padding: 20 } : {}]}>
             <View style={{ marginBottom: 40 }}>
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>Contact</Text>
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.personal_information', lang)}</Text>
               <View style={styles.contactItem}>
                 <Text style={styles.contactLabel}>Phone</Text>
                 <Text style={isCompact ? { fontSize: 8 } : {}}>{personalInfo.phone || "+255 000 000 000"}</Text>
@@ -116,13 +118,13 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
                 <Text style={isCompact ? { fontSize: 8 } : {}}>{personalInfo.email || "hello@twende.com"}</Text>
               </View>
               <View style={styles.contactItem}>
-                <Text style={styles.contactLabel}>Location</Text>
+                <Text style={styles.contactLabel}>{t('common.details', lang)}</Text>
                 <Text style={isCompact ? { fontSize: 8 } : {}}>{personalInfo.address || "Dar es Salaam, TZ"}</Text>
               </View>
             </View>
 
             <View>
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>Expertise</Text>
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.skills', lang)}</Text>
               <View>
                 {skills.map((skill: string, index: number) => (
                   <Text key={index} style={[{ marginBottom: 4 }, isCompact ? { fontSize: 8 } : {}]}>• {skill}</Text>
@@ -171,12 +173,12 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
             <View style={{ flexDirection: 'row', gap: 30 }}>
               {/* Left Column (8/12 equivalent) */}
               <View style={{ flex: 2 }}>
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>Professional Summary</Text>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>{t('cv.sections.career_objective', lang)}</Text>
                 <Text style={styles.summary}>
                   {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
                 </Text>
 
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>Professional History</Text>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.work_experience', lang)}</Text>
                 {experience.map((exp: any, i: number) => (
                   <View key={i} style={styles.experienceItem}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
@@ -193,7 +195,7 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
               
               {/* Right Column (4/12 equivalent) */}
               <View style={{ flex: 1 }}>
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>Expertise</Text>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>{t('cv.sections.skills', lang)}</Text>
                 <View style={{ flexDirection: 'column', gap: 5 }}>
                   {skills.map((skill: string, index: number) => (
                     <View key={index} style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
@@ -206,7 +208,7 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
                   )}
                 </View>
 
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>Academic Background</Text>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.education', lang)}</Text>
                 {education.map((edu: any, i: number) => (
                   <View key={i} style={{ marginBottom: 10 }}>
                     <Text style={{ fontSize: 9, fontWeight: "bold", textTransform: 'uppercase', color: '#1F2937' }}>{edu.degree || "Bachelor of Science"}</Text>
@@ -217,12 +219,12 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
             </View>
           ) : (
             <>
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Executive Summary</Text>
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>{t('cv.sections.career_objective', lang)}</Text>
               <Text style={[styles.summary, isCompact ? { fontSize: 9 } : {}]}>
                 {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
               </Text>
 
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Professional Experience</Text>
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>{t('cv.sections.work_experience', lang)}</Text>
               {experience.map((exp: any, i: number) => (
                 <View key={i} style={[styles.experienceItem, isCompact ? { marginBottom: 12 } : {}]}>
                   <Text style={[styles.jobTitle, isCompact ? { fontSize: 10 } : {}]}>{exp.title || "Job Title"}</Text>
@@ -236,7 +238,7 @@ const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) =>
                 </View>
               ))}
 
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>Education</Text>
+              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>{t('cv.sections.education', lang)}</Text>
               {education.map((edu: any, i: number) => (
                 <View key={i} style={[{ marginBottom: 10 }, isCompact ? { marginBottom: 6 } : {}]}>
                   <Text style={[{ fontWeight: "bold" }, isCompact ? { fontSize: 9 } : {}]}>{edu.degree || "Bachelor of Science"}</Text>

@@ -62,18 +62,14 @@ const Affidavit = () => {
 
   const onStartTemplate = () => {
     setFormData({
-      deponentName: 'John Doe',
-      deponentAddress: 'P.O. Box 123, Dar es Salaam',
-      deponentOccupation: 'Business Consultant',
-      idNumber: '19900101-12345-00001-20',
-      statements: [
-        'That I am the deponent herein and thus well-versed with the facts of this matter.',
-        'That this affidavit is made in support of my application for verification of documents.',
-        'That whatever is stated herein is true to the best of my knowledge and belief.'
-      ],
+      deponentName: t('affidavit.sample_data.deponentName'),
+      deponentAddress: t('affidavit.sample_data.deponentAddress'),
+      deponentOccupation: t('affidavit.sample_data.deponentOccupation'),
+      idNumber: t('affidavit.sample_data.idNumber'),
+      statements: t('affidavit.sample_data.statements', { returnObjects: true }),
       date: new Date().toISOString().split('T')[0]
     });
-    notify.info("Standard Affidavit template loaded.");
+    notify.info(t('common.template_loaded'));
   };
 
   const onStartBlank = () => {
@@ -106,7 +102,7 @@ const Affidavit = () => {
           <div className={`text-center ${settings?.layout === 'compact' ? 'mb-8' : 'mb-16'} ${settings?.layout === 'modern' ? 'text-left' : ''}`}>
             <h2 className={`${settings?.layout === 'elegant' ? 'text-3xl' : 'text-2xl'} font-black text-charcoal uppercase tracking-[0.3em] mb-4`}>{t('catalog.affidavits_title')}</h2>
             <div className={`h-1 ${settings?.layout === 'modern' ? 'w-full' : 'w-24 mx-auto'} mb-6`} style={{ backgroundColor: settings?.theme?.primaryColor }} />
-            {settings?.layout === 'elegant' && <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400 mt-[-10px]">Republic of Tanzania</p>}
+            {settings?.layout === 'elegant' && <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400 mt-[-10px]">{t('common.republic_of_tanzania')}</p>}
           </div>
           <div className={`flex-1 space-y-6 text-charcoal leading-loose ${settings?.layout === 'compact' ? 'text-xs' : 'text-sm'} ${settings?.layout === 'modern' ? 'bg-slate-50/50 p-8 rounded-3xl border-l-8' : ''}`} style={{ borderLeftColor: settings?.layout === 'modern' ? settings?.theme?.primaryColor : 'transparent' }}>
             <p className={`font-bold border-l-4 pl-6 italic ${settings?.layout === 'modern' ? 'border-none pl-0' : ''}`} style={{ borderLeftColor: settings?.theme?.primaryColor }}>
@@ -124,7 +120,7 @@ const Affidavit = () => {
           {settings?.layout === 'elegant' && (
              <div className="mt-16 pt-12 border-t flex justify-between items-center px-12" style={{ borderTopColor: settings?.theme?.primaryColor + '20' }}>
                 <div className="w-40 border-b border-charcoal pb-1" />
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Commissioner for Oaths</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{t('affidavit.commissioner_for_oaths')}</p>
              </div>
           )}
         </div>

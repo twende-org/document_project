@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { t } from "../../utils/pdfI18n";
 
 const styles = StyleSheet.create({
   page: {
@@ -130,6 +131,8 @@ const AffidavitPDFTemplate = ({ data, settings }: { data: AffidavitData, setting
     date = new Date().toLocaleDateString()
   } = data;
 
+  const lang = settings?.lang || 'en';
+
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
   const isCompact = settings?.layout === 'compact';
   const isModern = settings?.layout === 'modern';
@@ -148,10 +151,10 @@ const AffidavitPDFTemplate = ({ data, settings }: { data: AffidavitData, setting
             styles.title, 
             isModern ? { fontSize: 28, color: primaryColor } : {},
             isElegant ? { color: primaryColor, letterSpacing: 8 } : {}
-          ]}>Affidavit</Text>
+          ]}>{t('affidavit.legal_instrument', lang)}</Text>
           {!isElegant && <View style={[styles.divider, { backgroundColor: primaryColor }, isModern ? { width: 100, height: 4 } : {}]} />}
           <Text style={[styles.subTitle, isElegant ? { color: '#666', borderTopWidth: 1, borderTopColor: primaryColor + '40', paddingTop: 10, marginTop: 10 } : {}]}>
-            In the Matter of the Oaths and Statutory Declarations Act (Chapter 15, Laws of Tanzania)
+            {t('affidavit.act_reference', lang) || "In the Matter of the Oaths and Statutory Declarations Act (Chapter 15, Laws of Tanzania)"}
           </Text>
         </View>
 
@@ -162,7 +165,7 @@ const AffidavitPDFTemplate = ({ data, settings }: { data: AffidavitData, setting
           isModern ? { backgroundColor: '#F9FAFB', padding: 20, borderLeftWidth: 5 } : {}
         ]}>
           <Text style={isCompact ? { fontSize: 10 } : {}}>
-            I, {deponentName}, a {deponentOccupation} and resident of {deponentAddress} do hereby make oath and state as follows:
+            {t('affidavit.oath_start', lang)} {deponentName}, {t('affidavit.oath_resident', lang)} {deponentOccupation} {t('affidavit.oath_resident_of', lang)} {deponentAddress} {t('affidavit.oath_end', lang)}
           </Text>
         </View>
 
@@ -181,7 +184,7 @@ const AffidavitPDFTemplate = ({ data, settings }: { data: AffidavitData, setting
           <View style={[styles.statementRow, isCompact ? { marginBottom: 8 } : {}]}>
             <Text style={[styles.statementNumber, { color: primaryColor }, isCompact ? { fontSize: 10 } : {}]}>{statements.length + 1}.</Text>
             <Text style={[styles.statementText, isCompact ? { fontSize: 10 } : {}]}>
-              That what is stated hereinabove is true to the best of my knowledge, information, and belief.
+              {t('affidavit.oath_final_statement', lang) || "That what is stated hereinabove is true to the best of my knowledge, information, and belief."}
             </Text>
           </View>
         </View>
@@ -192,12 +195,12 @@ const AffidavitPDFTemplate = ({ data, settings }: { data: AffidavitData, setting
           isModern ? { borderTopWidth: 1, borderTopColor: '#eee', paddingTop: 30 } : {}
         ]}>
           <View style={styles.signatureBox}>
-            <Text style={styles.signatureLabel}>Sworn by the said deponent:</Text>
+            <Text style={styles.signatureLabel}>{t('affidavit.sworn_by', lang) || "Sworn by the said deponent:"}</Text>
             <View style={{ height: isCompact ? 20 : 40 }} />
             <View style={[styles.signatureLine, isModern ? { borderBottomColor: primaryColor } : {}]}>
               <Text style={{ fontWeight: "bold", fontSize: isCompact ? 10 : 12 }}>{deponentName.toUpperCase()}</Text>
             </View>
-            <Text style={styles.signatureLabel}>Deponent</Text>
+            <Text style={styles.signatureLabel}>{t('affidavit.deponent', lang) || "Deponent"}</Text>
           </View>
 
           <View style={{ alignItems: "center" }}>
@@ -206,9 +209,9 @@ const AffidavitPDFTemplate = ({ data, settings }: { data: AffidavitData, setting
               isCompact ? { width: 80, height: 80 } : {},
               isModern ? { borderColor: primaryColor + '20', backgroundColor: 'white' } : {}
             ]}>
-              <Text style={[styles.stampText, { color: primaryColor + '40' }, isCompact ? { fontSize: 5 } : {}]}>Commissioner{"\n"}For Oaths{"\n"}Stamp</Text>
+              <Text style={[styles.stampText, { color: primaryColor + '40' }, isCompact ? { fontSize: 5 } : {}]}>{t('affidavit.commissioner_stamp', lang) || `Commissioner\nFor Oaths\nStamp`}</Text>
             </View>
-            <Text style={{ fontSize: isCompact ? 8 : 10, marginTop: 10, fontWeight: "bold" }}>Date: {date}</Text>
+            <Text style={{ fontSize: isCompact ? 8 : 10, marginTop: 10, fontWeight: "bold" }}>{t('affidavit.issue_date', lang)}: {date}</Text>
           </View>
         </View>
 
