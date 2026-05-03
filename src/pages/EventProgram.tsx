@@ -73,7 +73,7 @@ const EventProgram = () => {
   };
 
   const onStartTemplate = () => {
-    setFormData(t('event.sample_data', { returnObjects: true }));
+    setFormData(t('event.sample_data', { returnObjects: true }) as any);
     notify.info(t('common.template_loaded'));
   };
 

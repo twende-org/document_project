@@ -13,6 +13,15 @@ const ProformaInvoice = () => {
     return data.items.reduce((sum: number, item: any) => sum + (item.quantity * item.unitPrice), 0);
   };
 
+  const initialData = {
+    clientName: '',
+    clientAddress: '',
+    bankDetails: 'NMB Bank - A/C: 0123456789 (Twende Docs)',
+    invoiceDate: new Date().toISOString().split('T')[0],
+    dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    items: [{ description: '', quantity: 1, unitPrice: 0 }] as any[]
+  };
+
   const {
     formData,
     setFormData,
@@ -23,14 +32,7 @@ const ProformaInvoice = () => {
     isValidated,
     settings,
     setSettings
-  } = useDocumentEngine({
-    clientName: '',
-    clientAddress: '',
-    bankDetails: 'NMB Bank - A/C: 0123456789 (Twende Docs)',
-    invoiceDate: new Date().toISOString().split('T')[0],
-    dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    items: [{ description: '', quantity: 1, unitPrice: 0 }] as any[]
-  }, 'PROFORMA', 
+  } = useDocumentEngine(initialData, 'PROFORMA', 
   { client_name: 'clientName', bank_details: 'bankDetails' },
   (data) => ({ total: calculateTotal(data) })
   );
@@ -80,15 +82,7 @@ const ProformaInvoice = () => {
   };
 
   const onStartBlank = () => {
-    setFormData({
-      ...initialData, // Wait, initialData is not defined in scope, I'll use the literal
-      clientName: '',
-      clientAddress: '',
-      bankDetails: 'NMB Bank - A/C: 0123456789 (Twende Docs)',
-      invoiceDate: new Date().toISOString().split('T')[0],
-      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      items: [{ description: '', quantity: 1, unitPrice: 0 }]
-    });
+    setFormData(initialData);
     notify.info(t('common.editor_cleared', 'Editor cleared for a fresh start.'));
   };
 

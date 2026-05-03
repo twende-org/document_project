@@ -69,19 +69,19 @@ const OfficialLetter = () => {
 
   const onStartTemplate = () => {
     if (letterType === 'internship-letter') {
-      setFormData(t('letter.sample_data_internship', { returnObjects: true }));
+      setFormData(t('letter.sample_data_internship', { returnObjects: true }) as any);
       notify.info(t('common.template_loaded'));
       return;
     }
 
     if (letterType === 'cover-letter') {
-      setFormData(t('letter.sample_data_cover_letter', { returnObjects: true }));
+      setFormData(t('letter.sample_data_cover_letter', { returnObjects: true }) as any);
       notify.info(t('common.template_loaded'));
       return;
     }
 
     // Default Standard Template
-    setFormData(t('letter.sample_data', { returnObjects: true }));
+    setFormData(t('letter.sample_data', { returnObjects: true }) as any);
     notify.info(t('common.template_loaded'));
   };
 

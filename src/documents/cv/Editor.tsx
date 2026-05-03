@@ -9,9 +9,11 @@ import { CV_TEMPLATE } from "../templates";
 import { toast } from "react-toastify";
 import { notify } from "../../utils/notificationService";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { DOCUMENT_REGISTRY } from "../registry";
 
 const Editor = () => {
+  const { t } = useTranslation();
   const initialData: CVContent = {
     personalInfo: {
       fullName: "",
@@ -97,7 +99,7 @@ const Editor = () => {
         toast.info("Started with a blank canvas.");
       }}
       onStartTemplate={() => {
-        setFormData(t('cv.sample_data', { returnObjects: true }));
+        setFormData(t('cv.sample_data', { returnObjects: true }) as any);
         toast.success(t('common.template_loaded'));
       }}
       onStartAI={async () => {

@@ -90,7 +90,7 @@ const Editor = () => {
         toast.info(t('invoice.add_line_items'));
       }}
       onStartTemplate={() => {
-        setFormData(t('invoice.sample_data', { returnObjects: true }));
+        setFormData(t('invoice.sample_data', { returnObjects: true }) as any);
         toast.success(t('common.template_loaded'));
       }}
       onStartAI={() => {
