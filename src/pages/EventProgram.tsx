@@ -26,8 +26,8 @@ const EventProgram = () => {
     date: new Date().toISOString().split('T')[0],
     venue: 'Convention Center',
     items: [
-      { time: '09:00', activity: 'Arrival & Registration' },
-      { time: '10:00', activity: 'Introductory Remarks' }
+      { time: '09:00', endTime: '10:00', date: new Date().toISOString().split('T')[0], activity: 'Arrival & Registration' },
+      { time: '10:00', endTime: '11:00', date: new Date().toISOString().split('T')[0], activity: 'Introductory Remarks' }
     ]
   }, 'EVENT_PROGRAM', {
     event_name: 'eventTitle',
@@ -35,7 +35,8 @@ const EventProgram = () => {
   });
 
   const addItem = () => {
-    setFormData({ ...formData, items: [...formData.items, { time: '', activity: '' }] });
+    const defaultDate = formData.date || new Date().toISOString().split('T')[0];
+    setFormData({ ...formData, items: [...formData.items, { time: '', endTime: '', date: defaultDate, activity: '' }] });
   };
 
   const removeItem = (index: number) => {
@@ -82,7 +83,7 @@ const EventProgram = () => {
       eventTitle: '',
       date: new Date().toISOString().split('T')[0],
       venue: '',
-      items: [{ time: '08:00 AM', activity: '' }]
+      items: [{ time: '08:00', endTime: '09:00', date: new Date().toISOString().split('T')[0], activity: '' }]
     });
     notify.info("Editor cleared for a fresh start.");
   };
@@ -101,11 +102,19 @@ const EventProgram = () => {
       onSettingsChange={setSettings}
       templates={DOCUMENT_REGISTRY['EVENT_PROGRAM'].templates}
       preview={
-        <div className={`bg-white shadow-inner min-h-[850px] flex flex-col font-sans relative overflow-hidden text-left ${settings?.layout === 'compact' ? 'gap-4 p-8' : 'gap-12 p-12'}`}>
-            <div className={`text-center ${settings?.layout === 'compact' ? 'mb-6' : 'mb-12'} ${settings?.layout === 'modern' ? 'text-left border-l-8 pl-6' : ''}`} style={{ borderLeftColor: settings?.layout === 'modern' ? settings?.theme?.primaryColor : 'transparent' }}>
-              <h2 className={`${settings?.layout === 'compact' ? 'text-2xl' : 'text-3xl'} font-black text-charcoal uppercase tracking-tighter leading-none mb-4 break-words max-w-full`}>
+        <div className={`bg-white shadow-inner min-h-[400px] flex flex-col font-sans relative overflow-hidden text-left ${settings?.layout === 'compact' ? 'gap-1 p-2' : 'gap-2 p-4'}`}>
+            {/* Elegant Background Decoration */}
+            {settings?.layout === 'elegant' && (
+              <div className="absolute inset-0 border-[16px] border-double opacity-5 pointer-events-none" style={{ borderColor: settings?.theme?.primaryColor }} />
+            )}
+
+            <div className={`text-center ${settings?.layout === 'compact' ? 'mb-0.5' : 'mb-1'} ${settings?.layout === 'modern' ? 'text-left border-l-4 pl-4' : ''} ${settings?.layout === 'elegant' ? 'mt-2' : ''}`} style={{ borderLeftColor: settings?.layout === 'modern' ? settings?.theme?.primaryColor : 'transparent' }}>
+              <h2 className={`${settings?.layout === 'compact' ? 'text-md' : (settings?.layout === 'elegant' ? 'text-lg font-serif tracking-[0.2em]' : 'text-lg')} font-black text-charcoal uppercase tracking-tighter leading-none mb-1 break-words max-w-full w-full`} style={{ fontFamily: settings?.layout === 'elegant' ? 'serif' : 'inherit' }}>
                 {formData.eventTitle || t('event.event_program_placeholder')}
               </h2>
+              
+              {settings?.layout === 'elegant' && <div className="w-8 h-px mx-auto my-3" style={{ backgroundColor: settings?.theme?.primaryColor }} />}
+
               <div className={`flex items-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-widest ${settings?.layout === 'modern' ? 'justify-start' : 'justify-center'}`}>
                  <span className="break-words max-w-[150px]">{formData.date}</span>
                  <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: settings?.theme?.primaryColor }} />
@@ -113,30 +122,41 @@ const EventProgram = () => {
               </div>
             </div>
 
-            <div className={`flex-1 max-w-4xl mx-auto w-full ${settings?.layout === 'compact' ? 'grid grid-cols-2 gap-x-12 gap-y-4' : 'flex flex-col space-y-8'} ${settings?.layout === 'elegant' ? 'items-center' : ''}`}>
-               {formData.items.map((item, idx) => (
-                 <div key={idx} className={`flex gap-6 group animate-fade-in relative ${settings?.layout === 'compact' ? 'pl-4' : 'pl-8'} ${settings?.layout === 'elegant' ? 'flex-col items-center pl-0' : ''}`}>
-                    {settings?.layout !== 'elegant' && (
-                      <>
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-slate-100 rounded-full" />
-                        <div className="absolute left-[-5px] top-4 w-3 h-3 bg-white border-2 rounded-full" style={{ borderColor: settings?.theme?.primaryColor }} />
-                      </>
-                    )}
-                    
-                    <div className={`${settings?.layout === 'elegant' ? 'w-full text-center' : (settings?.layout === 'compact' ? 'w-12' : 'w-16')} shrink-0`}>
-                       <p className={`${settings?.layout === 'elegant' ? 'text-lg' : 'text-sm'} font-black tracking-tighter`} style={{ color: settings?.theme?.primaryColor }}>{item.time || '--:--'}</p>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                       <p className={`${settings?.layout === 'compact' ? 'text-[10px] line-clamp-2' : 'text-md'} font-black text-charcoal uppercase tracking-tighter break-words`}>
-                          {item.activity || t('event.activity_placeholder')}
-                       </p>
-                    </div>
-                    {settings?.layout === 'elegant' && <div className="w-12 h-0.5 bg-slate-100 mt-4" />}
-                 </div>
-               ))}
+            <div className={`flex-1 max-w-xl mx-auto w-full ${settings?.layout === 'compact' ? 'grid grid-cols-2 gap-x-4 gap-y-1' : 'flex flex-col space-y-1.5'} ${settings?.layout === 'elegant' ? 'items-center' : ''}`}>
+               {formData.items.map((item, idx) => {
+                 const showDateHeader = item.date && item.date !== formData.date && (idx === 0 || item.date !== formData.items[idx-1].date);
+                 
+                 return (
+                   <React.Fragment key={idx}>
+                     {showDateHeader && (
+                       <div className="w-full text-center py-1 border-y border-slate-100 my-1 uppercase tracking-[0.2em] text-[7px] font-bold text-gray-400">
+                         {item.date}
+                       </div>
+                     )}
+                     <div className={`flex gap-3 group animate-fade-in relative w-full ${settings?.layout === 'compact' ? 'pl-2' : 'pl-4'} ${settings?.layout === 'elegant' ? 'flex-col items-center pl-0 space-y-0.5' : ''}`}>
+                        {settings?.layout !== 'elegant' && (
+                          <>
+                            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-slate-50 rounded-full" />
+                            <div className="absolute left-[-3px] top-3 w-2 h-2 bg-white border rounded-full" style={{ borderColor: settings?.theme?.primaryColor }} />
+                          </>
+                        )}
+                        
+                        <div className={`${settings?.layout === 'elegant' ? 'w-full text-center' : (settings?.layout === 'compact' ? 'w-12' : 'w-20')} shrink-0`}>
+                           <p className={`${settings?.layout === 'elegant' ? 'text-[10px] font-serif italic mb-1' : 'text-[9px] font-black tracking-tighter'}`} style={{ color: settings?.theme?.primaryColor, fontFamily: settings?.layout === 'elegant' ? 'serif' : 'inherit' }}>
+                             {item.time || '--:--'} {item.endTime ? ` - ${item.endTime}` : ''}
+                           </p>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                           <p className={`${settings?.layout === 'compact' ? 'text-[8px] line-clamp-2' : (settings?.layout === 'elegant' ? 'text-[10px] font-bold tracking-[0.05em]' : 'text-[11px]')} font-black text-charcoal uppercase tracking-tighter break-words`}>
+                              {item.activity || t('event.activity_placeholder')}
+                           </p>
+                        </div>
+                        {settings?.layout === 'elegant' && idx < formData.items.length - 1 && <div className="text-[8px] text-slate-300 font-serif my-1">~</div>}
+                     </div>
+                   </React.Fragment>
+                 );
+               })}
             </div>
-
-
         </div>
       }
 
@@ -179,50 +199,80 @@ const EventProgram = () => {
                </button>
              </div>
 
-             <div className="space-y-4">
+             <div className="space-y-6">
                {formData.items.map((item, idx) => (
-                 <div key={idx} className="flex flex-col sm:flex-row gap-4 group sm:items-start">
-                    <input 
-                      type="text"
-                      placeholder="00:00"
-                      value={item.time}
-                      onChange={(e) => handleItemChange(idx, 'time', e.target.value)}
-                      className="w-full sm:w-24 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-black text-center text-sm"
-                    />
-                    <div className="flex gap-4 w-full">
-                       <input 
-                         type="text"
-                         value={item.activity}
-                         onChange={(e) => handleItemChange(idx, 'activity', e.target.value)}
-                         className="flex-1 p-4 bg-slate-50 border-2 border-transparent rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm text-left"
-                         placeholder={t('event.activity')}
-                       />
-                       <button onClick={() => removeItem(idx)} className="p-2 text-gray-300 hover:text-redMain">
-                         <FaTrash />
-                       </button>
+                 <div key={idx} className="flex flex-col gap-3 p-4 bg-slate-50/50 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:shadow-lg hover:border-transparent">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-shrink-0 flex gap-2">
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter ml-1">Start Time</label>
+                          <input 
+                            type="time"
+                            value={item.time}
+                            onChange={(e) => handleItemChange(idx, 'time', e.target.value)}
+                            className="w-full sm:w-28 p-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter ml-1">End Time</label>
+                          <input 
+                            type="time"
+                            value={(item as any).endTime}
+                            onChange={(e) => handleItemChange(idx, 'endTime', e.target.value)}
+                            className="w-full sm:w-28 p-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter ml-1">Date (Optional)</label>
+                          <input 
+                            type="date"
+                            value={item.date}
+                            onChange={(e) => handleItemChange(idx, 'date', e.target.value)}
+                            className="w-full sm:w-36 p-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-redMain transition-all font-bold text-xs"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex-1 flex flex-col gap-1">
+                        <label className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter ml-1">Activity</label>
+                        <div className="flex gap-4 items-start">
+                          <textarea 
+                            rows={1}
+                            value={item.activity}
+                            onChange={(e) => handleItemChange(idx, 'activity', e.target.value)}
+                            className="flex-1 p-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-redMain transition-all font-bold text-sm text-left resize-none"
+                            placeholder={t('event.activity')}
+                          />
+                          <button onClick={() => removeItem(idx)} className="p-3 text-gray-300 hover:text-redMain transition-colors">
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </div>
                     </div>
                  </div>
                ))}
              </div>
            </div>
            
-           <Button 
-               label={t('event.ai_polish')} 
-               variant="primary"
-               icon={<span>✨</span>}
-               onClick={onPolish}
-               disabled={isPolishing}
-               className="w-full"
-            />
+           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+             <Button 
+                label={t('event.ai_polish')} 
+                variant="outline"
+                icon={<span>✨</span>}
+                onClick={onPolish}
+                disabled={isPolishing}
+                className="w-full"
+             />
 
-           <Button 
-               label={t('event.finalize')} 
-               variant="primary"
-               icon={<FaSave />}
-               onClick={onSave}
-               disabled={isSaving}
-               className="w-full mt-4"
-            />
+             <Button 
+                label={t('event.finalize')} 
+                variant="primary"
+                icon={<FaSave />}
+                onClick={onSave}
+                disabled={isSaving}
+                className="w-full"
+             />
+           </div>
          </div>
       </section>
     </SmartEditorLayout>
