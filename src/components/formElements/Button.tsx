@@ -6,7 +6,7 @@ export interface ButtonProps {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   className?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "outline";
   icon?: React.ReactNode;
 }
 
@@ -24,7 +24,8 @@ const Button: React.FC<ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElemen
   
   const variants = {
     primary: "bg-redMain text-white hover:bg-redMain/90 shadow-2xl shadow-redMain/30 hover:scale-105",
-    secondary: "bg-charcoal text-white hover:bg-charcoal/90 shadow-2xl shadow-charcoal/30 hover:scale-105"
+    secondary: "bg-charcoal text-white hover:bg-charcoal/90 shadow-2xl shadow-charcoal/30 hover:scale-105",
+    outline: "border-2 border-redMain text-redMain hover:bg-redMain hover:text-white shadow-xl shadow-redMain/10 hover:scale-105"
   };
 
   return (
