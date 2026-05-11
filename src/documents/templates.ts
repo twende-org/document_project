@@ -21,7 +21,12 @@ export const CV_TEMPLATE: CVContent = {
   education: [
     { id: "e1", degree: "MSc in Computer Science", school: "University of Dar es Salaam", year: "2015" }
   ],
-  skills: ["React", "TypeScript", "AWS", "Node.js", "Architecture Design"]
+  skills: ["React", "TypeScript", "AWS", "Node.js", "Architecture Design"],
+  projects: [],
+  certifications: [],
+  achievements: [],
+  languages: [],
+  references: []
 };
 
 export const INVOICE_TEMPLATE: InvoiceContent = {

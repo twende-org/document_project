@@ -12,7 +12,8 @@ import {
   FaFileInvoice, 
   FaEnvelope, 
   FaUser, 
-  FaStore 
+  FaStore,
+  FaWhatsapp
 } from "react-icons/fa";
 
 export const Home = () => {
@@ -117,6 +118,15 @@ export const Home = () => {
               >
                 {t('home.try_sample')}
               </Link>
+              <button
+                onClick={() => {
+                  const text = `I found this amazing Document Architect for creating CVs and Invoices! Check it out: https://docs.twendedigital.tech`;
+                  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+                }}
+                className="flex items-center justify-center gap-3 w-full sm:w-auto bg-[#25D366] text-white px-6 py-4 rounded-button font-bold text-[10px] md:text-action uppercase tracking-widest hover:bg-[#128C7E] transition-all"
+              >
+                <FaWhatsapp size={18} /> Share App
+              </button>
             </div>
           </motion.div>
 

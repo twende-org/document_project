@@ -7,6 +7,7 @@ export interface DocumentSettings {
     fontFamily?: string;
   };
   layout?: string;
+  lang?: string;
 }
 
 export interface DocumentBase {
@@ -45,11 +46,53 @@ export interface CVContent {
     phone: string;
     address: string;
     jobTitle: string;
+    linkedin?: string;
+    github?: string;
+    website?: string;
+    profileImage?: string;
   };
   summary: string;
-  experience: any[];
-  education: any[];
-  skills: string[];
+  experience: {
+    id: string;
+    company: string;
+    title: string;
+    location?: string;
+    duration: string;
+    description: string; // Combined responsibilities
+  }[];
+  education: {
+    id: string;
+    school: string;
+    degree: string;
+    location?: string;
+    year: string;
+    grade?: string;
+  }[];
+  skills: {
+    technical: string[];
+    soft: string[];
+  } | string[];
+  projects: {
+    title: string;
+    description: string;
+    technologies: string[];
+    link?: string;
+  }[];
+  certifications: {
+    name: string;
+    issuer: string;
+    date: string;
+  }[];
+  achievements: string[];
+  languages: {
+    name: string;
+    level: string;
+  }[];
+  references: {
+    name: string;
+    position: string;
+    contact: string;
+  }[];
 }
 
 export interface LetterContent {

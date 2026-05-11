@@ -1,10 +1,33 @@
 import React from "react";
-import { FaUserCircle, FaEnvelope, FaPhone, FaMapMarkerAlt, FaBriefcase, FaGraduationCap, FaCog } from "react-icons/fa";
+import { 
+  FaUserCircle, 
+  FaEnvelope, 
+  FaPhone, 
+  FaMapMarkerAlt, 
+  FaBriefcase, 
+  FaGraduationCap, 
+  FaCog,
+  FaTools,
+  FaTrophy,
+  FaLanguage,
+  FaQuoteLeft,
+  FaLinkedin,
+  FaGithub,
+  FaGlobe,
+  FaCalendarAlt
+} from "react-icons/fa";
 
 interface CVPreviewProps {
   data: any;
   settings?: any;
 }
+
+const SectionTitle = ({ title, icon, color }: { title: string, icon?: React.ReactNode, color: string }) => (
+  <div className="flex items-center gap-2 mb-4 border-b pb-1" style={{ borderBottomColor: `${color}20` }}>
+    {icon && <span style={{ color: color }}>{icon}</span>}
+    <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: color }}>{title}</h3>
+  </div>
+);
 
 const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
   const { 
@@ -15,243 +38,279 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
       phone: "+255 000 000 000", 
       address: "Dar es Salaam, TZ" 
     }, 
-    summary = "Strategic leader with 10+ years experience...",
+    summary = "",
     experience = [], 
     education = [], 
     skills = [] 
   } = data;
 
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
-  const layout = settings?.layout || 'standard';
+  const layout = settings?.layout || 'modern';
 
-  // Elegant Layout (Centered)
-  if (layout === 'elegant') {
+  // Helper for rendering skills (handles both string array and object)
+  const technicalSkills = Array.isArray(skills) ? skills : (skills?.technical || []);
+
+  // --- ATS / International ---
+  if (layout === 'ats' || layout === 'international') {
     return (
-      <div className="bg-slate-200 p-4 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-white overflow-hidden min-h-[800px] sticky top-32">
-        <div className="bg-white shadow-inner min-h-[700px] flex flex-col font-sans text-charcoal p-12 text-center">
-          <header className="mb-16 border-b pb-12" style={{ borderColor: primaryColor + '20' }}>
-            <h2 className="text-5xl font-black text-charcoal uppercase tracking-[0.2em] mb-4" style={{ color: primaryColor }}>{personalInfo.fullName}</h2>
-            <p className="text-sm font-black text-gray-400 uppercase tracking-[0.5em] mb-8">{personalInfo.jobTitle}</p>
-            <div className="flex justify-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
-               <span>{personalInfo.phone}</span>
-               <span style={{ color: primaryColor }}>•</span>
-               <span>{personalInfo.email}</span>
-               <span style={{ color: primaryColor }}>•</span>
-               <span>{personalInfo.address}</span>
+      <div className="bg-white min-h-[1000px] shadow-inner p-16 text-left font-serif text-gray-900 leading-normal relative w-full max-w-[800px] mx-auto border shadow-xl">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold uppercase mb-2">{personalInfo.fullName}</h1>
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">{personalInfo.jobTitle}</p>
+          <div className="flex justify-center gap-2 text-[11px] mt-2 border-b pb-4">
+            <span>{personalInfo.address}</span> | <span>{personalInfo.phone}</span> | <span>{personalInfo.email}</span>
+          </div>
+          {layout === 'international' && personalInfo.nationality && (
+            <p className="text-[10px] text-gray-400 mt-2 uppercase tracking-widest">{personalInfo.nationality} National</p>
+          )}
+        </div>
+        <div className="space-y-6">
+          <div className="border-b border-black pb-1"><h2 className="text-xs font-bold uppercase">Summary</h2></div>
+          <p className="text-[11px]">{summary}</p>
+          <div className="border-b border-black pb-1"><h2 className="text-xs font-bold uppercase">Professional Experience</h2></div>
+          {experience.map((exp: any, i: number) => (
+            <div key={i} className="mb-4">
+              <div className="flex justify-between font-bold text-[11px]"><span>{exp.company}</span><span>{exp.duration}</span></div>
+              <p className="text-[11px] italic">{exp.title}</p>
+              <p className="text-[11px] mt-1 whitespace-pre-wrap">{exp.description}</p>
             </div>
-          </header>
-
-          <div className="max-w-3xl mx-auto space-y-16">
-            <section>
-              <p className="text-sm text-gray-500 leading-loose italic font-medium">"{summary}"</p>
-            </section>
-
-            <section>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] mb-8 flex items-center justify-center gap-4">
-                 <div className="h-px bg-gray-100 flex-1" />
-                 Experience
-                 <div className="h-px bg-gray-100 flex-1" />
-              </h4>
-              <div className="space-y-12">
-                 {experience.map((exp: any, i: number) => (
-                   <div key={i}>
-                      <h5 className="font-black text-charcoal uppercase tracking-widest mb-1">{exp.title}</h5>
-                      <p className="text-[10px] font-black uppercase tracking-widest mb-4" style={{ color: primaryColor }}>{exp.company} | {exp.duration}</p>
-                      <p className="text-xs text-gray-500 leading-relaxed text-justify">{exp.description}</p>
-                   </div>
-                 ))}
-              </div>
-            </section>
-
-            <section>
-               <h4 className="text-[10px] font-black uppercase tracking-[0.4em] mb-8 flex items-center justify-center gap-4">
-                 <div className="h-px bg-gray-100 flex-1" />
-                 Expertise
-                 <div className="h-px bg-gray-100 flex-1" />
-              </h4>
-              <div className="flex flex-wrap justify-center gap-3">
-                 {skills.map((s: string, i: number) => (
-                   <span key={i} className="px-4 py-2 border rounded-full text-[10px] font-black uppercase tracking-widest" style={{ borderColor: primaryColor + '40', color: primaryColor }}>
-                     {s.trim()}
-                   </span>
-                 ))}
-              </div>
-            </section>
+          ))}
+          <div className="border-b border-black pb-1"><h2 className="text-xs font-bold uppercase">Education</h2></div>
+          {education.map((edu: any, i: number) => (
+            <div key={i} className="flex justify-between text-[11px]">
+               <span className="font-bold">{edu.degree} - {edu.school}</span>
+               <span>{edu.year}</span>
+            </div>
+          ))}
+          <div className="border-b border-black pb-1 mt-4">
+            <h2 className="text-xs font-bold uppercase">Skills</h2>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-[11px]">
+             {technicalSkills.map((s: string, i: number) => <div key={i}>• {s}</div>)}
           </div>
         </div>
       </div>
     );
   }
 
-  // Modern Layout (Full Width)
-  if (layout === 'modern') {
+  // --- Executive / Academic ---
+  if (layout === 'executive' || layout === 'academic') {
     return (
-      <div className="bg-slate-200 p-2 md:p-4 rounded-[2rem] shadow-2xl border-4 border-white overflow-hidden min-h-[600px] sticky top-32 text-left w-full">
-        <div className="bg-white shadow-inner min-h-[580px] flex flex-col font-sans text-charcoal p-6 overflow-hidden w-full">
-           <header className="mb-6 flex flex-row justify-between items-end border-b-2 pb-4 gap-4" style={{ borderBottomColor: primaryColor }}>
-              <div className="min-w-0 flex-1">
-                <h2 className="text-2xl sm:text-3xl font-black text-charcoal uppercase tracking-tighter leading-none mb-1 break-words">{personalInfo.fullName}</h2>
-                <p className="text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-tight break-words">{personalInfo.jobTitle}</p>
+      <div className="bg-[#FDFCF8] min-h-[1000px] shadow-xl p-12 text-left font-serif leading-relaxed relative border-[20px] border-white w-full max-w-[800px] mx-auto">
+         <div className={`text-center mb-10 pb-6 ${layout === 'academic' ? 'border-b-4 border-double' : 'border-b-2'}`} style={{ borderColor: primaryColor }}>
+            <h1 className="text-3xl font-bold uppercase tracking-[0.2em] mb-3">{personalInfo.fullName}</h1>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.4em] mb-6">{personalInfo.jobTitle}</p>
+            <div className="flex justify-center gap-4 text-[10px] text-gray-500 uppercase tracking-widest">
+               <span>{personalInfo.phone}</span><span>•</span><span>{personalInfo.email}</span>
+            </div>
+         </div>
+         <div className="space-y-10">
+            <SectionTitle title={layout === 'academic' ? "Academic Summary" : "Executive Profile"} color={primaryColor} />
+            <p className="text-sm italic text-center text-gray-700 px-10 leading-loose">{summary}</p>
+            <SectionTitle title="Professional Milestones" color={primaryColor} />
+            {experience.map((exp: any, i: number) => (
+              <div key={i} className="mb-6">
+                <div className="flex justify-between font-bold text-sm"><span>{exp.title}</span><span>{exp.duration}</span></div>
+                <p className="text-xs italic text-gray-500">{exp.company}</p>
+                <p className="text-xs mt-2 text-justify whitespace-pre-wrap">{exp.description}</p>
               </div>
-              <div className="text-right text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-gray-400 space-y-1 shrink-0 max-w-[140px]">
-                 <p className="truncate break-words">{personalInfo.phone}</p>
-                 <p className="truncate break-words">{personalInfo.email}</p>
-                 <p className="truncate break-words">{personalInfo.address}</p>
-              </div>
-           </header>
-
-           <div className="flex flex-row gap-4 sm:gap-6 w-full">
-              <div className="flex-[7] space-y-6 min-w-0">
-                 <section>
-                    <p className="text-[10px] sm:text-xs text-gray-500 font-medium leading-relaxed border-l-2 pl-3 break-words whitespace-pre-wrap" style={{ borderLeftColor: primaryColor }}>{summary}</p>
-                 </section>
-                 <section>
-                    <h4 className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 mb-4">Professional History</h4>
-                    <div className="space-y-6 w-full">
-                       {experience.map((exp: any, i: number) => (
-                         <div key={i} className="min-w-0 w-full">
-                            <div className="flex flex-col mb-1">
-                               <h5 className="font-black text-charcoal uppercase text-xs sm:text-sm break-words w-full">{exp.title}</h5>
-                               <span className="text-[8px] font-black text-gray-400 mt-0.5">{exp.duration}</span>
-                            </div>
-                            <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest mb-2 break-words" style={{ color: primaryColor }}>{exp.company}</p>
-                            <p className="text-[9px] sm:text-[10px] text-gray-500 leading-relaxed break-words whitespace-pre-wrap">{exp.description}</p>
-                         </div>
-                       ))}
-                    </div>
-                 </section>
-              </div>
-              <div className="flex-[4] space-y-6 min-w-0">
-                 <section>
-                    <h4 className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 mb-4">Expertise</h4>
-                    <div className="flex flex-col gap-1.5">
-                       {skills.map((s: string, i: number) => (
-                         <div key={i} className="flex items-start gap-2 min-w-0 mt-0.5">
-                            <div className="w-1.5 h-1.5 rounded-full shrink-0 mt-1" style={{ backgroundColor: primaryColor }} />
-                            <span className="text-[9px] font-bold uppercase tracking-tight break-words leading-tight">{s}</span>
-                         </div>
-                       ))}
-                    </div>
-                 </section>
-                 <section>
-                    <h4 className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 mb-4">Academic Background</h4>
-                    <div className="space-y-3">
-                       {education.map((edu: any, i: number) => (
-                         <div key={i} className="min-w-0">
-                            <p className="text-[9px] font-black text-charcoal uppercase break-words leading-tight mb-0.5">{edu.degree}</p>
-                            <p className="text-[8px] font-bold text-gray-400 break-words">{edu.school}</p>
-                         </div>
-                       ))}
-                    </div>
-                 </section>
-              </div>
-           </div>
-        </div>
+            ))}
+            <SectionTitle title="Education & Credentials" color={primaryColor} />
+            {education.map((edu: any, i: number) => (
+               <div key={i} className="mb-4">
+                  <p className="text-sm font-bold uppercase tracking-tight">{edu.degree}</p>
+                  <p className="text-xs opacity-60 uppercase tracking-widest">{edu.school} | {edu.year}</p>
+               </div>
+            ))}
+         </div>
       </div>
     );
   }
 
-  // Standard/Compact Layout (Sidebar)
-  const isCompact = layout === 'compact';
-
-  return (
-    <div className="bg-slate-200 p-4 md:p-8 rounded-[2.5rem] shadow-2xl border-4 border-white overflow-hidden min-h-[800px] sticky top-32 text-left">
-      <div className={`bg-white shadow-inner min-h-[700px] flex font-sans text-charcoal ${isCompact ? 'text-[10px]' : ''}`}>
-        
-        {/* Sidebar */}
-        <div className={`${isCompact ? 'w-2/5 p-6' : 'w-2/5 p-8'} bg-slate-50 pt-12 flex flex-col gap-12 border-r border-slate-100`}>
-           <div className="flex flex-col items-center text-center">
-              <div className={`bg-slate-200 text-gray-400 rounded-full flex items-center justify-center mb-6 shadow-sm ${isCompact ? 'w-16 h-16 text-2xl' : 'w-24 h-24 text-4xl'}`}>
-                <FaUserCircle style={{ color: primaryColor + '40' }} />
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em]" style={{ color: primaryColor }}>Architect Identity</p>
-           </div>
-
-           {/* Contact */}
-           <div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6 border-b border-slate-200 pb-2 flex items-center gap-2">
-                <FaEnvelope style={{ color: primaryColor }} /> Contact
-              </h4>
-              <div className="space-y-4">
-                 <div className="flex flex-col">
-                    <span className="text-[8px] font-black text-gray-300 uppercase tracking-widest">Phone</span>
-                    <span className="font-black truncate">{personalInfo.phone}</span>
+  // --- Creative ---
+  if (layout === 'creative') {
+    return (
+      <div className="bg-white min-h-[1000px] shadow-xl text-left font-sans relative w-full max-w-[800px] mx-auto overflow-hidden">
+         <div className="h-40 relative flex items-center px-12" style={{ backgroundColor: primaryColor }}>
+            <div className="text-white z-10">
+               <h1 className="text-4xl font-black uppercase tracking-tighter italic">{personalInfo.fullName}</h1>
+               <p className="text-lg font-bold opacity-80 uppercase">{personalInfo.jobTitle}</p>
+            </div>
+         </div>
+         <div className="p-12 grid grid-cols-3 gap-12">
+            <div className="col-span-2 space-y-10">
+               <SectionTitle title="The Story" color={primaryColor} />
+               <p className="text-sm text-gray-600 font-medium italic leading-relaxed">"{summary}"</p>
+               <SectionTitle title="Experience" color={primaryColor} icon={<FaBriefcase />} />
+               {experience.map((exp: any, i: number) => (
+                 <div key={i} className="p-6 bg-gray-50 rounded-xl border-l-4 shadow-sm" style={{ borderLeftColor: primaryColor }}>
+                    <div className="flex justify-between items-baseline mb-2">
+                       <h4 className="font-bold text-gray-800 uppercase text-sm">{exp.title}</h4>
+                       <span className="text-[10px] font-bold opacity-50">{exp.duration}</span>
+                    </div>
+                    <p className="text-xs font-bold mb-3 opacity-60 uppercase" style={{ color: primaryColor }}>{exp.company}</p>
+                    <p className="text-xs text-gray-500 whitespace-pre-wrap leading-relaxed">{exp.description}</p>
                  </div>
-                 <div className="flex flex-col">
-                    <span className="text-[8px] font-black text-gray-300 uppercase tracking-widest">Email</span>
-                    <span className="font-black truncate">{personalInfo.email}</span>
-                 </div>
-                 <div className="flex flex-col">
-                    <span className="text-[8px] font-black text-gray-300 uppercase tracking-widest">Location</span>
-                    <span className="font-black truncate">{personalInfo.address}</span>
-                 </div>
-              </div>
-           </div>
+               ))}
+            </div>
+            <div className="space-y-10">
+               <div className="p-6 bg-slate-900 text-white rounded-3xl shadow-xl min-w-[200px]">
+                  <h3 className="text-xs font-black uppercase tracking-widest mb-6 opacity-40">Contact Information</h3>
+                  <div className="space-y-4 text-[11px]">
+                     <div className="flex items-start gap-3"><FaPhone className="opacity-40 mt-0.5 shrink-0" /> <span className="break-words">{personalInfo.phone}</span></div>
+                     <div className="flex items-start gap-3"><FaEnvelope className="opacity-40 mt-0.5 shrink-0" /> <span className="break-words">{personalInfo.email}</span></div>
+                     <div className="flex items-start gap-3"><FaMapMarkerAlt className="opacity-40 mt-0.5 shrink-0" /> <span className="break-words">{personalInfo.address}</span></div>
+                  </div>
+               </div>
+               <div>
+                  <SectionTitle title="Expertise" color={primaryColor} icon={<FaTools />} />
+                  <div className="flex flex-wrap gap-2">
+                     {technicalSkills.map((s: string, i: number) => (
+                       <span key={i} className="px-3 py-1 bg-gray-100 rounded-lg text-[10px] font-bold text-gray-600 border border-gray-200">{s}</span>
+                     ))}
+                  </div>
+               </div>
+               <div>
+                  <SectionTitle title="Education" color={primaryColor} icon={<FaGraduationCap />} />
+                  {education.map((edu: any, i: number) => (
+                    <div key={i} className="mb-4">
+                       <p className="text-xs font-bold uppercase">{edu.degree}</p>
+                       <p className="text-[10px] opacity-60">{edu.school} | {edu.year}</p>
+                    </div>
+                  ))}
+               </div>
+            </div>
+         </div>
+      </div>
+    );
+  }
 
-           {/* Skills */}
-           <div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6 border-b border-slate-200 pb-2 flex items-center gap-2">
-                <FaCog style={{ color: primaryColor }} /> Expertise
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                 {skills.map((s: string, i: number) => (
-                   <span key={i} className={`bg-white px-3 py-1 rounded-full font-black text-charcoal shadow-sm border border-slate-100 uppercase tracking-tighter ${isCompact ? 'text-[8px]' : 'text-[10px]'}`}>
-                     {s.trim()}
-                   </span>
-                 ))}
-              </div>
-           </div>
-        </div>
-
-        {/* Main Content */}
-        <div className={`${isCompact ? 'w-3/5 p-8' : 'w-3/5 p-10'} pt-16`}>
-           <header className="mb-12">
-              <h2 className={`${isCompact ? 'text-2xl' : 'text-4xl'} font-black text-charcoal uppercase tracking-tighter leading-none mb-2`}>{personalInfo.fullName}</h2>
-              <p className="font-black uppercase tracking-[0.4em] mb-8" style={{ color: primaryColor }}>{personalInfo.jobTitle}</p>
-              
-              <div className="bg-slate-50 p-6 rounded-3xl border-l-4 shadow-sm" style={{ borderLeftColor: primaryColor }}>
-                 <p className="text-gray-500 font-bold leading-relaxed italic">"{summary}"</p>
-              </div>
-           </header>
-
-           {/* Experience */}
-           <section className="mb-12">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
-                <FaBriefcase style={{ color: primaryColor }} /> Experience
-              </h4>
-              <div className="space-y-8">
-                 {experience.length > 0 ? experience.map((exp: any, i: number) => (
-                    <div key={i} className="group text-left">
-                       <div className="flex justify-between items-start mb-1">
-                          <h5 className="font-black text-charcoal uppercase tracking-tight">{exp.title}</h5>
-                          <span className="text-[8px] font-black px-2 py-1 rounded-md" style={{ backgroundColor: primaryColor + '10', color: primaryColor }}>{exp.duration}</span>
+  // --- Minimalist ---
+  if (layout === 'minimal') {
+    return (
+      <div className="bg-white min-h-[1000px] shadow-xl p-16 text-left font-sans text-gray-800 w-full max-w-[800px] mx-auto">
+         <div className="mb-12">
+            <h1 className="text-2xl font-light tracking-[0.3em] uppercase mb-2">{personalInfo.fullName}</h1>
+            <p className="text-[10px] tracking-widest uppercase opacity-40 font-bold">{personalInfo.jobTitle}</p>
+            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-[10px] border-t pt-4 opacity-50 uppercase font-black">
+               <span>{personalInfo.email}</span>
+               <span>{personalInfo.phone}</span>
+               <span>{personalInfo.address}</span>
+            </div>
+         </div>
+         <div className="space-y-16">
+            <div className="max-w-2xl"><p className="text-xs leading-relaxed opacity-60 italic">{summary}</p></div>
+            <div>
+               <h2 className="text-[10px] font-black uppercase tracking-widest mb-8 opacity-20 border-b pb-1">Professional History</h2>
+               <div className="space-y-10">
+                  {experience.map((exp: any, i: number) => (
+                    <div key={i} className="grid grid-cols-4 gap-8">
+                       <div className="text-[9px] font-black opacity-30 uppercase tracking-tighter">{exp.duration}</div>
+                       <div className="col-span-3">
+                          <h4 className="text-xs font-black uppercase tracking-tight">{exp.title}</h4>
+                          <p className="text-[10px] font-bold opacity-50 mb-3 uppercase" style={{ color: primaryColor }}>{exp.company}</p>
+                          <p className="text-[10px] leading-loose opacity-60 whitespace-pre-wrap">{exp.description}</p>
                        </div>
-                       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">{exp.company}</p>
-                       <p className="text-gray-500 font-medium leading-relaxed">{exp.description}</p>
                     </div>
-                 )) : (
-                    <div className="py-8 text-center border-2 border-dashed border-slate-100 rounded-3xl">
-                       <p className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Entry history will appear here</p>
+                  ))}
+               </div>
+            </div>
+            <div>
+               <h2 className="text-[10px] font-black uppercase tracking-widest mb-8 opacity-20 border-b pb-1">Academic Background</h2>
+               <div className="space-y-6">
+                  {education.map((edu: any, i: number) => (
+                    <div key={i} className="flex justify-between items-baseline">
+                       <div>
+                          <h4 className="text-xs font-black uppercase">{edu.degree}</h4>
+                          <p className="text-[10px] opacity-50 uppercase font-bold">{edu.school}</p>
+                       </div>
+                       <span className="text-[9px] font-black opacity-30 uppercase">{edu.year}</span>
                     </div>
-                 )}
-              </div>
-           </section>
+                  ))}
+               </div>
+            </div>
+         </div>
+      </div>
+    );
+  }
 
-           {/* Education */}
-           <section>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
-                <FaGraduationCap style={{ color: primaryColor }} /> Education
-              </h4>
-              <div className="space-y-4">
-                 {education.map((edu: any, i: number) => (
-                    <div key={i} className="text-left">
-                       <h5 className="font-black text-charcoal uppercase tracking-tight text-xs">{edu.degree}</h5>
-                       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{edu.school} | {edu.year}</p>
-                    </div>
-                 ))}
-              </div>
-           </section>
-        </div>
+  // --- Corporate / Standard / Modern / Technical / Student ---
+  return (
+    <div className="bg-white min-h-[1000px] shadow-xl flex flex-col md:flex-row text-left font-sans w-full max-w-[800px] mx-auto overflow-hidden">
+      {/* Sidebar */}
+      <div className={`w-full md:w-64 bg-slate-50 p-8 border-r ${layout === 'technical' ? 'bg-slate-900 text-white' : ''}`}>
+         <div className="text-center mb-10">
+            <div className="w-20 h-20 bg-slate-200 rounded-full mx-auto flex items-center justify-center mb-4 border-2 border-white shadow-sm overflow-hidden">
+               {personalInfo.profileImage ? (
+                  <img src={personalInfo.profileImage} alt="Profile" className="w-full h-full object-cover" />
+               ) : (
+                  <FaUserCircle className="text-slate-400 text-5xl" />
+               )}
+            </div>
+            <h3 className="text-[10px] font-black uppercase tracking-widest" style={{ color: primaryColor }}>Architect Identity</h3>
+         </div>
+         <div className="space-y-8">
+            <div>
+               <SectionTitle title="Contact" color={primaryColor} icon={<FaEnvelope />} />
+               <div className={`space-y-3 text-[10px] font-bold ${layout === 'technical' ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <p className="flex items-center gap-2 truncate"><FaPhone style={{ color: primaryColor }} /> {personalInfo.phone}</p>
+                  <p className="flex items-center gap-2 truncate"><FaEnvelope style={{ color: primaryColor }} /> {personalInfo.email}</p>
+                  <p className="flex items-center gap-2 truncate"><FaMapMarkerAlt style={{ color: primaryColor }} /> {personalInfo.address}</p>
+               </div>
+            </div>
+            <div>
+               <SectionTitle title="Skills" color={primaryColor} icon={<FaCog />} />
+               <div className="flex flex-wrap gap-2">
+                  {technicalSkills.map((s: string, i: number) => (
+                     <span key={i} className={`px-2 py-1 rounded text-[9px] font-black uppercase border ${layout === 'technical' ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-100 text-slate-600 shadow-sm'}`}>
+                        {s}
+                     </span>
+                  ))}
+               </div>
+            </div>
+         </div>
+      </div>
+
+      {/* Main Area */}
+      <div className="flex-1 p-10 flex flex-col gap-10">
+         <header>
+            <h1 className="text-4xl font-black uppercase tracking-tighter leading-none mb-2" style={{ color: primaryColor }}>{personalInfo.fullName}</h1>
+            <p className="text-sm font-black text-slate-400 uppercase tracking-[0.3em]">{personalInfo.jobTitle}</p>
+         </header>
+
+         {summary && (
+            <section className="bg-slate-50 p-6 rounded-3xl border-l-4" style={{ borderLeftColor: primaryColor }}>
+               <p className="text-sm text-slate-600 font-medium italic leading-relaxed">"{summary}"</p>
+            </section>
+         )}
+
+         <section>
+            <SectionTitle title={layout === 'student' ? 'Projects & Roles' : 'Experience'} color={primaryColor} icon={<FaBriefcase />} />
+            <div className="space-y-8">
+               {experience.map((exp: any, i: number) => (
+                  <div key={i} className="group">
+                     <div className="flex justify-between items-baseline mb-1">
+                        <h4 className="font-black text-slate-800 uppercase tracking-tight">{exp.title}</h4>
+                        <span className="text-[10px] font-black px-2 py-1 rounded bg-slate-100 uppercase" style={{ color: primaryColor }}>{exp.duration}</span>
+                     </div>
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">{exp.company}</p>
+                     <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap text-justify">{exp.description}</p>
+                  </div>
+               ))}
+            </div>
+         </section>
+
+         <section>
+            <SectionTitle title="Education" color={primaryColor} icon={<FaGraduationCap />} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               {education.map((edu: any, i: number) => (
+                  <div key={i} className="bg-slate-50 p-4 rounded-xl shadow-sm">
+                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight mb-1">{edu.degree}</h4>
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{edu.school} | {edu.year}</p>
+                  </div>
+               ))}
+            </div>
+         </section>
       </div>
     </div>
   );

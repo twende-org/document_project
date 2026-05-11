@@ -20,6 +20,7 @@ interface SmartEditorProps {
   settings?: any;
   onSettingsChange?: (settings: any) => void;
   templates?: any[]; // Array of { id, label, desc }
+  customActions?: React.ReactNode;
 }
 
 const PRESET_COLORS = [
@@ -39,6 +40,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
   onStartAI,
   onStartTemplate,
   onImportProfile,
+  customActions,
   settings,
   onSettingsChange,
   templates = [
@@ -51,20 +53,20 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
   const [activeTab, setActiveTab] = useState<"templates" | "content" | "design">("templates");
 
   const updateThemeColor = (color: string) => {
-    if (onSettingsChange && settings) {
-      onSettingsChange({
-        ...settings,
-        theme: { ...settings.theme, primaryColor: color }
-      });
+    if (onSettingsChange) {
+      onSettingsChange((prev: any) => ({
+        ...prev,
+        theme: { ...(prev?.theme || {}), primaryColor: color }
+      }));
     }
   };
 
-  const updateLayout = (layout: string) => {
-    if (onSettingsChange && settings) {
-      onSettingsChange({
-        ...settings,
-        layout
-      });
+  const updateLayout = (layoutId: string) => {
+    if (onSettingsChange) {
+      onSettingsChange((prev: any) => ({
+        ...prev,
+        layout: layoutId
+      }));
     }
   };
 
@@ -254,16 +256,17 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
             </AnimatePresence>
 
             {/* Sticky Action Footer for Mobile/Quick Access */}
-            <div className="bg-white p-6 md:p-8 rounded-card shadow-premium border border-neutral-border flex gap-4">
-               <button 
-                  onClick={onSave}
-                  disabled={isSaving}
-                  className="btn-primary flex-1 py-4 md:py-6 text-base md:text-lg flex items-center justify-center gap-3"
-               >
-                  {isSaving ? <span className="animate-spin text-xl">⏳</span> : <FaRocket />}
-                  {isSaving ? t('common.architecting') : t('common.finalize_download')}
-               </button>
-            </div>
+             <div className="bg-white p-6 md:p-8 rounded-card shadow-premium border border-neutral-border flex flex-col sm:flex-row gap-4">
+                <button 
+                   onClick={onSave}
+                   disabled={isSaving}
+                   className="btn-primary flex-1 py-4 md:py-6 text-base md:text-lg flex items-center justify-center gap-3"
+                >
+                   {isSaving ? <span className="animate-spin text-xl">⏳</span> : <FaRocket />}
+                   {isSaving ? t('common.architecting') : t('common.finalize_download')}
+                </button>
+                {customActions}
+             </div>
           </motion.div>
 
           {/* Right Side: Virtual Preview */}
@@ -290,4 +293,6 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
     </div>
   );
 };
+
+export default SmartEditorLayout;
 

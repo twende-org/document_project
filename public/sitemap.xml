@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main landing page -->
+  <url>
+    <loc>https://docs.twendedigital.tech/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Templates and Discovery -->
+  <url>
+    <loc>https://docs.twendedigital.tech/documents/templates</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://docs.twendedigital.tech/documents/templates/cv</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <!-- Tools & Architects -->
+  <url>
+    <loc>https://docs.twendedigital.tech/create</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://docs.twendedigital.tech/create/cv</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://docs.twendedigital.tech/create/letter</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://docs.twendedigital.tech/create/invoice</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Information Pages -->
+  <url>
+    <loc>https://docs.twendedigital.tech/pricing</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://docs.twendedigital.tech/help</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Auth Pages -->
+  <url>
+    <loc>https://docs.twendedigital.tech/signin</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://docs.twendedigital.tech/signup</loc>
+    <lastmod>2026-05-11</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>

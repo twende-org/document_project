@@ -11,13 +11,14 @@ export function useDocumentEngine<T>(
   initialData: T, 
   docType: DocumentType, 
   mapping?: Record<string, string>,
-  computedFields?: (data: T) => any
+  computedFields?: (data: T) => any,
+  initialSettings?: DocumentBase['settings']
 ) {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
   const [formData, setFormData] = useState<T>(initialData);
-  const [settings, setSettings] = useState<DocumentBase['settings']>({
-    theme: { primaryColor: '#B91C1C' }, // Default system color
+  const [settings, setSettings] = useState<DocumentBase['settings']>(initialSettings || {
+    theme: { primaryColor: '#B91C1C' }, 
     layout: 'standard'
   });
 

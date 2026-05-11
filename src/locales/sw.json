@@ -59,7 +59,7 @@
     "ai_polish_desc": "Boresha Maelezo kwa AI",
     "template_loaded": "Kiolezo kimepakiwa kikamilifu.",
     "standard_start": "Anza Kawaida",
-    "magic_start": "Anza kwa Uchawi",
+    "magic_start": "Anza na AI",
     "import_data": "Ingiza Data",
     "manual_entry": "Ingiza mwenyewe",
     "fast_track": "Njia ya Haraka",
@@ -92,7 +92,7 @@
     "step_2_title": "Jaza Maelezo",
     "step_2_desc": "Jaza maelezo yako kwa kutumia fomu zetu rahisi na za kisasa.",
     "step_3_title": "Kamilisha & Pakua",
-    "step_3_desc": "Boresha kwa AI na pakua stakabadhi yako ikiwa tayari.",
+    "step_3_desc": "Boresha kwa AI and pakua stakabadhi yako ikiwa tayari.",
     "for_individuals": "Kwa Watu Binafsi",
     "for_individuals_desc": "Tengeneza CV na barua bora kwa ajili ya safari yako ya kikazi. Rahisi, haraka, na ya kitaalamu.",
     "for_agents": "Kwa Mawakala",
@@ -213,28 +213,139 @@
     "letter_subject": "KUHUSU",
     "letter_content": "Maudhui ya Barua",
     "ai_polish_body": "Boresha kwa AI",
+    "ai_draft_body": "Rasimu ya AI",
     "write_here": "Andika barua yako hapa...",
     "finalize": "Kamilisha & Pakua Barua",
     "dear": "Ndugu,",
     "sincerely": "Wako katika ujenzi wa Taifa,",
-    "sender_name_placeholder": "JINA LA MTUMAJI",
-    "sender_address_placeholder": "ANWANI YA MTUMAJI",
-    "recipient_name_placeholder": "JINA LA MPOKEAJI",
-    "recipient_address_placeholder": "ANWANI YA MPOKEAJI",
-    "subject_placeholder": "MADA YA MAWASILIANO",
+    "presets": "Violezo vya Maudhui ya Haraka",
+    "logo_url": "Kiungo cha Nembo (Hiari)",
+    "reference_number": "Namba ya Kumbukumbu",
+    "sender_organization": "Taasisi ya Mtumaji",
+    "sender_address": "Anwani ya Mtumaji",
+    "sender_contact": "Mawasiliano (Simu/Email)",
+    "recipient_title": "Wadhifa wa Mpokeaji",
+    "recipient_organization": "Taasisi ya Mpokeaji",
+    "salutation": "Salamu (mf. Ndugu,)",
+    "closing": "Hitimisho (mf. Wako mwaminifu,)",
+    "watermark_text": "Maandishi ya Chini (Hiari)",
+    "internship_details": "Taarifa za Mafunzo ya Vitendo",
+    "intern_name": "Jina Kamili la Mwanafunzi",
+    "internship_id": "Namba ya Utambulisho/Rejea",
+    "university": "Chuo / Taasisi",
+    "internship_title": "Wadhifa wa Mafunzo",
+    "start_date": "Tarehe ya Kuanza",
+    "end_date": "Tarehe ya Kumaliza",
+    "supervisor_name": "Jina la Msimamizi",
+    "supervisor_title": "Wadhifa wa Msimamizi",
+    "performance_remarks": "Maoni ya Utendaji",
+    "preset_general": "Barua Rasmi ya Kawaida",
+    "preset_employment": "Barua ya Ajira",
+    "preset_offer": "Barua ya Ofa ya Kazi",
+    "preset_appointment": "Barua ya Uteuzi",
+    "preset_recommendation": "Barua ya Mapendekezo",
+    "preset_verification": "Uhakiki wa Ajira",
+    "preset_warning": "Barua ya Onyo",
+    "preset_notice": "Ilani ya Kuacha Kazi",
+    "preset_certificate": "Mtindo wa Cheti",
+    "label_internship_offer": "Ofa ya Mafunzo",
+    "label_internship_acceptance": "Kukubali Mafunzo",
+    "label_internship_appointment": "Uteuzi wa Mafunzo",
+    "label_internship_recommendation": "Mapendekezo ya Mafunzo",
+    "label_internship_completion": "Kukamilisha Mafunzo",
+    "label_internship_experience": "Uzoefu wa Mafunzo",
+    "label_internship_verification": "Uthibitisho wa Mafunzo",
+    "label_internship_certificate": "Cheti cha Mafunzo",
+    "label_internship_evaluation": "Tathmini ya Mafunzo",
+    "label_internship_rejection": "Kukataliwa Mafunzo",
+    "preset_university": "Mtindo wa Chuo/Serikali",
     "templates": {
       "standard": { "label": "Biashara Rasmi", "desc": "Muundo rasmi wa kitaalamu kwa matumizi ya kiofisi." },
       "modern": { "label": "Binafsi ya Kisasa", "desc": "Mawasiliano ya kawaida lakini ya kitaalamu." },
-      "compact": { "label": "Muhtasari Mfupi", "desc": "Mpangilio mfupi kwa ajili ya matangazo mafupi ya kiofisi." },
-      "elegant": { "label": "Prestige ya Kifahari", "desc": "Mawasiliano rasmi ya hali ya juu kwa barua muhimu." }
+      "compact": { "label": "Muhtasari", "desc": "Mpangilio mfupi kwa taarifa fupi rasmi." },
+      "elegant": { "label": "Mtindo wa Kifahari", "desc": "Mawasiliano rasmi ya kiwango cha juu kwa barua muhimu." },
+      "certificate": { "label": "Cheti Rasmi", "desc": "Cheti cha kitaalamu cha kiwango cha juu kwa utambuzi wa kitaalamu." }
     },
     "sample_data": {
-      "recipient_name": "Meneja wa Ajira",
-      "recipient_address": "Future Tech Ltd, Wilaya ya Ubunifu",
+      "recipientName": "Meneja wa Ajira",
+      "recipientAddress": "Future Tech Ltd, Wilaya ya Ubunifu",
       "date": "2024-04-09",
       "subject": "Maombi ya Kazi ya Mtaalamu Mwandamizi wa Stakabadhi",
       "body": "Ninaandika kuelezea nia yangu thabiti ya nafasi ya Mtaalamu Mwandamizi wa Stakabadhi. Nikiwa na uzoefu mkubwa katika uandishi wa kidijitali na mifumo inayotumia AI, nina uhakika katika uwezo wangu wa kuchangia mafanikio ya timu yenu...",
-      "sender_name": "Msimamizi wa Twende Documents"
+      "senderName": "Msimamizi wa Twende Documents"
+    },
+    "sample_data_general": {
+      "referenceNumber": "REF/GEN/2026/001",
+      "senderName": "Jane Doe",
+      "senderTitle": "Afisa Uendeshaji Mkuu",
+      "senderOrganization": "Global Enterprise Corp",
+      "senderAddress": "123 Business Avenue, Suite 400\nDar es Salaam, Tanzania",
+      "senderContact": "Simu: +255 123 456 789 | Email: contact@globalcorp.com",
+      "recipientName": "Bw. John Smith",
+      "recipientTitle": "Mkurugenzi Mtendaji",
+      "recipientOrganization": "Partner Solutions Ltd",
+      "recipientAddress": "456 Commerce Road\nNairobi, Kenya",
+      "date": "2026-05-11",
+      "subject": "TAARIFA RASMI YA KUONGEZA MUDA WA USHIRIKIANO",
+      "salutation": "Ndugu Bw. Smith,",
+      "body": "Tafadhali fahamishwa kuwa Global Enterprise Corp imekagua rasmi na kuidhinisha kuongezwa kwa muda wa ushirikiano wetu wa kimkakati kwa mwaka ujao wa fedha.\n\nBarua hii inathibitisha ahadi yetu ya kuendelea kufikia malengo yetu ya pamoja. Tunafurahi kukujulisha kuwa masharti yote ya kawaida yataendelea kutumika.\n\nKama utahitaji maelezo zaidi, tafadhali usisite kuwasiliana na ofisi yetu ya utawala.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_employment": {
+      "referenceNumber": "HR/EMP/2026/045",
+      "senderName": "Alice Johnson",
+      "senderTitle": "Mkurugenzi wa Rasilimali Watu",
+      "senderOrganization": "Tech Innovations Inc.",
+      "senderAddress": "Innovation Hub, Block B\nArusha, Tanzania",
+      "recipientName": "Bw. James Peter",
+      "recipientAddress": "S.L.P 9090, Dodoma",
+      "date": "2026-05-11",
+      "subject": "MKATABA WA AJIRA KWA NAFASI YA MSANIDI PROGRAMU",
+      "salutation": "Ndugu James,",
+      "body": "Tunafurahi kukupa nafasi ya Msanidi Programu katika Tech Innovations Inc. Kulingana na usaili wako, tunaamini utakuwa msaada mkubwa kwa timu yetu ya teknolojia.\n\nAjira yako itaanza rasmi tarehe 1 Juni 2026. Tafadhali pitia mkataba ulioambatishwa na urudishe nakala iliyosainiwa kwa ofisi yetu ifikapo mwisho wa wiki hii.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_offer": {
+      "subject": "OFA YA AJIRA KAMA [WADHIFA]",
+      "salutation": "Ndugu,",
+      "body": "Tunafurahi kukupa nafasi ya [Wadhifa] katika kampuni yetu. Baada ya mchakato wa usaili, tulivutiwa sana na ujuzi na uzoefu wako.\n\nOfa hii inajumuisha mshahara wa kuanzia wa [Kiasi] na marupurupu mengine kama yalivyoelezwa kwenye mkataba.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_appointment": {
+      "subject": "BARUA YA UTEUZI WA WADHIFA WA [WADHIFA]",
+      "salutation": "Ndugu,",
+      "body": "Ninaandika kukujulisha kuwa umeteuliwa rasmi kuwa [Wadhifa] kuanzia tarehe [Tarehe]. Uteuzi huu umefanywa kulingana na uwezo wako ulioonyeshwa hapo awali.\n\nTunategemea utatekeleza majukumu yako kwa weledi na uadilifu wa hali ya juu.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_recommendation": {
+      "subject": "BARUA YA MAPENDEKEZO KWA [JINA LA MTU]",
+      "salutation": "Kwa Anayehusika,",
+      "body": "Ninaandika barua hii kutoa mapendekezo yangu ya dhati kwa [Jina la Mtu]. Nilifanya naye kazi kwa kipindi cha [Muda] katika nafasi ya [Wadhifa].\n\nNi mfanyakazi mwenye bidii, mbunifu, na mwenye uwezo mkubwa wa kufanya kazi katika timu. Namrejea bila shaka yoyote kwa nafasi yoyote anayoomba.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_verification": {
+      "subject": "UHAKIKI WA AJIRA KWA [JINA LA MFANYAKAZI]",
+      "salutation": "Ndugu,",
+      "body": "Barua hii inathibitisha kuwa [Jina la Mfanyakazi] ni mfanyakazi wa [Kampuni Yako] tangu tarehe [Tarehe ya Kuanza] hadi sasa.\n\nWadhifa wake ni [Wadhifa] na anapokea mshahara wa jumla wa [Kiasi] kwa mwezi.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_warning": {
+      "subject": "BARUA YA ONYO: [SABABU YA ONYO]",
+      "salutation": "Ndugu,",
+      "body": "Barua hii inatumika kama onyo rasmi kuhusiana na mwenendo wako wa kazi, hususan [Suala]. Jambo hili ni kinyume na sera za kampuni.\n\nTunaomba urekebishe mwenendo huu mara moja. Hatua zaidi za kinidhamu zitachukuliwa usipobadilika.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_notice": {
+      "subject": "ILANI YA KUACHA KAZI (RESIGNATION)",
+      "salutation": "Ndugu,",
+      "body": "Ninaandika kukujulisha rasmi uamuzi wangu wa kujiuzulu nafasi yangu ya [Wadhifa] katika kampuni hii, kuanzia tarehe [Tarehe].\n\nNimefurahia muda wangu hapa na nashukuru kwa fursa zote nilizopewa. Nitahakikisha nakabidhi majukumu yangu vizuri kabla ya kuondoka.",
+      "closing": "Wako mwaminifu,"
+    },
+    "sample_data_certificate": {
+      "subject": "CHETI CHA UTUMISHI BORA",
+      "salutation": "Ndugu,",
+      "body": "Kampuni inatoa shukrani za dhati kwa [Jina la Mfanyakazi] kwa utumishi wake uliotukuka kwa kipindi cha miaka [Idadi].\n\nBidii na uaminifu wako vimekuwa nguzo muhimu kwa mafanikio ya taasisi yetu.",
+      "closing": "Wako mwaminifu,"
     },
     "sample_data_internship": {
       "senderName": "Jina Lako",
@@ -244,7 +355,121 @@
       "recipientAddress": "[Jina la Kampuni]\n[Anwani ya Kampuni]\n[Mji, Nchi]",
       "date": "2024-05-02",
       "subject": "OMBI LA NAFASI YA MAFUNZO KWA VITENDO (INTERNSHIP) KATIKA IDARA YA [JINA LA IDARA]",
-      "body": "Ndugu,\n\nMimi ni mwanafunzi wa [Mwaka wa Masomo] katika [Jina la Chuo] nikisomea [Jina la Shahada]. Ninaandika kuomba rasmi nafasi ya mafunzo kwa vitendo katika shirika lenu kuanzia kipindi cha [Tarehe ya Kuanza] hadi [Tarehe ya Kumaliza].\n\nKatika masomo yangu, nimepata maarifa ya msingi katika [Ujuzi 1] na [Ujuzi 2], na nina hamu ya kutumia ujuzi huu katika mazingira ya kitaalamu...\n\nAsante kwa muda na kutilia maanani ombi langu.\n\nWako,\n\n[Jina Lako]"
+      "body": "Mimi ni mwanafunzi wa [Mwaka wa Masomo] katika [Jina la Chuo] nikisomea [Jina la Shahada]. Ninaandika kuomba rasmi nafasi ya mafunzo kwa vitendo katika shirika lenu kuanzia kipindi cha [Tarehe ya Kuanza] hadi [Tarehe ya Kumaliza].\n\nKatika masomo yangu, nimepata maarifa ya msingi katika [Ujuzi 1] na [Ujuzi 2], na nina hamu ya kutumia ujuzi huu katika mazingira ya kitaalamu.\n\nAsante kwa muda na kutilia maanani ombi langu.",
+      "closing": "Wako mwaminifu,"
+    },
+    "data_internship_offer": {
+      "referenceNumber": "HR/INT/OFFER/2026/001",
+      "senderName": "Mkurugenzi wa Rasilimali Watu",
+      "senderOrganization": "Enterprise Corp",
+      "recipientName": "[Jina la Mwanafunzi]",
+      "subject": "OFA RASMI YA MAFUNZO YA VITENDO (INTERNSHIP)",
+      "salutation": "Ndugu [Jina la Mwanafunzi],",
+      "body": "Tunafurahi kukupa nafasi ya mafunzo ya vitendo kama [Wadhifa] katika Enterprise Corp. Tulivutiwa na rekodi yako ya kitaaluma na shauku yako katika [Fani/Mada].\n\nMafunzo yako yataanza tarehe [Tarehe ya Kuanza] na kukamilika tarehe [Tarehe ya Kumaliza]. Katika kipindi hiki, utapangiwa katika idara ya [Idara] chini ya usimamizi wa [Jina la Msimamizi].\n\nTafadhali saini na urudishe barua hii kuonyesha kukubali kwako masharti haya.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina la Mwanafunzi]",
+      "internshipTitle": "[Wadhifa]",
+      "organization": "Enterprise Corp",
+      "startDate": "2026-06-01",
+      "endDate": "2026-08-31"
+    },
+    "data_internship_acceptance": {
+      "senderName": "[Jina Lako]",
+      "senderTitle": "Mwanafunzi",
+      "recipientName": "Meneja wa HR",
+      "subject": "KUKUBALI OFA YA MAFUNZO YA VITENDO",
+      "salutation": "Ndugu,",
+      "body": "Ninaandika kukubali rasmi ofa ya mafunzo ya vitendo kwa nafasi ya [Wadhifa] katika [Jina la Kampuni]. Nina furaha kujiunga na timu yenu na kuchangia katika miradi ijayo.\n\nNinathibitisha tarehe yangu ya kuanza kuwa [Tarehe ya Kuanza] na nasubiri kwa hamu kikao cha mwelekeo.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina Lako]",
+      "internshipTitle": "[Wadhifa]"
+    },
+    "data_internship_appointment": {
+      "referenceNumber": "HR/INT/APP/2026/042",
+      "senderName": "Meneja wa Operesheni",
+      "senderOrganization": "Global NGO",
+      "recipientName": "[Jina la Mwanafunzi]",
+      "subject": "BARUA YA UTEUZI WA MAFUNZO YA VITENDO",
+      "salutation": "Ndugu [Jina la Mwanafunzi],",
+      "body": "Barua hii inatumika kama uthibitisho rasmi wa uteuzi wako kama mwanafunzi wa mafunzo ya vitendo katika Global NGO. Jukumu lako litazingatia kusaidia [Idara] katika [Kazi/Lengo Maalum].\n\nUnatarajiwa kuzingatia sera zote za taasisi na kudumisha kiwango cha juu cha mwenendo wa kitaalamu wakati wa muda wako hapa.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina la Mwanafunzi]",
+      "internshipTitle": "Mwanafunzi wa Mafunzo ya Vitendo"
+    },
+    "data_internship_recommendation": {
+      "referenceNumber": "REC/INT/2026/15",
+      "senderName": "[Jina la Msimamizi]",
+      "senderTitle": "[Wadhifa wa Msimamizi]",
+      "recipientName": "Kwa Yeyote Inayemhusu",
+      "subject": "BARUA YA MAPENDEKEZO: [JINA LA MWANAFUNZI]",
+      "salutation": "Ndugu,",
+      "body": "Ni furaha yangu kubwa kumpendekeza [Jina la Mwanafunzi] kwa fursa yoyote ya kitaalamu. Wakati wa mafunzo yao ya [Muda] katika [Jina la Kampuni], [Jina la Mwanafunzi] alionyesha kujitolea kwa kipekee na ustadi wa kiufundi katika [Ujuzi].\n\nWaliwasilisha kazi za hali ya juu mara kwa mara na walijumuika vyema katika timu yetu. Nina uhakika watakuwa rasilimali muhimu kwa taasisi yoyote.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina la Mwanafunzi]",
+      "supervisorName": "[Jina la Msimamizi]",
+      "performanceRemarks": "Kujitolea kwa kipekee na ustadi wa kiufundi."
+    },
+    "data_internship_completion": {
+      "referenceNumber": "CERT/INT/2026/88",
+      "senderName": "Mkurugenzi Mtendaji",
+      "senderOrganization": "Taasisi ya Mafunzo",
+      "recipientName": "[Jina la Mwanafunzi]",
+      "subject": "CHETI CHA KUKAMILISHA MAFUNZO YA VITENDO",
+      "salutation": "Kwa Yeyote Inayemhusu,",
+      "body": "Hii ni kuthibitisha kwamba [Jina la Mwanafunzi] amekamilisha kwa mafanikio programu ya mafunzo ya vitendo katika [Jina la Taasisi] kuanzia [Tarehe ya Kuanza] hadi [Tarehe ya Kumaliza].\n\nKatika kipindi hiki, mwanafunzi alipangiwa katika [Idara] na alifanikiwa kutimiza [Malengo]. Tunamtakia kila la kheri katika juhudi zake za kitaalamu za baadaye.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina la Mwanafunzi]",
+      "startDate": "2026-01-01",
+      "endDate": "2026-04-30"
+    },
+    "data_internship_experience": {
+      "senderName": "Rasilimali Watu",
+      "recipientName": "[Jina la Mwanafunzi]",
+      "subject": "UTHIBITISHO WA UZOEFU WA MAFUNZO YA VITENDO",
+      "salutation": "Ndugu [Jina la Mwanafunzi],",
+      "body": "Hati hii inathibitisha kwamba ulifanya kazi kama mwanafunzi wa mafunzo ya vitendo katika [Jina la Kampuni] kwa kipindi cha [Muda]. Michango yako katika [Mradi/Kazi] ilithaminiwa sana.\n\nUmepata uzoefu mkubwa katika [Ujuzi], na tunafurahi kuthibitisha ushiriki wako wa kitaalamu nasi.",
+      "closing": "Kila la kheri,",
+      "internName": "[Jina la Mwanafunzi]",
+      "duration": "Miezi 3"
+    },
+    "data_internship_verification": {
+      "senderName": "Idara ya Ukaguzi wa HR",
+      "recipientName": "[Taasisi Inayouliza]",
+      "subject": "UTHIBITISHO WA MAFUNZO: [JINA LA MWANAFUNZI]",
+      "salutation": "Kwa Yeyote Inayemhusu,",
+      "body": "Tunathibitisha hapa kwamba [Jina la Mwanafunzi] alikuwa ameandikishwa katika programu yetu ya mafunzo ya vitendo wakati wa tarehe zilizotajwa. Namba yake ya utambulisho ilikuwa [ID Number].\n\nUthibitisho huu unatolewa kwa ombi la mwanafunzi kwa madhumuni ya kitaasisi.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina la Mwanafunzi]",
+      "internshipId": "INT-2026-X"
+    },
+    "data_internship_certificate": {
+      "senderName": "Mkurugenzi Mkuu",
+      "senderOrganization": "Chuo cha Sanaa",
+      "recipientName": "[Jina la Mwanafunzi]",
+      "subject": "CHETI CHA KITAALAMU CHA MAFUNZO YA VITENDO",
+      "salutation": "Hii ni kuthibitisha kwamba",
+      "body": "[Jina la Mwanafunzi] ameonyesha ubora katika [Wadhifa wa Mafunzo] wakati wa muda wake katika taasisi yetu. Cheti hiki kinatolewa kwa kutambua mchango wake bora na kujitolea kwa ukuaji wa kitaalamu.",
+      "closing": "Kimetolewa siku hii ya leo,",
+      "internName": "[Jina la Mwanafunzi]",
+      "internshipTitle": "Mwanafunzi wa Programu"
+    },
+    "data_internship_evaluation": {
+      "senderName": "[Jina la Msimamizi]",
+      "recipientName": "[Ofisi ya Mafunzo ya Chuo]",
+      "subject": "TATHMINI YA UTENDAJI KAZI: [JINA LA MWANAFUNZI]",
+      "salutation": "Ndugu Mratibu wa Mafunzo,",
+      "body": "Tafadhali pata hapa chini tathmini ya utendaji kazi kwa [Jina la Mwanafunzi]. Kwa ujumla, mwanafunzi amefanya kazi katika kiwango cha [Bora/Vizuri].\n\nSifa kuu: [Sifa]. Maeneo ya kukua: [Maeneo]. Mahudhurio na weledi vilikuwa vya mfano katika kipindi chote cha mafunzo.",
+      "closing": "Wako mwaminifu,",
+      "internName": "[Jina la Mwanafunzi]",
+      "performanceRemarks": "Utendaji bora kwa ujumla."
+    },
+    "data_internship_rejection": {
+      "senderName": "Timu ya Vipaji",
+      "recipientName": "[Jina la Mwombaji]",
+      "subject": "HALI YA MAOMBI YAKO YA MAFUNZO YA VITENDO",
+      "salutation": "Ndugu [Jina la Mwombaji],",
+      "body": "Asante kwa nia yako katika programu ya mafunzo ya vitendo katika [Jina la Kampuni]. Baada ya kupitia maombi yako kwa makini, tunasikitika kukujulisha kuwa hatutaendelea na ombi lako kwa wakati huu.\n\nTulipokea maombi mengi yenye sifa, na uamuzi huu ulikuwa mgumu. Tunakutakia kila la kheri katika kutafuta nafasi.",
+      "closing": "Kila la kheri,"
     },
     "sample_data_cover_letter": {
       "senderName": "Jina Lako",
@@ -254,7 +479,8 @@
       "recipientAddress": "[Jina la Kampuni]\n[Mahali]",
       "date": "2024-05-02",
       "subject": "OMBI LA KAZI YA NAFASI YA [JINA LA KAZI]",
-      "body": "Ndugu,\n\nNinaandika kuelezea nia yangu ya nafasi ya [Jina la Kazi] katika [Jina la Kampuni] kama ilivyotangazwa. Nina uzoefu mkubwa katika [Fani Yako] na ninaamini nitakuwa msaada mkubwa kwa timu yenu...\n\nWako,\n[Jina Lako]"
+      "body": "Ninaandika kuelezea nia yangu ya nafasi ya [Jina la Kazi] katika [Jina la Kampuni] kama ilivyotangazwa. Nina uzoefu mkubwa katika [Fani Yako] na ninaamini nitakuwa msaada mkubwa kwa timu yenu.\n\nNasubiri kwa hamu fursa ya kuzungumza zaidi kuhusu maombi yangu.",
+      "closing": "Wako mwaminifu,"
     }
   },
   "affidavit": {
@@ -459,9 +685,9 @@
       "items": [
         { "time": "03:00 Alfajiri", "activity": "Maombi ya Ufunguzi na Karibu" },
         { "time": "04:30 Asubuhi", "activity": "Burudani ya Utamaduni: Kikundi cha Ngoma za Asili" },
-        { "time": "06:00 Mchana", "activity": "Ziara ya Maonyesho na Utambulisho wa Bidhaa" },
-        { "time": "07:30 Mchana", "activity": "Muda wa Chakula cha Mchana na Maongezi" },
-        { "time": "09:00 Alasiri", "activity": "Sherehe za Tuzo na Hotuba ya Kufunga" }
+        { "time": "06:00 Mchana", "activity": "Ziara ya Maonyesho and Utambulisho wa Bidhaa" },
+        { "time": "07:30 Mchana", "activity": "Muda wa Chakula cha Mchana and Maongezi" },
+        { "time": "09:00 Alasiri", "activity": "Sherehe za Tuzo and Hotuba ya Kufunga" }
       ]
     }
   },

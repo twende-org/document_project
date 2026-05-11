@@ -1,256 +1,384 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer";
 import { t } from "../../utils/pdfI18n";
 import type { CVContent } from "../types";
 
+// Register Fonts
+Font.register({
+  family: "Times-Roman",
+  fonts: [
+    { src: "/fonts/Times_New_Roman.ttf" },
+    { src: "/fonts/Times_New_Roman_Bold.ttf", fontWeight: "bold" },
+    { src: "/fonts/Times_New_Roman_Italic.ttf", fontStyle: "italic" },
+    { src: "/fonts/Times_New_Roman_Bold_Italic.ttf", fontWeight: "bold", fontStyle: "italic" },
+  ],
+});
+
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
+    padding: 40,
     fontSize: 10,
     color: "#1F2937",
     fontFamily: "Helvetica",
+    lineHeight: 1.5,
   },
+  // --- Modern Sidebar Layout ---
   sidebar: {
     position: "absolute",
     left: 0,
     top: 0,
     bottom: 0,
-    width: 180,
-    backgroundColor: "#F9FAFB",
-    padding: 30,
-    paddingTop: 50,
+    width: 170,
+    backgroundColor: "#F3F4F6",
+    padding: 25,
+    paddingTop: 40,
   },
-  main: {
+  mainModern: {
     marginLeft: 150,
-    paddingLeft: 40,
+    paddingLeft: 30,
   },
-  name: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#B91C1C",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    marginBottom: 5,
-  },
-  title: {
-    fontSize: 12,
-    color: "#4B5563",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: 2,
-    marginBottom: 30,
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "#B91C1C",
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderBottomColor: "#E5E7EB",
-    paddingBottom: 5,
-    marginBottom: 15,
-    marginTop: 25,
-    textTransform: "uppercase",
-    letterSpacing: 1,
-  },
-  contactItem: {
-    marginBottom: 10,
-  },
-  contactLabel: {
-    fontSize: 7,
-    color: "#9CA3AF",
-    textTransform: "uppercase",
-    marginBottom: 2,
-  },
-  experienceItem: {
+  profileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     marginBottom: 20,
+    borderWidth: 2,
+    borderColor: "#B91C1C",
+  },
+  sidebarSectionTitle: {
+    fontSize: 9,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 8,
+    marginTop: 15,
+    borderBottomWidth: 2,
+    borderBottomColor: "#B91C1C",
+    paddingBottom: 3,
+  },
+  sidebarText: {
+    fontSize: 8,
+    color: "#4B5563",
+    marginBottom: 4,
+  },
+  // --- General Sections ---
+  name: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 10,
+    lineHeight: 1.2,
   },
   jobTitle: {
     fontSize: 11,
+    color: "#6B7280",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 11,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E7EB",
+    paddingBottom: 3,
+    marginBottom: 10,
+    marginTop: 15,
+  },
+  experienceItem: {
+    marginBottom: 12,
+  },
+  expHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 1,
+  },
+  expTitle: {
+    fontSize: 10,
+    fontWeight: "bold",
+  },
+  expCompany: {
+    fontSize: 9,
     fontWeight: "bold",
     marginBottom: 3,
   },
-  companyInfo: {
+  expDate: {
+    fontSize: 8,
+    color: "#9CA3AF",
+    fontWeight: "bold",
+  },
+  textSmall: {
     fontSize: 9,
     color: "#4B5563",
-    marginBottom: 5,
-  },
-  bullet: {
-    width: 3,
-    height: 3,
-    backgroundColor: "#B91C1C",
-    borderRadius: 50,
-    marginRight: 8,
-    marginTop: 4,
-  },
-  bulletRow: {
-    flexDirection: "row",
-    marginBottom: 4,
-    paddingLeft: 5,
-  },
-  summary: {
-    lineHeight: 1.6,
-    color: "#374151",
+    lineHeight: 1.4,
   }
 });
 
-const PDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) => {
-  const { personalInfo = {} as any, experience = [], education = [], skills = [] } = data;
+const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) => {
+  const { 
+    personalInfo = {} as any, 
+    summary = '', 
+    experience = [], 
+    education = [], 
+    skills = { technical: [], soft: [] } as any,
+    projects = [],
+    certifications = [],
+    achievements = [],
+    languages = [],
+    references = []
+  } = data;
+
   const lang = settings?.lang || 'en';
-  
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
-  const isCompact = settings?.layout === 'compact';
-  const isModern = settings?.layout === 'modern';
-  const isElegant = settings?.layout === 'elegant';
+  const layout = settings?.layout || 'modern';
 
-  return (
-    <Document>
-      <Page size="A4" style={[styles.page, isCompact ? { padding: 30 } : {}]}>
-        {!isModern && !isElegant && (
-          <View style={[styles.sidebar, isCompact ? { width: 140, padding: 20 } : {}]}>
-            <View style={{ marginBottom: 40 }}>
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.personal_information', lang)}</Text>
-              <View style={styles.contactItem}>
-                <Text style={styles.contactLabel}>Phone</Text>
-                <Text style={isCompact ? { fontSize: 8 } : {}}>{personalInfo.phone || "+255 000 000 000"}</Text>
+  // Handle skills regardless of format
+  const technicalSkills = Array.isArray(skills) ? skills : (skills?.technical || []);
+  const softSkills = Array.isArray(skills) ? [] : (skills?.soft || []);
+
+  // --- ATS / International ---
+  if (layout === 'ats' || layout === 'international') {
+    return (
+      <Document>
+        <Page size="A4" style={[styles.page, { padding: 50, fontFamily: 'Times-Roman' }]}>
+          <View style={{ marginBottom: 25, textAlign: 'center' }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 6, lineHeight: 1.2 }}>{personalInfo.fullName}</Text>
+            <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#666', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>{personalInfo.jobTitle}</Text>
+            <Text style={{ fontSize: 9, marginTop: 4 }}>
+              {personalInfo.address} | {personalInfo.phone} | {personalInfo.email}
+            </Text>
+            {layout === 'international' && personalInfo.nationality && (
+              <Text style={{ fontSize: 8, color: '#666', marginTop: 5, textTransform: 'uppercase' }}>{personalInfo.nationality} National</Text>
+            )}
+          </View>
+
+          <Text style={{ fontSize: 10, fontWeight: 'bold', borderBottomWidth: 1, marginTop: 10, marginBottom: 5 }}>SUMMARY</Text>
+          <Text style={{ fontSize: 9, textAlign: 'justify' }}>{summary}</Text>
+
+          <Text style={{ fontSize: 10, fontWeight: 'bold', borderBottomWidth: 1, marginTop: 15, marginBottom: 8 }}>EXPERIENCE</Text>
+          {experience.map((exp, i) => (
+            <View key={i} style={{ marginBottom: 10 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{exp.company}</Text>
+                <Text style={{ fontSize: 9 }}>{exp.duration}</Text>
               </View>
-              <View style={styles.contactItem}>
-                <Text style={styles.contactLabel}>Email</Text>
-                <Text style={isCompact ? { fontSize: 8 } : {}}>{personalInfo.email || "hello@twende.com"}</Text>
-              </View>
-              <View style={styles.contactItem}>
-                <Text style={styles.contactLabel}>{t('common.details', lang)}</Text>
-                <Text style={isCompact ? { fontSize: 8 } : {}}>{personalInfo.address || "Dar es Salaam, TZ"}</Text>
-              </View>
+              <Text style={{ fontSize: 9, fontStyle: 'italic' }}>{exp.title}</Text>
+              <Text style={{ fontSize: 9, marginTop: 2, textAlign: 'justify' }}>{exp.description}</Text>
             </View>
+          ))}
 
-            <View>
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.skills', lang)}</Text>
-              <View>
-                {skills.map((skill: string, index: number) => (
-                  <Text key={index} style={[{ marginBottom: 4 }, isCompact ? { fontSize: 8 } : {}]}>• {skill}</Text>
-                ))}
-                {skills.length === 0 && (
-                  <Text style={[{ lineHeight: 1.6 }, isCompact ? { fontSize: 8 } : {}]}>Strategic Leadership{"\n"}Project Management{"\n"}Scalable Systems</Text>
-                )}
+          <Text style={{ fontSize: 10, fontWeight: 'bold', borderBottomWidth: 1, marginTop: 15, marginBottom: 8 }}>SKILLS</Text>
+          <Text style={{ fontSize: 9 }}>{technicalSkills.concat(softSkills).join(' • ')}</Text>
+
+          <Text style={{ fontSize: 10, fontWeight: 'bold', borderBottomWidth: 1, marginTop: 15, marginBottom: 8 }}>EDUCATION</Text>
+          {education.map((edu, i) => (
+            <View key={i} style={{ marginBottom: 5 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{edu.school}</Text>
+                <Text style={{ fontSize: 9 }}>{edu.year}</Text>
               </View>
+              <Text style={{ fontSize: 9 }}>{edu.degree}</Text>
+            </View>
+          ))}
+        </Page>
+      </Document>
+    );
+  }
+
+  // --- Executive / Academic ---
+  if (layout === 'executive' || layout === 'academic') {
+    return (
+      <Document>
+        <Page size="A4" style={[styles.page, { fontFamily: 'Times-Roman', padding: 50, backgroundColor: '#FDFCF8' }]}>
+          <View style={{ borderBottomWidth: 2, borderBottomColor: primaryColor, paddingBottom: 15, marginBottom: 25, textAlign: 'center' }}>
+            <Text style={{ fontSize: 22, fontWeight: 'bold', letterSpacing: 2, marginBottom: 8, lineHeight: 1.2 }}>{personalInfo.fullName}</Text>
+            <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#666', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>{personalInfo.jobTitle}</Text>
+            <Text style={{ fontSize: 8, color: '#666', marginTop: 5, letterSpacing: 1 }}>
+              {personalInfo.phone} • {personalInfo.email} • {personalInfo.address}
+            </Text>
+          </View>
+
+          <View style={{ marginBottom: 25 }}>
+             <Text style={{ fontSize: 10, fontWeight: 'bold', color: primaryColor, letterSpacing: 1, marginBottom: 5 }}>EXECUTIVE PROFILE</Text>
+             <Text style={{ fontSize: 9, textAlign: 'justify', fontStyle: 'italic' }}>{summary}</Text>
+          </View>
+
+          <Text style={{ fontSize: 10, fontWeight: 'bold', color: primaryColor, letterSpacing: 1, borderBottomWidth: 1, borderBottomColor: primaryColor + '20', paddingBottom: 3, marginBottom: 15 }}>PROFESSIONAL EXPERIENCE</Text>
+          {experience.map((exp, i) => (
+            <View key={i} style={{ marginBottom: 15 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+                <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{exp.title}</Text>
+                <Text style={{ fontSize: 9 }}>{exp.duration}</Text>
+              </View>
+              <Text style={{ fontSize: 9, fontStyle: 'italic', color: '#666', marginBottom: 5 }}>{exp.company}</Text>
+              <Text style={{ fontSize: 9, textAlign: 'justify' }}>{exp.description}</Text>
+            </View>
+          ))}
+
+          <Text style={{ fontSize: 10, fontWeight: 'bold', color: primaryColor, letterSpacing: 1, borderBottomWidth: 1, borderBottomColor: primaryColor + '20', paddingBottom: 3, marginTop: 10, marginBottom: 15 }}>EDUCATION</Text>
+          {education.map((edu, i) => (
+            <View key={i} style={{ marginBottom: 10 }}>
+              <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{edu.degree}</Text>
+              <Text style={{ fontSize: 8, color: '#666' }}>{edu.school} | {edu.year}</Text>
+            </View>
+          ))}
+        </Page>
+      </Document>
+    );
+  }
+
+  // --- Minimalist ---
+  if (layout === 'minimal') {
+    return (
+      <Document>
+        <Page size="A4" style={[styles.page, { padding: 60 }]}>
+          <View style={{ marginBottom: 40 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', letterSpacing: 3 }}>{personalInfo.fullName}</Text>
+            <Text style={{ fontSize: 8, color: '#666', letterSpacing: 1, marginTop: 4 }}>{personalInfo.jobTitle}</Text>
+            <View style={{ borderTopWidth: 1, borderTopColor: '#eee', marginTop: 10, paddingTop: 5, flexDirection: 'row', gap: 20 }}>
+               <Text style={{ fontSize: 7, color: '#aaa' }}>{personalInfo.email}</Text>
+               <Text style={{ fontSize: 7, color: '#aaa' }}>{personalInfo.phone}</Text>
             </View>
           </View>
-        )}
 
-        <View style={[
-          styles.main, 
-          isModern || isElegant ? { marginLeft: 0, paddingLeft: 0 } : (isCompact ? { marginLeft: 120, paddingLeft: 30 } : {}),
-          isElegant ? { alignItems: 'center' } : {}
-        ]}>
-          <Text style={[
-            styles.name, 
-            { color: primaryColor }, 
-            isCompact ? { fontSize: 20 } : {},
-            isElegant ? { textAlign: 'center', fontSize: 32, letterSpacing: 4 } : {}
-          ]}>
-            {personalInfo.fullName || "Your Full Name"}
-          </Text>
-          <Text style={[
-            styles.title, 
-            isCompact ? { fontSize: 10, marginBottom: 15 } : {},
-            isElegant ? { textAlign: 'center', marginBottom: 40, opacity: 0.6 } : {}
-          ]}>
-            {personalInfo.jobTitle || "Professional Title"}
-          </Text>
-
-          {(isModern || isElegant) && (
-            <View style={[
-              { flexDirection: 'row', gap: 20, marginBottom: 20, paddingBottom: 10, borderBottom: 1, borderBottomColor: '#eee' },
-              isElegant ? { justifyContent: 'center', borderBottomWidth: 0, marginBottom: 40 } : {}
-            ]}>
-               <Text style={{ fontSize: 8, color: '#666' }}>{personalInfo.phone}</Text>
-               <Text style={{ fontSize: 8, color: '#666' }}>{personalInfo.email}</Text>
-               <Text style={{ fontSize: 8, color: '#666' }}>{personalInfo.address}</Text>
-            </View>
-          )}
-
-          {isModern ? (
-            <View style={{ flexDirection: 'row', gap: 30 }}>
-              {/* Left Column (8/12 equivalent) */}
-              <View style={{ flex: 2 }}>
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>{t('cv.sections.career_objective', lang)}</Text>
-                <Text style={styles.summary}>
-                  {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
-                </Text>
-
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.work_experience', lang)}</Text>
+          <View style={{ flexDirection: 'row', gap: 30 }}>
+             <View style={{ width: 120 }}>
+                <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#ccc', marginBottom: 10 }}>SKILLS</Text>
+                {technicalSkills.map((s: string, i: number) => (
+                   <Text key={i} style={{ fontSize: 8, marginBottom: 3 }}>{s}</Text>
+                ))}
+             </View>
+             <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 9, fontStyle: 'italic', marginBottom: 20 }}>{summary}</Text>
+                <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#ccc', marginBottom: 15 }}>EXPERIENCE</Text>
                 {experience.map((exp: any, i: number) => (
-                  <View key={i} style={styles.experienceItem}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <Text style={[styles.jobTitle, { fontSize: 13, textTransform: 'uppercase', color: '#1F2937' }]}>{exp.title || "Job Title"}</Text>
-                      <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#9CA3AF' }}>{exp.duration || "2020 - Present"}</Text>
-                    </View>
-                    <Text style={[styles.companyInfo, { color: primaryColor, fontWeight: 'bold', textTransform: 'uppercase', fontSize: 9, marginBottom: 6 }]}>{exp.company || "Company Name"}</Text>
-                    {exp.description && (
-                      <Text style={{ fontSize: 9, color: '#4B5563', lineHeight: 1.5 }}>{exp.description}</Text>
-                    )}
-                  </View>
+                   <View key={i} style={{ marginBottom: 15 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                         <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{exp.title}</Text>
+                         <Text style={{ fontSize: 8, color: '#ccc' }}>{exp.duration}</Text>
+                      </View>
+                      <Text style={{ fontSize: 8, color: '#666', marginBottom: 5 }}>{exp.company}</Text>
+                      <Text style={{ fontSize: 8, textAlign: 'justify' }}>{exp.description}</Text>
+                   </View>
                 ))}
-              </View>
-              
-              {/* Right Column (4/12 equivalent) */}
+             </View>
+          </View>
+        </Page>
+      </Document>
+    );
+  }
+
+  // --- Creative ---
+  if (layout === 'creative') {
+    return (
+      <Document>
+        <Page size="A4" style={[styles.page, { padding: 0 }]}>
+           <View style={{ minHeight: 100, backgroundColor: primaryColor, padding: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <View style={{ flex: 1 }}>
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40', marginTop: 0 }]}>{t('cv.sections.skills', lang)}</Text>
-                <View style={{ flexDirection: 'column', gap: 5 }}>
-                  {skills.map((skill: string, index: number) => (
-                    <View key={index} style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                      <View style={{ width: 3, height: 3, backgroundColor: primaryColor, borderRadius: 2 }} />
-                      <Text style={{ fontSize: 8, fontWeight: 'bold', textTransform: 'uppercase', color: '#374151' }}>{skill}</Text>
-                    </View>
-                  ))}
-                  {skills.length === 0 && (
-                    <Text style={{ fontSize: 8, color: '#666' }}>Strategic Leadership{"\n"}Project Management</Text>
-                  )}
-                </View>
-
-                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }]}>{t('cv.sections.education', lang)}</Text>
-                {education.map((edu: any, i: number) => (
-                  <View key={i} style={{ marginBottom: 10 }}>
-                    <Text style={{ fontSize: 9, fontWeight: "bold", textTransform: 'uppercase', color: '#1F2937' }}>{edu.degree || "Bachelor of Science"}</Text>
-                    <Text style={{ fontSize: 8, color: "#9CA3AF", fontWeight: 'bold' }}>{edu.school || "University Name"} | {edu.year || "2015"}</Text>
-                  </View>
-                ))}
+                 <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'white', marginBottom: 12, lineHeight: 1.2 }}>{personalInfo.fullName}</Text>
+                 <Text style={{ fontSize: 10, color: 'white', opacity: 0.8 }}>{personalInfo.jobTitle}</Text>
               </View>
+           </View>
+
+           <View style={{ padding: 40, flexDirection: 'row', gap: 30 }}>
+              <View style={{ flex: 2 }}>
+                 <Text style={{ fontSize: 9, fontWeight: 'bold', color: primaryColor, marginBottom: 10 }}>THE STORY</Text>
+                 <Text style={{ fontSize: 8, fontStyle: 'italic', marginBottom: 20 }}>{summary}</Text>
+
+                 <Text style={{ fontSize: 9, fontWeight: 'bold', color: primaryColor, marginBottom: 10 }}>EXPERIENCE</Text>
+                 {experience.map((exp: any, i: number) => (
+                   <View key={i} style={{ marginBottom: 15, paddingLeft: 10, borderLeftWidth: 2, borderLeftColor: primaryColor + '20' }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+                         <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{exp.title}</Text>
+                         <Text style={{ fontSize: 8, color: primaryColor }}>{exp.duration}</Text>
+                      </View>
+                      <Text style={{ fontSize: 8, color: '#666', marginBottom: 4 }}>{exp.company}</Text>
+                      <Text style={{ fontSize: 8, textAlign: 'justify' }}>{exp.description}</Text>
+                   </View>
+                 ))}
+              </View>
+
+              <View style={{ flex: 1 }}>
+                 <View style={{ backgroundColor: '#1F2937', padding: 15, borderRadius: 10, marginBottom: 20 }}>
+                    <Text style={{ fontSize: 7, color: 'white', opacity: 0.5, marginBottom: 5 }}>CONTACT</Text>
+                    <Text style={{ fontSize: 8, color: 'white', marginBottom: 4 }}>{personalInfo.phone}</Text>
+                    <Text style={{ fontSize: 8, color: 'white', marginBottom: 4 }}>{personalInfo.email}</Text>
+                    <Text style={{ fontSize: 8, color: 'white' }}>{personalInfo.address}</Text>
+                 </View>
+
+                 <Text style={{ fontSize: 9, fontWeight: 'bold', color: primaryColor, marginBottom: 10 }}>EXPERTISE</Text>
+                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5 }}>
+                    {technicalSkills.map((s: string, i: number) => (
+                      <View key={i} style={{ backgroundColor: '#F3F4F6', padding: '3 6', borderRadius: 4 }}>
+                         <Text style={{ fontSize: 7, color: '#4B5563' }}>{s}</Text>
+                      </View>
+                    ))}
+                 </View>
+              </View>
+           </View>
+        </Page>
+      </Document>
+    );
+  }
+
+  // --- Modern / Technical / Student / Corporate (Sidebar) ---
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={[styles.sidebar, layout === 'technical' ? { backgroundColor: '#1F2937' } : {}]}>
+          <Text style={[styles.sidebarSectionTitle, { color: primaryColor, borderBottomColor: primaryColor }, layout === 'technical' ? { color: 'white', borderBottomColor: 'white' } : {}]}>Contact</Text>
+          <Text style={[styles.sidebarText, layout === 'technical' ? { color: '#ccc' } : {}]}>{personalInfo.phone}</Text>
+          <Text style={[styles.sidebarText, layout === 'technical' ? { color: '#ccc' } : {}]}>{personalInfo.email}</Text>
+          <Text style={[styles.sidebarText, layout === 'technical' ? { color: '#ccc' } : {}]}>{personalInfo.address}</Text>
+          
+          <Text style={[styles.sidebarSectionTitle, { color: primaryColor, borderBottomColor: primaryColor }, layout === 'technical' ? { color: 'white', borderBottomColor: 'white' } : {}]}>Skills</Text>
+          {technicalSkills.map((s: string, i: number) => (
+            <Text key={i} style={[styles.sidebarText, layout === 'technical' ? { color: '#ccc' } : {}]}>• {s}</Text>
+          ))}
+        </View>
+
+        <View style={styles.mainModern}>
+          <Text style={[styles.name, { color: primaryColor }]}>{personalInfo.fullName}</Text>
+          <Text style={styles.jobTitle}>{personalInfo.jobTitle}</Text>
+
+          <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '20', marginTop: 0 }]}>
+            {layout === 'student' ? 'ACADEMIC SUMMARY' : 'PROFILE'}
+          </Text>
+          <Text style={styles.textSmall}>{summary}</Text>
+
+          <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '20' }]}>
+            {layout === 'student' ? 'PROJECTS & ROLES' : 'EXPERIENCE'}
+          </Text>
+          {experience.map((exp, i) => (
+            <View key={i} style={styles.experienceItem}>
+              <View style={styles.expHeader}>
+                <Text style={styles.expTitle}>{exp.title}</Text>
+                <Text style={styles.expDate}>{exp.duration}</Text>
+              </View>
+              <Text style={[styles.expCompany, { color: primaryColor }]}>{exp.company}</Text>
+              <Text style={styles.textSmall}>{exp.description}</Text>
             </View>
-          ) : (
-            <>
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>{t('cv.sections.career_objective', lang)}</Text>
-              <Text style={[styles.summary, isCompact ? { fontSize: 9 } : {}]}>
-                {data.summary || "Highly motivated professional with extensive experience in architecting scalable solutions."}
-              </Text>
+          ))}
 
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>{t('cv.sections.work_experience', lang)}</Text>
-              {experience.map((exp: any, i: number) => (
-                <View key={i} style={[styles.experienceItem, isCompact ? { marginBottom: 12 } : {}]}>
-                  <Text style={[styles.jobTitle, isCompact ? { fontSize: 10 } : {}]}>{exp.title || "Job Title"}</Text>
-                  <Text style={[styles.companyInfo, isCompact ? { fontSize: 8 } : {}]}>{exp.company || "Company Name"} | {exp.duration || "2020 - Present"}</Text>
-                  {exp.description && (
-                     <View style={styles.bulletRow}>
-                       <View style={[styles.bullet, { backgroundColor: primaryColor }]} />
-                       <Text style={[{ flex: 1 }, isCompact ? { fontSize: 8 } : {}]}>{exp.description}</Text>
-                     </View>
-                  )}
-                </View>
-              ))}
-
-              <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '40' }, isCompact ? { marginTop: 15, marginBottom: 10 } : {}]}>{t('cv.sections.education', lang)}</Text>
-              {education.map((edu: any, i: number) => (
-                <View key={i} style={[{ marginBottom: 10 }, isCompact ? { marginBottom: 6 } : {}]}>
-                  <Text style={[{ fontWeight: "bold" }, isCompact ? { fontSize: 9 } : {}]}>{edu.degree || "Bachelor of Science"}</Text>
-                  <Text style={[{ color: "#4B5563" }, isCompact ? { fontSize: 8 } : {}]}>{edu.school || "University Name"} | {edu.year || "2015"}</Text>
-                </View>
-              ))}
-            </>
-          )}
+          <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '20' }]}>
+            EDUCATION
+          </Text>
+          {education.map((edu, i) => (
+            <View key={i} style={{ marginBottom: 10 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                 <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{edu.degree}</Text>
+                 <Text style={{ fontSize: 8, color: '#9CA3AF' }}>{edu.year}</Text>
+              </View>
+              <Text style={{ fontSize: 9, color: '#6B7280' }}>{edu.school}</Text>
+            </View>
+          ))}
         </View>
       </Page>
     </Document>
   );
 };
 
-export default PDFTemplate;
+export default CVPDFTemplate;

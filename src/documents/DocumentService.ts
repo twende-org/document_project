@@ -44,5 +44,10 @@ export const DocumentService = {
       language: lang
     });
     return response.data;
+  },
+
+  async generateLetter(data: any) {
+    const response = await axiosClient.post(`/api/generate-letter/`, data);
+    return response.data;
   }
 };

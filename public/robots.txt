@@ -1,0 +1,30 @@
+# Twende Docs Architect - Search Engine Configuration
+# Target Domain: https://docs.twendedigital.tech
+
+User-agent: *
+# Allow indexing of public landing and tool discovery pages
+Allow: /
+Allow: /documents/templates
+Allow: /documents/templates/*
+Allow: /create
+Allow: /create/*
+Allow: /pricing
+Allow: /help
+Allow: /signin
+Allow: /signup
+
+# Disallow indexing of private dashboards and management interfaces
+Disallow: /panel
+Disallow: /agent/dashboard
+Disallow: /documents
+Disallow: /documents/*
+Disallow: /verify-email
+Disallow: /editor/
+Disallow: /api/
+
+# Ensure Googlebot can crawl for rich snippets
+User-agent: Googlebot
+Allow: /
+
+# Sitemap
+Sitemap: https://docs.twendedigital.tech/sitemap.xml

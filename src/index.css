@@ -33,12 +33,14 @@
   }
 
   body {
-    @apply bg-neutral-light text-secondary font-sans;
+    @apply bg-neutral-light text-secondary;
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply text-secondary font-black tracking-tighter;
+    font-family: 'Outfit', sans-serif;
   }
 
   /* Standard transitions for premium feel */

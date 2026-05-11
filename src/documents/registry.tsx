@@ -36,10 +36,16 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
     pdfComponent: CVPDFTemplate,
     defaultTitle: 'My_Professional_CV',
     templates: [
-      { id: 'standard', label: 'cv.templates.standard.label', desc: 'cv.templates.standard.desc' },
-      { id: 'modern', label: 'cv.templates.modern.label', desc: 'cv.templates.modern.desc' },
-      { id: 'compact', label: 'cv.templates.compact.label', desc: 'cv.templates.compact.desc' },
-      { id: 'elegant', label: 'cv.templates.elegant.label', desc: 'cv.templates.elegant.desc' }
+      { id: 'modern', label: 'Modern Professional', desc: 'Sleek contemporary design.' },
+      { id: 'ats', label: 'ATS Optimized', desc: 'Maximum parser compatibility.' },
+      { id: 'executive', label: 'Executive', desc: 'Senior leadership layout.' },
+      { id: 'minimal', label: 'Minimalist', desc: 'Clean and airy spacing.' },
+      { id: 'creative', label: 'Creative', desc: 'Visual-heavy portfolio style.' },
+      { id: 'student', label: 'Student/Intern', desc: 'Education-focused layout.' },
+      { id: 'academic', label: 'Academic', desc: 'Research and publication focus.' },
+      { id: 'corporate', label: 'Corporate', desc: 'Traditional formal design.' },
+      { id: 'technical', label: 'Technical', desc: 'Skills and project intensive.' },
+      { id: 'international', label: 'International', desc: 'Global standard formatting.' }
     ]
   },
   INVOICE: {
@@ -63,7 +69,8 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
       { id: 'standard', label: 'letter.templates.standard.label', desc: 'letter.templates.standard.desc' },
       { id: 'modern', label: 'letter.templates.modern.label', desc: 'letter.templates.modern.desc' },
       { id: 'compact', label: 'letter.templates.compact.label', desc: 'letter.templates.compact.desc' },
-      { id: 'elegant', label: 'letter.templates.elegant.label', desc: 'letter.templates.elegant.desc' }
+      { id: 'elegant', label: 'letter.templates.elegant.label', desc: 'letter.templates.elegant.desc' },
+      { id: 'certificate', label: 'letter.templates.certificate.label', desc: 'letter.templates.certificate.desc' }
     ]
   },
   PROFORMA: {
@@ -129,10 +136,14 @@ export const DOCUMENT_REGISTRY: Record<DocumentType, DocumentManifest> = {
 };
 
 export const CV_STYLES_REGISTRY: Record<string, React.ComponentType<any>> = {
-  Basic: CVTraditionalPDF,
-  Modern: CVModernPDF,
-  Intermediate: CVIntermediatePDF,
-  Advanced: CVAdvancedPDF,
-  Minimalist: CVMinimalPDF,
-  Creative: CVCreativePDF,
+  "Modern Professional": CVPDFTemplate,
+  "ATS-Friendly": CVPDFTemplate,
+  "Executive": CVPDFTemplate,
+  "Minimalist": CVPDFTemplate,
+  "Creative Portfolio": CVPDFTemplate,
+  "Internship/Student": CVPDFTemplate,
+  "Academic CV": CVPDFTemplate,
+  "Corporate Standard": CVPDFTemplate,
+  "Technical/Engineering": CVPDFTemplate,
+  "International": CVPDFTemplate,
 };
