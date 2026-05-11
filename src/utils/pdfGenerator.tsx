@@ -28,7 +28,8 @@ export const generateClientPDF = async (docType: DocumentType, data: any, title?
     document.body.appendChild(link);
     link.click();
     link.remove();
-    window.URL.revokeObjectURL(url);
+    // Do not revoke immediately as it can cause "Malformed" or "Failed" downloads in some browsers
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
   } catch (err) {
     console.error("Factory Error: PDF Assembly Failed", err);
     throw err;

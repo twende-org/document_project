@@ -23,6 +23,7 @@ import OfficialLetter from "../pages/OfficialLetter";
 import EventProgram from "../pages/EventProgram";
 import ProformaInvoice from "../pages/ProformaInvoice";
 import Quotation from "../pages/Quotation";
+import PublicView from "../pages/PublicView";
 export interface pageRouteConfig<P = any> {
   forNav?: boolean;
   path: string;
@@ -301,6 +302,17 @@ export const routes: pageRouteConfig[] = [
     element: RisalaTemplate,
     name: "Risala Preview",
     layout: false,
+  },
+  {
+    forNav: false,
+    path: "/v/:id",
+    element: PublicView,
+    name: "Verified View",
+    layout: false,
+    seo: {
+      title: "Verified Professional Profile | Twende Docs",
+      description: "View this verified professional profile created on Twende Docs Architect."
+    }
   },
 ];
 

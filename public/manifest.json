@@ -1,0 +1,21 @@
+{
+  "name": "Twende Docs Architect",
+  "short_name": "SmartDocs",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#B91C1C",
+  "description": "Professional Document Architect for CVs, Invoices and Letters.",
+  "icons": [
+    {
+      "src": "/src/assets/logo_docs.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/src/assets/logo_docs.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

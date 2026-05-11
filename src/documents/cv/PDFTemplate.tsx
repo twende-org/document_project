@@ -118,26 +118,36 @@ const styles = StyleSheet.create({
 });
 
 const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) => {
+  // Ensure data is not null
+  const safeData = data || {} as CVContent;
+  
   const { 
-    personalInfo = {} as any, 
+    personalInfo = { fullName: '', email: '', phone: '', address: '', jobTitle: '' } as any, 
     summary = '', 
     experience = [], 
     education = [], 
-    skills = { technical: [], soft: [] } as any,
+    skills = [] as any,
     projects = [],
     certifications = [],
     achievements = [],
     languages = [],
     references = []
-  } = data;
+  } = safeData;
 
   const lang = settings?.lang || 'en';
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
   const layout = settings?.layout || 'modern';
 
-  // Handle skills regardless of format
-  const technicalSkills = Array.isArray(skills) ? skills : (skills?.technical || []);
-  const softSkills = Array.isArray(skills) ? [] : (skills?.soft || []);
+  // Safely handle skills regardless of format (array or object)
+  let technicalSkills: string[] = [];
+  let softSkills: string[] = [];
+  
+  if (Array.isArray(skills)) {
+    technicalSkills = skills.map(s => String(s));
+  } else if (skills && typeof skills === 'object') {
+    technicalSkills = Array.isArray(skills.technical) ? skills.technical.map((s: any) => String(s)) : [];
+    softSkills = Array.isArray(skills.soft) ? skills.soft.map((s: any) => String(s)) : [];
+  }
 
   // --- ATS / International ---
   if (layout === 'ats' || layout === 'international') {

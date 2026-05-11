@@ -87,7 +87,12 @@ const Editor = () => {
   };
 
   const handleWhatsAppShare = () => {
-    const text = `Check out my professional CV created with Twende Docs Architect! 🚀\n\nCreate yours now at: https://docs.twendedigital.tech`;
+    // If we have an ID from useDocumentEngine or local state, use it for the public link
+    const publicLink = (formData as any).id 
+      ? `https://docs.twendedigital.tech/v/${(formData as any).id}` 
+      : "https://docs.twendedigital.tech";
+      
+    const text = `Check out my professional CV created with Twende Docs Architect! 🚀\n\nView here: ${publicLink}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -110,11 +115,24 @@ const Editor = () => {
   };
 
 
+  const onFinalize = async () => {
+    try {
+      const userName = formData.personalInfo.fullName || 'User';
+      const layoutName = settings?.layout || 'modern';
+      const title = `${userName}_${layoutName}_CV`.replace(/\s+/g, '_');
+      
+      // handleSave('FINAL') will trigger generateClientPDF automatically via useDocumentEngine
+      await handleSave(title, 'FINAL');
+    } catch (err) {
+      notify.error("Finalization failed.");
+    }
+  };
+
   return (
     <SmartEditorLayout
       title="CV Architect"
       subtitle="Identity Engine"
-      onSave={onDownload}
+      onSave={onFinalize}
       isSaving={isSaving}
       isPolishing={isPolishing}
       isValidated={isValidated}
@@ -124,12 +142,6 @@ const Editor = () => {
       preview={<Preview data={formData} settings={settings} />}
       customActions={
         <div className="flex gap-2">
-          <button 
-            onClick={onDownload}
-            className="btn-premium flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-bold shadow-lg transition-all"
-          >
-            <FaFilePdf /> Download PDF
-          </button>
           <button 
             onClick={handleWhatsAppShare}
             className="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-2 rounded-full font-bold shadow-lg transition-all"

@@ -10,6 +10,13 @@ export const DocumentService = {
     return response.data;
   },
 
+  async getPublicDocument(id: string) {
+    // Note: This uses a public endpoint that doesn't require tokens
+    const response = await fetch(`${import.meta.env.VITE_APP_API_BASE_URL}/api/documents/${id}/public/`);
+    if (!response.ok) throw new Error("Document not found");
+    return response.json();
+  },
+
   async save(document: DocumentBase) {
     const method = document.id ? 'put' : 'post';
     const url = document.id 
