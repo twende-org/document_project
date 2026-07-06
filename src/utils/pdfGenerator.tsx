@@ -19,8 +19,15 @@ export const generateClientPDF = async (docType: DocumentType, data: any, title?
 
   const element = <PDFTemplate data={data} settings={updatedSettings} />;
 
+  // Wait a small moment for any pending state updates to flush
+  await new Promise(resolve => setTimeout(resolve, 100));
+
   try {
     const blob = await pdf(element).toBlob();
+    if (!blob || blob.size === 0) {
+      throw new Error("Generated PDF blob is empty.");
+    }
+    
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -28,8 +35,9 @@ export const generateClientPDF = async (docType: DocumentType, data: any, title?
     document.body.appendChild(link);
     link.click();
     link.remove();
-    // Do not revoke immediately as it can cause "Malformed" or "Failed" downloads in some browsers
-    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+    
+    // Increased timeout to ensure browser has finished downloading before revocation
+    setTimeout(() => window.URL.revokeObjectURL(url), 10000);
   } catch (err) {
     console.error("Factory Error: PDF Assembly Failed", err);
     throw err;

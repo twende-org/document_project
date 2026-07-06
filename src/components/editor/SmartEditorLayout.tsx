@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaMagic, FaDownload, FaRocket, FaFileAlt, FaPenNib, FaCloudDownloadAlt, FaPalette, FaThLarge, FaEdit } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import ResponsivePreviewWrapper from "./ResponsivePreviewWrapper";
 
 interface SmartEditorProps {
   title: string;
@@ -50,7 +51,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
   ]
 }) => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<"templates" | "content" | "design">("templates");
+  const [activeTab, setActiveTab] = useState<"templates" | "content" | "design" | "preview">("templates");
 
   const updateThemeColor = (color: string) => {
     if (onSettingsChange) {
@@ -138,7 +139,7 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-7 space-y-8"
+            className="lg:col-span-7 min-w-0 overflow-hidden space-y-8"
           >
             {/* Mode Switcher */}
             <div className="flex flex-wrap sm:flex-nowrap bg-white p-1 rounded-2xl border border-neutral-border shadow-sm w-full sm:w-fit mb-8 overflow-hidden">
@@ -159,6 +160,12 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                 className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === "design" ? "bg-secondary text-white shadow-lg" : "text-secondary/40 hover:text-secondary"}`}
               >
                 <FaPalette size={14} /> {t('common.design')}
+              </button>
+              <button 
+                onClick={() => setActiveTab("preview")}
+                className={`lg:hidden flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === "preview" ? "bg-secondary text-white shadow-lg" : "text-secondary/40 hover:text-secondary"}`}
+              >
+                <FaFileAlt size={14} /> {t('common.preview', 'Preview')}
               </button>
             </div>
 
@@ -253,6 +260,28 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
                   </section>
                 </motion.div>
               )}
+
+              {activeTab === "preview" && (
+                <motion.div
+                  key="preview"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-8 lg:hidden"
+                >
+                  <div className="bg-white rounded-card shadow-premium border border-neutral-border p-2 min-h-[500px] flex flex-col w-full">
+                     <div className="bg-neutral-light p-4 flex justify-between items-center border-b border-neutral-border">
+                        <span className="text-action text-secondary/40">{t('common.real_time_preview')}</span>
+                        {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">{t('common.ai_polishing')}</span>}
+                     </div>
+                     <div className="flex-1 bg-neutral-light/50 p-4 flex justify-center w-full overflow-hidden">
+                        <ResponsivePreviewWrapper targetWidth={800}>
+                           {preview}
+                        </ResponsivePreviewWrapper>
+                     </div>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
 
             {/* Sticky Action Footer for Mobile/Quick Access */}
@@ -273,17 +302,17 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-5 sticky top-24 w-full overflow-hidden"
+            className="hidden lg:block lg:col-span-5 sticky top-24 w-full overflow-hidden"
           >
             <div className="bg-white rounded-card shadow-premium border border-neutral-border p-2 min-h-[700px] flex flex-col w-full">
                <div className="bg-neutral-light p-4 flex justify-between items-center border-b border-neutral-border">
                   <span className="text-action text-secondary/40">{t('common.real_time_preview')}</span>
                   {isPolishing && <span className="text-primary text-[10px] animate-pulse font-black uppercase">{t('common.ai_polishing')}</span>}
                </div>
-               <div className="flex-1 bg-neutral-light/50 p-4 md:p-8 flex justify-center overflow-x-auto w-full">
-                  <div className="min-w-[700px] lg:min-w-0 w-full">
+               <div className="flex-1 bg-neutral-light/50 p-4 md:p-8 flex justify-center w-full overflow-hidden">
+                  <ResponsivePreviewWrapper targetWidth={800}>
                      {preview}
-                  </div>
+                  </ResponsivePreviewWrapper>
                </div>
             </div>
           </motion.div>
