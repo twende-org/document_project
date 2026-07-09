@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { DocumentService } from '../DocumentService';
 import type { DocumentType, DocumentBase } from '../types';
 import { generateClientPDF } from '../../utils/pdfGenerator';
@@ -16,11 +16,25 @@ export function useDocumentEngine<T>(
 ) {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
-  const [formData, setFormData] = useState<T>(initialData);
+  const [formData, setFormData] = useState<T>(() => {
+    const saved = localStorage.getItem(`draft_${docType}`);
+    if (saved) {
+      try {
+        return JSON.parse(saved) as T;
+      } catch (e) {
+        console.error("Failed to load draft", e);
+      }
+    }
+    return initialData;
+  });
   const [settings, setSettings] = useState<DocumentBase['settings']>(initialSettings || {
     theme: { primaryColor: '#B91C1C' }, 
     layout: 'standard'
   });
+
+  useEffect(() => {
+    localStorage.setItem(`draft_${docType}`, JSON.stringify(formData));
+  }, [formData, docType]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [isPolishing, setIsPolishing] = useState(false);

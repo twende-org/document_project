@@ -11,7 +11,8 @@ import {
   FaFilePdf, 
   FaCloudUploadAlt,
   FaCheckCircle,
-  FaWhatsapp
+  FaWhatsapp,
+  FaFileAlt
 } from "react-icons/fa";
 import { useDocumentEngine } from "../hooks/useDocumentEngine";
 import { SmartEditorLayout } from "../../components/editor/SmartEditorLayout";
@@ -617,6 +618,80 @@ const Editor = () => {
                       onClick={() => {
                          const newPubs = formData.publications.filter((_, idx) => idx !== i);
                          updateField('publications', newPubs);
+                      }}
+                      className="absolute -top-3 -right-3 bg-red-500 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={12} />
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
+
+        {/* Conditional Section: Presentations (Academic) */}
+        {formData.industryTarget === 'academic' && (
+          <div className="card-premium">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-heading text-xl flex items-center gap-3">
+                <FaFileAlt className="text-primary" /> Presentations
+              </h3>
+              <button 
+                  onClick={() => setFormData({...formData, presentations: [...(formData.presentations || []), { title: "", event: "", year: "" }]})}
+                  className="btn-primary text-xs px-6 py-2 rounded-full shadow-md font-bold"
+              >
+                  + Add Presentation
+              </button>
+            </div>
+            <div className="space-y-8">
+              <AnimatePresence mode="popLayout">
+                {formData.presentations?.map((pres, i) => (
+                  <motion.div 
+                    key={i} 
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="grid md:grid-cols-3 gap-6 relative group bg-neutral-light/20 p-6 rounded-[1.5rem] border border-secondary/5"
+                  >
+                    <input 
+                      type="text" 
+                      placeholder="Presentation Title"
+                      value={pres.title}
+                      onChange={(e) => {
+                         const newPres = [...formData.presentations];
+                         newPres[i].title = e.target.value;
+                         updateField('presentations', newPres);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Event / Conference"
+                      value={pres.event}
+                      onChange={(e) => {
+                         const newPres = [...formData.presentations];
+                         newPres[i].event = e.target.value;
+                         updateField('presentations', newPres);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Year"
+                      value={pres.year}
+                      onChange={(e) => {
+                         const newPres = [...formData.presentations];
+                         newPres[i].year = e.target.value;
+                         updateField('presentations', newPres);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <button 
+                      onClick={() => {
+                         const newPres = formData.presentations.filter((_, idx) => idx !== i);
+                         updateField('presentations', newPres);
                       }}
                       className="absolute -top-3 -right-3 bg-red-500 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                     >

@@ -802,7 +802,14 @@
       "projects": "Projects",
       "achievements": "Achievements",
       "references": "References",
-      "skills": "Skills"
+      "skills": "Skills",
+      "publications": "Publications",
+      "presentations": "Presentations",
+      "summary": "Summary",
+      "story": "The Story",
+      "academic_summary": "Academic Summary",
+      "executive_profile": "Executive Profile",
+      "contact": "Contact"
     },
     "my_cv": "My CV",
     "my_cv_desc": "This is where you can view and manage your CV. You can edit, download, or share your CV with potential employers.",
