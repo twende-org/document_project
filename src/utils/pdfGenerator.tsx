@@ -1,9 +1,9 @@
-import { pdf } from "@react-pdf/renderer";
 import i18n from "../i18n";
 import { DOCUMENT_REGISTRY } from "../documents/registry";
 import type { DocumentType } from "../documents/types";
 
 export const generateClientPDF = async (docType: DocumentType, data: any, title?: string, settings?: any) => {
+  const { pdf } = await import("@react-pdf/renderer");
   const manifest = DOCUMENT_REGISTRY[docType];
 
   if (!manifest) {

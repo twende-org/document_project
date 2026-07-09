@@ -46,6 +46,8 @@ const Editor = () => {
     projects: [],
     certifications: [],
     achievements: [],
+    publications: [],
+    presentations: [],
     languages: [],
     references: []
   };
@@ -144,9 +146,9 @@ const Editor = () => {
         <div className="flex gap-2">
           <button 
             onClick={handleWhatsAppShare}
-            className="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-2 rounded-full font-bold shadow-lg transition-all"
+            className="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-4 py-2 rounded-xl text-sm font-bold shadow-sm transition-all"
           >
-            <FaWhatsapp size={18} /> Share
+            <FaWhatsapp size={16} /> Share
           </button>
         </div>
       }
@@ -180,6 +182,39 @@ const Editor = () => {
            <div className="flex items-center gap-2 px-4 py-2 bg-neutral-light text-gray-400 rounded-full text-xs font-bold whitespace-nowrap">
               <div className="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center text-[8px]">3</div> Education
            </div>
+        </div>
+
+        {/* Target Industry */}
+        <div className="card-premium bg-gradient-to-r from-primary/5 to-transparent">
+          <div className="flex justify-between items-start mb-4">
+             <h3 className="text-heading text-lg flex items-center gap-3">
+               <FaMagic className="text-primary" /> Target Industry
+             </h3>
+          </div>
+          <p className="text-[11px] text-gray-500 mb-4">Select your target industry to automatically adjust the required fields and optimize the final layout.</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { id: 'corporate', label: 'Corporate / Standard' },
+              { id: 'academic', label: 'Academic / Research' },
+              { id: 'tech', label: 'Software / Tech' },
+              { id: 'creative', label: 'Creative / Design' }
+            ].map(industry => (
+              <button 
+                key={industry.id}
+                onClick={() => {
+                   updateField('industryTarget', industry.id);
+                   // Automatically set the best layout based on industry
+                   if (industry.id === 'academic') setSettings({...settings, layout: 'academic'});
+                   if (industry.id === 'tech') setSettings({...settings, layout: 'technical'});
+                   if (industry.id === 'creative') setSettings({...settings, layout: 'creative'});
+                   if (industry.id === 'corporate') setSettings({...settings, layout: 'modern'});
+                }}
+                className={`p-3 rounded-lg border text-left transition-all ${formData.industryTarget === industry.id || (!formData.industryTarget && industry.id === 'corporate') ? 'border-primary bg-white shadow-sm' : 'border-gray-200 hover:border-gray-300 bg-white/50'}`}
+              >
+                <div className="font-bold uppercase tracking-widest text-[10px]" style={{ color: formData.industryTarget === industry.id || (!formData.industryTarget && industry.id === 'corporate') ? 'var(--color-primary)' : 'inherit' }}>{industry.label}</div>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Personal Details */}
@@ -394,19 +429,21 @@ const Editor = () => {
             <FaCog className="text-primary" /> 05. {t('cv.sections.skills')}
           </h3>
           <div className="space-y-4">
-             <div className="flex gap-4">
+             <div className="flex gap-4 items-center">
                 <input 
-                   type="text" 
                    id="skill-input"
-                   placeholder="Add a skill (e.g. React, Strategic Planning)"
-                   className="input-premium flex-1"
+                   type="text" 
+                   className="input-premium flex-1 p-3 text-sm"
+                   placeholder="e.g. React, Node.js, Project Management"
                    onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                         const val = (e.target as HTMLInputElement).value.trim();
+                         e.preventDefault();
+                         const input = e.target as HTMLInputElement;
+                         const val = input.value.trim();
                          const currentSkills = Array.isArray(formData.skills) ? formData.skills : [];
                          if (val && !currentSkills.includes(val)) {
                             setFormData({...formData, skills: [...currentSkills, val]});
-                            (e.target as HTMLInputElement).value = '';
+                            input.value = '';
                          }
                       }
                    }}
@@ -421,12 +458,12 @@ const Editor = () => {
                             input.value = '';
                          }
                    }}
-                   className="btn-primary px-8 rounded-xl"
+                   className="btn-primary px-6 py-2 text-sm font-bold rounded-xl h-fit"
                 >
                    Add
                 </button>
              </div>
-              <div className="flex flex-wrap gap-3 mt-6">
+                  <div className="flex flex-wrap gap-3 mt-6">
                 {(Array.isArray(formData.skills) ? formData.skills : []).map((skill, index) => (
                    <span key={index} className="bg-white border border-primary/20 text-charcoal px-4 py-2 rounded-full text-xs font-black flex items-center gap-2 group hover:border-primary transition-colors cursor-default">
                       {skill}
@@ -444,6 +481,153 @@ const Editor = () => {
               </div>
           </div>
         </div>
+
+        {/* Conditional Section: Projects (Tech/Creative) */}
+        {['tech', 'creative'].includes(formData.industryTarget || '') && (
+          <div className="card-premium">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-heading text-xl flex items-center gap-3">
+                <FaBriefcase className="text-primary" /> Projects & Portfolio
+              </h3>
+              <button 
+                  onClick={() => setFormData({...formData, projects: [...formData.projects, { title: "", description: "", technologies: [], link: "" }]})}
+                  className="btn-primary text-xs px-6 py-2 rounded-full shadow-md font-bold"
+              >
+                  + Add Project
+              </button>
+            </div>
+            <div className="space-y-8">
+              <AnimatePresence mode="popLayout">
+                {formData.projects?.map((proj, i) => (
+                  <motion.div 
+                    key={i} 
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="grid md:grid-cols-2 gap-6 relative group bg-neutral-light/20 p-6 rounded-[1.5rem] border border-secondary/5"
+                  >
+                    <input 
+                      type="text" 
+                      placeholder="Project Title"
+                      value={proj.title}
+                      onChange={(e) => {
+                         const newProj = [...formData.projects];
+                         newProj[i].title = e.target.value;
+                         updateField('projects', newProj);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Link / URL"
+                      value={proj.link}
+                      onChange={(e) => {
+                         const newProj = [...formData.projects];
+                         newProj[i].link = e.target.value;
+                         updateField('projects', newProj);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <textarea 
+                      placeholder="Project Description"
+                      value={proj.description}
+                      onChange={(e) => {
+                         const newProj = [...formData.projects];
+                         newProj[i].description = e.target.value;
+                         updateField('projects', newProj);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-2 h-24"
+                    />
+                    <button 
+                      onClick={() => {
+                         const newProj = formData.projects.filter((_, idx) => idx !== i);
+                         updateField('projects', newProj);
+                      }}
+                      className="absolute -top-3 -right-3 bg-red-500 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={12} />
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
+
+        {/* Conditional Section: Publications (Academic) */}
+        {formData.industryTarget === 'academic' && (
+          <div className="card-premium">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-heading text-xl flex items-center gap-3">
+                <FaFilePdf className="text-primary" /> Publications
+              </h3>
+              <button 
+                  onClick={() => setFormData({...formData, publications: [...(formData.publications || []), { title: "", journal: "", year: "" }]})}
+                  className="btn-primary text-xs px-6 py-2 rounded-full shadow-md font-bold"
+              >
+                  + Add Publication
+              </button>
+            </div>
+            <div className="space-y-8">
+              <AnimatePresence mode="popLayout">
+                {formData.publications?.map((pub, i) => (
+                  <motion.div 
+                    key={i} 
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="grid md:grid-cols-3 gap-6 relative group bg-neutral-light/20 p-6 rounded-[1.5rem] border border-secondary/5"
+                  >
+                    <input 
+                      type="text" 
+                      placeholder="Paper Title"
+                      value={pub.title}
+                      onChange={(e) => {
+                         const newPubs = [...formData.publications];
+                         newPubs[i].title = e.target.value;
+                         updateField('publications', newPubs);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Journal / Conference"
+                      value={pub.journal}
+                      onChange={(e) => {
+                         const newPubs = [...formData.publications];
+                         newPubs[i].journal = e.target.value;
+                         updateField('publications', newPubs);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Year"
+                      value={pub.year}
+                      onChange={(e) => {
+                         const newPubs = [...formData.publications];
+                         newPubs[i].year = e.target.value;
+                         updateField('publications', newPubs);
+                      }}
+                      className="input-premium p-4 bg-white md:col-span-1"
+                    />
+                    <button 
+                      onClick={() => {
+                         const newPubs = formData.publications.filter((_, idx) => idx !== i);
+                         updateField('publications', newPubs);
+                      }}
+                      className="absolute -top-3 -right-3 bg-red-500 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={12} />
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="bg-red-50 text-red-500 p-6 rounded-button border border-red-100 text-center font-bold text-sm tracking-widest">

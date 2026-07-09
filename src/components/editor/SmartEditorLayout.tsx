@@ -285,13 +285,13 @@ export const SmartEditorLayout: React.FC<SmartEditorProps> = ({
             </AnimatePresence>
 
             {/* Sticky Action Footer for Mobile/Quick Access */}
-             <div className="bg-white p-6 md:p-8 rounded-card shadow-premium border border-neutral-border flex flex-col sm:flex-row gap-4">
+             <div className="bg-white p-4 md:p-6 rounded-card shadow-premium border border-neutral-border flex flex-col sm:flex-row gap-4">
                 <button 
                    onClick={onSave}
                    disabled={isSaving}
-                   className="btn-primary flex-1 py-4 md:py-6 text-base md:text-lg flex items-center justify-center gap-3"
+                   className="btn-primary flex-1 py-3 text-sm flex items-center justify-center gap-3 rounded-xl"
                 >
-                   {isSaving ? <span className="animate-spin text-xl">⏳</span> : <FaRocket />}
+                   {isSaving ? <span className="animate-spin text-base">⏳</span> : <FaRocket size={14} />}
                    {isSaving ? t('common.architecting') : t('common.finalize_download')}
                 </button>
                 {customActions}

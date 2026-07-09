@@ -25,6 +25,8 @@ export const CV_TEMPLATE: CVContent = {
   projects: [],
   certifications: [],
   achievements: [],
+  publications: [],
+  presentations: [],
   languages: [],
   references: []
 };

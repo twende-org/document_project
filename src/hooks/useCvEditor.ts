@@ -3,7 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../store/store';
 import { fetchCv } from '../features/cv/cvSlice';
 import type { CVContent, DocumentSettings } from '../documents/types';
-import type { User } from '../types/cv/cv';
+import type { 
+  User, 
+  WorkExperience, 
+  Education, 
+  Project, 
+  Certificate, 
+  Achievement, 
+  Language, 
+  Reference 
+} from '../types/cv/cv';
 
 export const useCvEditor = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,6 +41,8 @@ export const useCvEditor = () => {
       projects: [],
       certifications: [],
       achievements: [],
+      publications: [],
+      presentations: [],
       languages: [],
       references: []
     };
@@ -51,16 +62,16 @@ export const useCvEditor = () => {
         profileImage: d.personal_details?.profile_image ? `${import.meta.env.VITE_APP_API_BASE_URL}${d.personal_details.profile_image}` : undefined
       },
       summary: d.personal_details?.profile_summary || (d.career_objectives?.[0]?.career_objective || ''),
-      experience: (d.work_experiences || []).map((exp: any) => ({
-        id: exp.id || Math.random().toString(),
+      experience: (d.work_experiences || []).map((exp: WorkExperience) => ({
+        id: exp.id?.toString() || Math.random().toString(),
         company: exp.company,
         title: exp.job_title,
         location: exp.location,
         duration: `${exp.start_date} - ${exp.end_date || 'Present'}`,
         description: (exp.responsibilities || []).map((r: any) => r.value).join('\n')
       })),
-      education: (d.educations || []).map((edu: any) => ({
-        id: edu.id || Math.random().toString(),
+      education: (d.educations || []).map((edu: Education) => ({
+        id: edu.id?.toString() || Math.random().toString(),
         school: edu.institution,
         degree: edu.degree,
         location: edu.location,
@@ -71,23 +82,25 @@ export const useCvEditor = () => {
         technical: (d.skill_sets?.[0]?.technical_skills || []).map(s => s.value),
         soft: (d.skill_sets?.[0]?.soft_skills || []).map(s => s.value)
       },
-      projects: (d.projects || []).map(p => ({
+      projects: (d.projects || []).map((p: Project) => ({
         title: p.title,
         description: p.description,
         technologies: (p.technologies || []).map(t => t.value),
         link: p.link
       })),
-      certifications: (d.profile?.certificates || []).map(c => ({
+      certifications: (d.profile?.certificates || []).map((c: Certificate) => ({
         name: c.name,
         issuer: c.issuer,
         date: c.date
       })),
-      achievements: (d.achievement_profile?.achievements || []).map(a => a.value),
-      languages: (d.languages || []).map(l => ({
+      achievements: (d.achievement_profile?.achievements || []).map((a: Achievement) => a.value),
+      languages: (d.languages || []).map((l: Language) => ({
         name: l.language,
         level: l.proficiency
       })),
-      references: (d.references || []).map(r => ({
+      publications: [],
+      presentations: [],
+      references: (d.references || []).map((r: Reference) => ({
         name: r.name,
         position: r.position,
         contact: `${r.email} | ${r.phone}`

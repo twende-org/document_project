@@ -40,6 +40,7 @@ export interface InvoiceContent {
 }
 
 export interface CVContent {
+  industryTarget?: 'academic' | 'tech' | 'creative' | 'corporate';
   personalInfo: {
     fullName: string;
     email: string;
@@ -84,6 +85,16 @@ export interface CVContent {
     date: string;
   }[];
   achievements: string[];
+  publications: {
+    title: string;
+    journal: string;
+    year: string;
+  }[];
+  presentations: {
+    title: string;
+    event: string;
+    year: string;
+  }[];
   languages: {
     name: string;
     level: string;

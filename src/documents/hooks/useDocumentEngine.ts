@@ -60,10 +60,10 @@ export function useDocumentEngine<T>(
     setError(null);
     const payload = getPayload();
     try {
-      await DocumentService.validate(docType as any, payload);
+      await DocumentService.validate(docType, payload);
       const doc: DocumentBase = {
         title,
-        doc_type: docType as any,
+        doc_type: docType,
         status,
         content: payload,
         settings: settings

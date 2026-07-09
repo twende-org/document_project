@@ -14,7 +14,8 @@ import {
   FaLinkedin,
   FaGithub,
   FaGlobe,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaFileAlt
 } from "react-icons/fa";
 
 interface CVPreviewProps {
@@ -41,7 +42,10 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
     summary = "",
     experience = [], 
     education = [], 
-    skills = [] 
+    skills = [],
+    projects = [],
+    publications = [],
+    presentations = []
   } = data;
 
   const primaryColor = settings?.theme?.primaryColor || "#B91C1C";
@@ -82,6 +86,29 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
                <span>{edu.year}</span>
             </div>
           ))}
+          {projects && projects.length > 0 && (
+            <>
+              <div className="border-b border-black pb-1 mt-4"><h2 className="text-xs font-bold uppercase">Projects</h2></div>
+              {projects.map((proj: any, i: number) => (
+                <div key={i} className="mb-4">
+                  <div className="flex justify-between font-bold text-[11px]"><span>{proj.title}</span></div>
+                  {proj.link && <p className="text-[11px] italic">{proj.link}</p>}
+                  <p className="text-[11px] mt-1 whitespace-pre-wrap">{proj.description}</p>
+                </div>
+              ))}
+            </>
+          )}
+          {publications && publications.length > 0 && (
+            <>
+              <div className="border-b border-black pb-1 mt-4"><h2 className="text-xs font-bold uppercase">Publications</h2></div>
+              {publications.map((pub: any, i: number) => (
+                <div key={i} className="mb-4">
+                  <div className="flex justify-between font-bold text-[11px]"><span>{pub.title}</span><span>{pub.year}</span></div>
+                  <p className="text-[11px] italic">{pub.journal}</p>
+                </div>
+              ))}
+            </>
+          )}
           <div className="border-b border-black pb-1 mt-4">
             <h2 className="text-xs font-bold uppercase">Skills</h2>
           </div>
@@ -122,6 +149,29 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
                   <p className="text-xs opacity-60 uppercase tracking-widest">{edu.school} | {edu.year}</p>
                </div>
             ))}
+            {projects && projects.length > 0 && (
+               <>
+                  <SectionTitle title="Projects & Portfolio" color={primaryColor} />
+                  {projects.map((proj: any, i: number) => (
+                    <div key={i} className="mb-6">
+                      <div className="font-bold text-sm"><span>{proj.title}</span></div>
+                      {proj.link && <p className="text-xs italic text-gray-500">{proj.link}</p>}
+                      <p className="text-xs mt-2 text-justify whitespace-pre-wrap">{proj.description}</p>
+                    </div>
+                  ))}
+               </>
+            )}
+            {publications && publications.length > 0 && (
+               <>
+                  <SectionTitle title="Selected Publications" color={primaryColor} />
+                  {publications.map((pub: any, i: number) => (
+                     <div key={i} className="mb-4">
+                        <p className="text-sm font-bold uppercase tracking-tight">{pub.title}</p>
+                        <p className="text-xs opacity-60 uppercase tracking-widest">{pub.journal} | {pub.year}</p>
+                     </div>
+                  ))}
+               </>
+            )}
          </div>
       </div>
     );
@@ -152,6 +202,18 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
                     <p className="text-xs text-gray-500 whitespace-pre-wrap leading-relaxed">{exp.description}</p>
                  </div>
                ))}
+               {projects && projects.length > 0 && (
+                 <>
+                   <SectionTitle title="Selected Projects" color={primaryColor} icon={<FaTools />} />
+                   {projects.map((proj: any, i: number) => (
+                     <div key={i} className="p-6 bg-gray-50 rounded-xl shadow-sm border-l-4" style={{ borderLeftColor: primaryColor }}>
+                        <h4 className="font-bold text-gray-800 uppercase text-sm mb-1">{proj.title}</h4>
+                        {proj.link && <p className="text-[10px] text-blue-500 mb-2 truncate">{proj.link}</p>}
+                        <p className="text-xs text-gray-500 whitespace-pre-wrap leading-relaxed">{proj.description}</p>
+                     </div>
+                   ))}
+                 </>
+               )}
             </div>
             <div className="space-y-10">
                <div className="p-6 bg-slate-900 text-white rounded-3xl shadow-xl min-w-[200px]">
@@ -179,6 +241,17 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
                     </div>
                   ))}
                </div>
+               {publications && publications.length > 0 && (
+                 <div>
+                    <SectionTitle title="Publications" color={primaryColor} icon={<FaFileAlt />} />
+                    {publications.map((pub: any, i: number) => (
+                      <div key={i} className="mb-4">
+                         <p className="text-xs font-bold uppercase">{pub.title}</p>
+                         <p className="text-[10px] opacity-60">{pub.journal} | {pub.year}</p>
+                      </div>
+                    ))}
+                 </div>
+               )}
             </div>
          </div>
       </div>
@@ -229,6 +302,39 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
                   ))}
                </div>
             </div>
+            {projects && projects.length > 0 && (
+               <div>
+                  <h2 className="text-[10px] font-black uppercase tracking-widest mb-8 opacity-20 border-b pb-1">Projects & Portfolio</h2>
+                  <div className="space-y-10">
+                     {projects.map((proj: any, i: number) => (
+                       <div key={i} className="grid grid-cols-4 gap-8">
+                          <div className="text-[9px] font-black opacity-30 uppercase tracking-tighter">-</div>
+                          <div className="col-span-3">
+                             <h4 className="text-xs font-black uppercase tracking-tight">{proj.title}</h4>
+                             {proj.link && <p className="text-[10px] font-bold opacity-50 mb-3 uppercase" style={{ color: primaryColor }}>{proj.link}</p>}
+                             <p className="text-[10px] leading-loose opacity-60 whitespace-pre-wrap">{proj.description}</p>
+                          </div>
+                       </div>
+                     ))}
+                  </div>
+               </div>
+            )}
+            {publications && publications.length > 0 && (
+               <div>
+                  <h2 className="text-[10px] font-black uppercase tracking-widest mb-8 opacity-20 border-b pb-1">Publications</h2>
+                  <div className="space-y-6">
+                     {publications.map((pub: any, i: number) => (
+                       <div key={i} className="flex justify-between items-baseline">
+                          <div>
+                             <h4 className="text-xs font-black uppercase">{pub.title}</h4>
+                             <p className="text-[10px] opacity-50 uppercase font-bold">{pub.journal}</p>
+                          </div>
+                          <span className="text-[9px] font-black opacity-30 uppercase">{pub.year}</span>
+                       </div>
+                     ))}
+                  </div>
+               </div>
+            )}
          </div>
       </div>
     );
@@ -300,6 +406,21 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
             </div>
          </section>
 
+         {projects && projects.length > 0 && (
+            <section>
+               <SectionTitle title="Projects & Portfolio" color={primaryColor} icon={<FaTools />} />
+               <div className="space-y-8">
+                  {projects.map((proj: any, i: number) => (
+                     <div key={i} className="group">
+                        <h4 className="font-black text-slate-800 uppercase tracking-tight mb-1">{proj.title}</h4>
+                        {proj.link && <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-3 truncate">{proj.link}</p>}
+                        <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap text-justify">{proj.description}</p>
+                     </div>
+                  ))}
+               </div>
+            </section>
+         )}
+
          <section>
             <SectionTitle title="Education" color={primaryColor} icon={<FaGraduationCap />} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -311,6 +432,20 @@ const Preview: React.FC<CVPreviewProps> = ({ data, settings }) => {
                ))}
             </div>
          </section>
+
+         {publications && publications.length > 0 && (
+            <section>
+               <SectionTitle title="Publications" color={primaryColor} icon={<FaFileAlt />} />
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {publications.map((pub: any, i: number) => (
+                     <div key={i} className="bg-slate-50 p-4 rounded-xl shadow-sm">
+                        <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight mb-1">{pub.title}</h4>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{pub.journal} | {pub.year}</p>
+                     </div>
+                  ))}
+               </div>
+            </section>
+         )}
       </div>
     </div>
   );
