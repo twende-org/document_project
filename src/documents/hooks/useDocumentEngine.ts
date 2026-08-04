@@ -4,8 +4,9 @@ import type { DocumentType, DocumentBase } from '../types';
 import { generateClientPDF } from '../../utils/pdfGenerator';
 import { useTranslation } from 'react-i18next';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startFactory, stopFactory } from '../../store/uiSlice';
+import type { RootState } from '../../store/store';
 
 export function useDocumentEngine<T>(
   initialData: T, 
@@ -16,8 +17,33 @@ export function useDocumentEngine<T>(
 ) {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
+  
+  const user = useSelector((state: RootState) => state.auth.user);
+  const userId = user?.id || 'guest';
+  const documentId = (initialData as any)?.id || 'new';
+  
+  const draftKey = `draft_${docType}_${userId}_${documentId}`;
+  
   const [formData, setFormData] = useState<T>(() => {
-    const saved = localStorage.getItem(`draft_${docType}`);
+    // 1. Check for a guest draft that needs migration to the logged-in user
+    if (userId !== 'guest') {
+      const guestKey = `draft_${docType}_guest_${documentId}`;
+      const guestSaved = localStorage.getItem(guestKey);
+      if (guestSaved) {
+        try {
+          const parsed = JSON.parse(guestSaved) as T;
+          // Migrate to new user key and remove guest draft
+          localStorage.setItem(draftKey, guestSaved);
+          localStorage.removeItem(guestKey);
+          return parsed;
+        } catch (e) {
+          console.error("Failed to migrate guest draft", e);
+        }
+      }
+    }
+
+    // 2. Load existing draft for this specific user and document
+    const saved = localStorage.getItem(draftKey);
     if (saved) {
       try {
         return JSON.parse(saved) as T;
@@ -25,16 +51,19 @@ export function useDocumentEngine<T>(
         console.error("Failed to load draft", e);
       }
     }
+    
+    // 3. Fallback to server data
     return initialData;
   });
+  
   const [settings, setSettings] = useState<DocumentBase['settings']>(initialSettings || {
     theme: { primaryColor: '#B91C1C' }, 
     layout: 'standard'
   });
 
   useEffect(() => {
-    localStorage.setItem(`draft_${docType}`, JSON.stringify(formData));
-  }, [formData, docType]);
+    localStorage.setItem(draftKey, JSON.stringify(formData));
+  }, [formData, draftKey]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [isPolishing, setIsPolishing] = useState(false);
@@ -86,6 +115,9 @@ export function useDocumentEngine<T>(
       setIsValidated(true);
       
       if (status === 'FINAL') {
+          // Clear the local draft for this document now that it's finalized to the server
+          localStorage.removeItem(draftKey);
+
           dispatch(startFactory("Finalizing and generating PDF..."));
           try {
             await generateClientPDF(docType, formData, title, settings);

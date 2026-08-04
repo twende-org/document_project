@@ -131,7 +131,9 @@ const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) 
     certifications = [],
     achievements = [],
     languages = [],
-    references = []
+    references = [],
+    presentations = [],
+    publications = []
   } = safeData;
 
   const lang = settings?.lang || 'en';
@@ -193,6 +195,21 @@ const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) 
               <Text style={{ fontSize: 9 }}>{edu.degree}</Text>
             </View>
           ))}
+
+          {presentations && presentations.length > 0 && (
+            <>
+              <Text style={{ fontSize: 10, fontWeight: 'bold', borderBottomWidth: 1, marginTop: 15, marginBottom: 8 }}>PRESENTATIONS</Text>
+              {presentations.map((pres: any, i: number) => (
+                <View key={i} style={{ marginBottom: 5 }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{pres.title}</Text>
+                    <Text style={{ fontSize: 9 }}>{pres.year}</Text>
+                  </View>
+                  <Text style={{ fontSize: 9, fontStyle: 'italic' }}>{pres.event}</Text>
+                </View>
+              ))}
+            </>
+          )}
         </Page>
       </Document>
     );
@@ -235,6 +252,18 @@ const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) 
               <Text style={{ fontSize: 8, color: '#666' }}>{edu.school} | {edu.year}</Text>
             </View>
           ))}
+
+          {presentations && presentations.length > 0 && (
+            <>
+              <Text style={{ fontSize: 10, fontWeight: 'bold', color: primaryColor, letterSpacing: 1, borderBottomWidth: 1, borderBottomColor: primaryColor + '20', paddingBottom: 3, marginTop: 10, marginBottom: 15 }}>PRESENTATIONS</Text>
+              {presentations.map((pres: any, i: number) => (
+                <View key={i} style={{ marginBottom: 10 }}>
+                  <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{pres.title}</Text>
+                  <Text style={{ fontSize: 8, color: '#666' }}>{pres.event} | {pres.year}</Text>
+                </View>
+              ))}
+            </>
+          )}
         </Page>
       </Document>
     );
@@ -274,8 +303,38 @@ const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) 
                       <Text style={{ fontSize: 8, textAlign: 'justify' }}>{exp.description}</Text>
                    </View>
                 ))}
-             </View>
-          </View>
+                 
+                 {presentations && presentations.length > 0 && (
+                    <>
+                       <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#ccc', marginBottom: 15, marginTop: 15 }}>PRESENTATIONS</Text>
+                       {presentations.map((pres: any, i: number) => (
+                          <View key={i} style={{ marginBottom: 15 }}>
+                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{pres.title}</Text>
+                                <Text style={{ fontSize: 8, color: '#ccc' }}>{pres.year}</Text>
+                             </View>
+                             <Text style={{ fontSize: 8, color: '#666' }}>{pres.event}</Text>
+                          </View>
+                       ))}
+                    </>
+                 )}
+
+                 {publications && publications.length > 0 && (
+                    <>
+                       <Text style={{ fontSize: 8, fontWeight: 'bold', color: '#ccc', marginBottom: 15, marginTop: 15 }}>PUBLICATIONS</Text>
+                       {publications.map((pub: any, i: number) => (
+                          <View key={i} style={{ marginBottom: 15 }}>
+                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{pub.title}</Text>
+                                <Text style={{ fontSize: 8, color: '#ccc' }}>{pub.year}</Text>
+                             </View>
+                             <Text style={{ fontSize: 8, color: '#666' }}>{pub.publisher}</Text>
+                          </View>
+                       ))}
+                    </>
+                 )}
+              </View>
+           </View>
         </Page>
       </Document>
     );
@@ -309,6 +368,21 @@ const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) 
                       <Text style={{ fontSize: 8, textAlign: 'justify' }}>{exp.description}</Text>
                    </View>
                  ))}
+
+                 {presentations && presentations.length > 0 && (
+                    <>
+                       <Text style={{ fontSize: 9, fontWeight: 'bold', color: primaryColor, marginBottom: 10, marginTop: 20 }}>PRESENTATIONS</Text>
+                       {presentations.map((pres: any, i: number) => (
+                          <View key={i} style={{ marginBottom: 15, paddingLeft: 10, borderLeftWidth: 2, borderLeftColor: primaryColor + '20' }}>
+                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+                                <Text style={{ fontSize: 9, fontWeight: 'bold' }}>{pres.title}</Text>
+                                <Text style={{ fontSize: 8, color: primaryColor }}>{pres.year}</Text>
+                             </View>
+                             <Text style={{ fontSize: 8, color: '#666' }}>{pres.event}</Text>
+                          </View>
+                       ))}
+                    </>
+                 )}
               </View>
 
               <View style={{ flex: 1 }}>
@@ -385,6 +459,23 @@ const CVPDFTemplate = ({ data, settings }: { data: CVContent, settings?: any }) 
               <Text style={{ fontSize: 9, color: '#6B7280' }}>{edu.school}</Text>
             </View>
           ))}
+
+          {presentations && presentations.length > 0 && (
+             <>
+                <Text style={[styles.sectionTitle, { color: primaryColor, borderBottomColor: primaryColor + '20' }]}>
+                   PRESENTATIONS
+                </Text>
+                {presentations.map((pres: any, i: number) => (
+                   <View key={i} style={{ marginBottom: 10 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                         <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{pres.title}</Text>
+                         <Text style={{ fontSize: 8, color: '#9CA3AF' }}>{pres.year}</Text>
+                      </View>
+                      <Text style={{ fontSize: 9, color: '#6B7280' }}>{pres.event}</Text>
+                   </View>
+                ))}
+             </>
+          )}
         </View>
       </Page>
     </Document>

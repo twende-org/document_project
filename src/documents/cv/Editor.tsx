@@ -556,11 +556,10 @@ const Editor = () => {
           </div>
         )}
 
-        {/* Conditional Section: Publications (Academic) */}
-        {formData.industryTarget === 'academic' && (
-          <div className="card-premium">
-            <div className="flex justify-between items-center mb-8">
-              <h3 className="text-heading text-xl flex items-center gap-3">
+        {/* Section: Publications */}
+        <div className="card-premium">
+          <div className="flex justify-between items-center mb-8">
+            <h3 className="text-heading text-xl flex items-center gap-3">
                 <FaFilePdf className="text-primary" /> Publications
               </h3>
               <button 
@@ -628,13 +627,11 @@ const Editor = () => {
               </AnimatePresence>
             </div>
           </div>
-        )}
 
-        {/* Conditional Section: Presentations (Academic) */}
-        {formData.industryTarget === 'academic' && (
-          <div className="card-premium">
-            <div className="flex justify-between items-center mb-8">
-              <h3 className="text-heading text-xl flex items-center gap-3">
+        {/* Section: Presentations */}
+        <div className="card-premium">
+          <div className="flex justify-between items-center mb-8">
+            <h3 className="text-heading text-xl flex items-center gap-3">
                 <FaFileAlt className="text-primary" /> Presentations
               </h3>
               <button 
@@ -702,7 +699,6 @@ const Editor = () => {
               </AnimatePresence>
             </div>
           </div>
-        )}
 
         {error && (
           <div className="bg-red-50 text-red-500 p-6 rounded-button border border-red-100 text-center font-bold text-sm tracking-widest">
